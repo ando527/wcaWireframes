@@ -1,0 +1,253 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('TTNorms.ttf')  format('truetype'),
+    url('TTNorms.woff') format('woff');
+}
+#header{
+    height: 60px;
+    padding: 10px;
+    background-color: #FFFFFF;
+}
+.button{
+    padding: 10px 16px 10px 16px;
+    border-radius: 5px;
+    background-color: #0051BA;
+    color: white;
+    cursor: pointer;
+}
+.linksHolder{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+}
+.linksHolder a{
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border 250ms;
+}
+.noDrop:hover {
+    border-bottom: 2px black solid;
+}
+.dropDownLink::after{
+    content: '\25BC';
+    font-size: 0.8em;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+#pageContent{
+    /*width: calc(100% - 20px);*/
+    padding: 20px 0px 20px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+#competitionsHolder{
+    width: 1100px;
+    max-width: 1100px;
+}
+#infoPane{
+    max-width: 320px;
+    width: 320px;
+    background-color: #eeeeee;
+    padding: 15px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    gap: 10px;
+}
+.indivEventPane{
+    width: 30px;
+    height: 30px;
+}
+.flagHolderPane{
+    display: flex;
+    gap:5px;
+    align-items: center;
+}
+.whenButton{
+    padding: 5px 15px 5px 15px;
+    border: 1px solid grey;
+    cursor: pointer;
+    transition: background-color 250ms;
+}
+.whenButton:hover{
+    background-color: #cccccc;
+}
+.selected{
+    background-color: #aaaaaa;
+}
+#quickAccessFilters{
+    display: flex;
+}
+html, body{
+    margin: 0px;
+    padding: 0px;
+    background-color: #FCFCFC;
+    font-size: 14px;
+    line-height: 18px;
+    font-family: 'Norms';
+}
+h1, h2, h3, h4, h5, h6{
+    line-height: 1.1;
+}
+a{
+    color: #0051BA;
+    font-weight: 500;
+    text-decoration: none;
+}
+#compTable{
+    border-collapse: collapse;
+    width: 1100px;
+    margin-top:30px;
+}
+tr:nth-child(4n-3),
+tr:nth-child(4n-2) {
+    background-color: #f2f2f2; /* Color 1 for the first two rows in every group of four */
+}
+
+tr:nth-child(4n-1),
+tr:nth-child(4n) {
+    background-color: #e0e0e0; /* Color 2 for the second two rows in every group of four */
+}
+
+.compRow:hover{
+    background-color: #fdfdfd;
+}
+.compRow:hover + .eventRow {
+    background-color: #fdfdfd; /* Change this to the color you want */
+}
+
+.highlightedRow{
+    background-color: #FFD59E!important;
+}
+.highlightedRow + .eventRow {
+    background-color: #FFD59E!important;
+}
+.indivEventRow{
+    width: 22px;
+    height: 22px;
+    padding: 4px 0 4px 0;
+}
+.eventsTitleRow{
+    text-align: right;
+    max-height: 30px;
+    font-weight: 500;
+}
+.eventRow{
+    max-height: 30px;
+    td{
+        max-height: 30px;
+    }
+    img{
+        width: 22px;
+        height: 22px;
+        display: block;
+        float: left;
+        padding-left: 8px;;
+    }
+}
+.compRow{
+    height: 30px;
+    cursor: pointer;
+    max-height: 30px;
+    padding: 0px!important;
+    border: 0px;
+    border-spacing: 0px!important;      
+    td{
+        height: 18px;
+        border: 0px!important;
+        padding: 0px;
+    border-spacing: 0px!important;
+    vertical-align: middle;
+    line-height: 30px;
+    }
+    .status{
+        width: 30px;
+        img{
+            padding: 0 6px 0 6px;
+        }
+    }
+    .date{
+        width: calc(159px + 16px);
+    }
+    .name{
+        width: calc(234px + 16px);
+        padding-right:6px;
+    }
+    .arrowLink{
+        position: relative;
+        padding: 0px 0px 0px 6px;
+    }
+    span{
+        padding: 0px 6px 0px 6px;
+    }
+    .arrowLink::after{
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 7px;  /* Width of your SVG */
+            height: 12px; /* Height of your SVG */
+            background: url('icons/linkArrow.svg') no-repeat;
+            background-size: contain;
+            transform: translateY(-50%);
+            transition: all 0.3s ease-in-out; /* Control the animation */
+            opacity: 0;
+        }
+    .arrowLink:hover::after{
+        transform: translateY(-50%) translateX(12px);
+        opacity: 1;
+    }
+    .locationAndRegion{
+        width: 569px;
+        max-width: 569px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .location{
+        padding: 0 8px 0 8px;
+    }
+    .region{
+        padding: 0 8px 0 8px;
+        font-weight: 500;
+    }
+    .flag{
+        width: 42px;
+        height: 18px;
+        max-height:18px;
+        background-size: 70%;
+        background-image: url("flags/blank.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .info{
+        width: 30px;
+        background-image: url("info.svg");
+        background-repeat: no-repeat;
+        background-size: 60%;
+        background-position: center;
+    }
+}
+#infoPane, .compRow{
+    .flag{
+        width: 42px;
+        height: 30px;
+        max-height:30px;
+        background-size: 70%;
+        background-image: url("flags/blank.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+
+
+}
