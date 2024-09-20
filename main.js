@@ -1,5 +1,6 @@
 var infoPane;
 var allFutureComps = [];
+var compsToDraw = [];
 var lastClicked;
 
 fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions.json')
@@ -21,38 +22,64 @@ function orderAndTruncate(){
     allFutureComps.sort((a, b) => new Date(a.date.from) - new Date(b.date.from));
     // Filter out competitions that are in the past
     allFutureComps = allFutureComps.filter(comp => new Date(comp.date.from) >= today);
-    addRows();
+    addRows(allFutureComps);
+
+    document.getElementById('country').addEventListener('change', function() {
+        handleCountryChange(this.value);
+    });
 }
 
-function addRows(){
-    var competitionTable = document.querySelector("#compTBody");
-    allFutureComps.slice(0, 100).forEach(function(competition) {
-        competitionTable.innerHTML += `
-        <tr id="${competition.id}" class="compRow">
-            <td class="status">
-                <img src="icons/closed.svg" width="18px" height="18px"/>
-            </td>
-            <td class="date"><span>${formatCompetitionDates(competition.date.from, competition.date.till)}</span></td>
-            <td class="name"><a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
-            <td class="locationAndRegion">
-                <span class="location">${competition.city}</span>
-                <span class="region">${countryCodeMapping[competition.country] || competition.country}</span>
-            </td>
-            <td class="flag ${competition.country.toLowerCase()}"></td>
-            <td class="info"></td>
-        </tr>
-        ${displayEventsTable(competition.events)}
-        `; // Example: Log competition names
-    });
+function handleCountryChange(countryCode) {
+    if (countryCode == ""){
+        clearTable();
+        addRows(allFutureComps);
+    } else {
+        let compsToDraw = allFutureComps.filter(comp => comp.country === countryCode);
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
 
-                // Get all elements with the class 'compRow'
-    let compRows = document.querySelectorAll('.compRow');
-        compRows.forEach(function(row) {
-            row.addEventListener('click', function() {
-                let elementId = row.id; // Get the id of the clicked element
-                handleRowClick(elementId); // Call your function and pass the id
+function clearTable(){
+    document.querySelector("#compTBody").innerHTML = "";
+}
+
+
+function addRows(drawTheseComps){
+    var competitionTable = document.querySelector("#compTBody");
+    if (drawTheseComps.length > 0){
+        drawTheseComps.slice(0, 100).forEach(function(competition) {
+            competitionTable.innerHTML += `
+            <tr id="comp${competition.id}" class="compRow" data-compid="${competition.id}">
+                <td class="status">
+                    <img src="icons/closed.svg" width="18px" height="18px"/>
+                </td>
+                <td class="date"><span>${formatCompetitionDates(competition.date.from, competition.date.till)}</span></td>
+                <td class="name"><a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
+                <td class="locationAndRegion">
+                    <span class="location">${competition.city}</span>
+                    <span class="region">${countryCodeMapping[competition.country] || competition.country}</span>
+                </td>
+                <td class="flag ${competition.country.toLowerCase()}"></td>
+                <td class="info"></td>
+            </tr>
+            ${displayEventsTable(competition.events)}
+            `; // Example: Log competition names
         });
-    });
+
+                    // Get all elements with the class 'compRow'
+        let compRows = document.querySelectorAll('.compRow');
+            compRows.forEach(function(row) {
+                row.addEventListener('click', function() {
+                    let elementId = row.dataset.compid; // Get the id of the clicked element
+                    handleRowClick(elementId); // Call your function and pass the id
+            });
+        });
+    } else {
+        competitionTable.innerHTML = `
+            <p>No competitions to display</p>
+        `;
+    }
 
     document.getElementById('showEvents').addEventListener('change', function() {
         // Get all rows with class 'eventRow'
@@ -91,7 +118,7 @@ function handleRowClick(id) {
     if (lastClicked){
         lastClicked.classList.remove("highlightedRow");
     }
-    lastClicked = document.querySelector("#" + id);
+    lastClicked = document.querySelector("#comp" + id);
     lastClicked.classList.add("highlightedRow");
     if (competition) {
         infoPane.innerHTML = `

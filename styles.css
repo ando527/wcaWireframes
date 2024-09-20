@@ -77,8 +77,27 @@
     padding: 5px 15px 5px 15px;
     border: 1px solid grey;
     cursor: pointer;
+    position: relative;
     transition: background-color 250ms;
 }
+.whenButton .tooltip{
+    visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 5px;
+  top: 1.5em;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.whenButton:hover .tooltip {
+    visibility: visible;
+  }
+
 .whenButton:hover{
     background-color: #cccccc;
 }
@@ -144,6 +163,7 @@ tr:nth-child(4n) {
 }
 .eventRow{
     max-height: 30px;
+    transition: background-color 150ms;
     td{
         max-height: 30px;
     }
@@ -161,7 +181,8 @@ tr:nth-child(4n) {
     max-height: 30px;
     padding: 0px!important;
     border: 0px;
-    border-spacing: 0px!important;      
+    border-spacing: 0px!important;   
+    transition: background-color 150ms;   
     td{
         height: 18px;
         border: 0px!important;
