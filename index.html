@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="styles.css" />
         <link rel="stylesheet" href="flags.css" />
+        <link rel="stylesheet" href="leaflet.css" />
         <link rel="icon" type="image/x-icon" href="s.png">
     </head>
     <body>
@@ -143,7 +144,8 @@
                     <div class="whenButton">Past<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton">Recent<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton selected">Upcoming</div>     
-                    <input type="checkBox" id="showEvents"/>              
+                    <input type="checkBox" id="showEvents"/> 
+                    <div class="button" id="mapButton">Map View</div>             
                 </div>
                 <table id="compTable">
                     <tbody id="compTBody">
@@ -165,11 +167,15 @@
                         </tr>-->
                     </tbody>
                 </table>
+                <div id="mapPane">
+
+                </div>
             </div>
             <div id="infoPane">
                 select a competition from the list to display more info
             </div>
         </div>
+        <script src="leaflet.js"></script>
         <script src="countries.js"></script>
         <script src="main.js"></script>
     </body>

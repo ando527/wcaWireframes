@@ -2,6 +2,8 @@ var infoPane;
 var allFutureComps = [];
 var compsToDraw = [];
 var lastClicked;
+var map;
+var markerLayer;
 
 fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions.json')
 .then(response => response.json()) // Parse the JSON response
@@ -23,9 +25,13 @@ function orderAndTruncate(){
     // Filter out competitions that are in the past
     allFutureComps = allFutureComps.filter(comp => new Date(comp.date.from) >= today);
     addRows(allFutureComps);
+    compsToDraw = allFutureComps;
 
     document.getElementById('country').addEventListener('change', function() {
         handleCountryChange(this.value);
+    });
+    document.getElementById('mapButton').addEventListener('click', function() {
+        loadMap();
     });
 }
 
@@ -44,6 +50,28 @@ function clearTable(){
     document.querySelector("#compTBody").innerHTML = "";
 }
 
+function loadMap(){
+    clearTable();
+    map = L.map('mapPane').setView([15, 0], 2);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 10,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    markerLayer = L.layerGroup().addTo(map);
+    compsToDraw.slice(0, 100).forEach(function(competition) {
+        var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
+            compId: competition.id
+        }).addTo(markerLayer);
+        marker.on('click', function(e){
+            let competition = allFutureComps.find(comp => comp.id === e.target.options.compId);
+            if (competition) {
+                updateInfoPane(competition);
+            } else {
+                console.log("Competition not found error.");
+            }
+        });
+    });
+}
 
 function addRows(drawTheseComps){
     var competitionTable = document.querySelector("#compTBody");
@@ -113,7 +141,7 @@ function truncateString(str) {
 
 // Function that gets called on click, with the id as a parameter
 function handleRowClick(id) {
-    infoPane = document.querySelector("#infoPane");
+
     let competition = allFutureComps.find(comp => comp.id === id);
     if (lastClicked){
         lastClicked.classList.remove("highlightedRow");
@@ -121,7 +149,15 @@ function handleRowClick(id) {
     lastClicked = document.querySelector("#comp" + id);
     lastClicked.classList.add("highlightedRow");
     if (competition) {
-        infoPane.innerHTML = `
+        updateInfoPane(competition);
+    } else {
+        console.log("Competition not found error.");
+    }
+}
+
+function updateInfoPane(competition){
+    infoPane = document.querySelector("#infoPane");
+    infoPane.innerHTML = `
             <h1>${competition.name}</h1>
             <div class="flagHolderPane"><div class="flag ${competition.country.toLowerCase()}"></div><p>${countryCodeMapping[competition.country] || competition.country}</p></div>
             <p>${competition.city}</p>
@@ -131,10 +167,9 @@ function handleRowClick(id) {
             <div class="button">View Competition</div>
             <div class="button">Register Now</div>
         `;
-    } else {
-        console.log("Competition not found error.");
-    }
 }
+
+
 
 function formatCompetitionDates(fromDate, toDate) {
     const options = { month: 'short', day: 'numeric', year: 'numeric' };

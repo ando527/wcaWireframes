@@ -94,6 +94,10 @@
   z-index: 1;
 }
 
+#mapPane{
+    height: 500px;
+}
+
 .whenButton:hover .tooltip {
     visibility: visible;
   }
