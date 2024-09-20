@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="header">
+            <div class="linksHolder">
+                <img src="wca_logo.svg" width="60px" height="60px"/>
+                <a href="#" class="noDrop">About Us</a>
+                <a href="#" class="noDrop">FAQ's</a>
+                <a href="#" class="dropDownLink">Competitions</a>
+                <a href="#" class="dropDownLink">Results</a>
+                <a href="#" class="dropDownLink">Regulations</a>
+                <a href="#" class="dropDownLink">Information</a>
+                <a href="#" class="noDrop">WCA Live</a>
+            </div>
+            <div class="searchProfile">
+
+            </div>
+        </div>
+        <div id="pageContent">
+            <div id="advancedFilters">
+                Advanced filters
+            </div>
+            <div id="competitionsHolder">
+                <h1>All Competitions</h1>
+                <div id="quickAccessFilters">
+                    <select name="continent" id="continent">
+                        <option value="">Select Continent</option>
+                        <option value="africa">Africa</option>
+                        <option value="asia">Asia</option>
+                        <option value="europe">Europe</option>
+                        <option value="multiple">Multiple Continents</option>
+                        <option value="northAmerica">North America</option>
+                        <option value="oceania">Oceania</option>
+                        <option value="southAmerica">South America</option>
+                    </select>
+                    <select name="country" id="country">
+                        <option value="">Select Region</option>
+                        <!-- Africa -->
+                        <option value="algeria">Algeria</option>
+                        <option value="egypt">Egypt</option>
+                        <option value="ghana">Ghana</option>
+                        <option value="kenya">Kenya</option>
+                        <option value="morocco">Morocco</option>
+                        <option value="nigeria">Nigeria</option>
+                        <option value="southAfrica">South Africa</option>
+                    
+                        <!-- Asia -->
+                        <option value="afghanistan">Afghanistan</option>
+                        <option value="china">China</option>
+                        <option value="hongKong">Hong Kong</option>
+                        <option value="india">India</option>
+                        <option value="indonesia">Indonesia</option>
+                        <option value="iran">Iran</option>
+                        <option value="israel">Israel</option>
+                        <option value="japan">Japan</option>
+                        <option value="kazakhstan">Kazakhstan</option>
+                        <option value="korea">Korea</option>
+                        <option value="kuwait">Kuwait</option>
+                        <option value="lebanon">Lebanon</option>
+                        <option value="malaysia">Malaysia</option>
+                        <option value="philippines">Philippines</option>
+                        <option value="qatar">Qatar</option>
+                        <option value="saudiArabia">Saudi Arabia</option>
+                        <option value="singapore">Singapore</option>
+                        <option value="taiwan">Taiwan</option>
+                        <option value="thailand">Thailand</option>
+                        <option value="turkey">Turkey</option>
+                        <option value="unitedArabEmirates">United Arab Emirates</option>
+                        <option value="vietnam">Vietnam</option>
+                    
+                        <!-- Europe -->
+                        <option value="austria">Austria</option>
+                        <option value="belgium">Belgium</option>
+                        <option value="czechRepublic">Czech Republic</option>
+                        <option value="denmark">Denmark</option>
+                        <option value="estonia">Estonia</option>
+                        <option value="finland">Finland</option>
+                        <option value="france">France</option>
+                        <option value="germany">Germany</option>
+                        <option value="greece">Greece</option>
+                        <option value="hungary">Hungary</option>
+                        <option value="iceland">Iceland</option>
+                        <option value="ireland">Ireland</option>
+                        <option value="italy">Italy</option>
+                        <option value="latvia">Latvia</option>
+                        <option value="lithuania">Lithuania</option>
+                        <option value="netherlands">Netherlands</option>
+                        <option value="norway">Norway</option>
+                        <option value="poland">Poland</option>
+                        <option value="portugal">Portugal</option>
+                        <option value="romania">Romania</option>
+                        <option value="russia">Russia</option>
+                        <option value="serbia">Serbia</option>
+                        <option value="slovakia">Slovakia</option>
+                        <option value="slovenia">Slovenia</option>
+                        <option value="spain">Spain</option>
+                        <option value="sweden">Sweden</option>
+                        <option value="switzerland">Switzerland</option>
+                        <option value="ukraine">Ukraine</option>
+                        <option value="unitedKingdom">United Kingdom</option>
+                    
+                        <!-- North America -->
+                        <option value="bahamas">Bahamas</option>
+                        <option value="barbados">Barbados</option>
+                        <option value="canada">Canada</option>
+                        <option value="costaRica">Costa Rica</option>
+                        <option value="cuba">Cuba</option>
+                        <option value="dominicanRepublic">Dominican Republic</option>
+                        <option value="elSalvador">El Salvador</option>
+                        <option value="guatemala">Guatemala</option>
+                        <option value="honduras">Honduras</option>
+                        <option value="jamaica">Jamaica</option>
+                        <option value="mexico">Mexico</option>
+                        <option value="panama">Panama</option>
+                        <option value="puertoRico">Puerto Rico</option>
+                        <option value="trinidadAndTobago">Trinidad and Tobago</option>
+                        <option value="unitedStates">United States</option>
+                    
+                        <!-- South America -->
+                        <option value="argentina">Argentina</option>
+                        <option value="bolivia">Bolivia</option>
+                        <option value="brazil">Brazil</option>
+                        <option value="chile">Chile</option>
+                        <option value="colombia">Colombia</option>
+                        <option value="ecuador">Ecuador</option>
+                        <option value="paraguay">Paraguay</option>
+                        <option value="peru">Peru</option>
+                        <option value="uruguay">Uruguay</option>
+                        <option value="venezuela">Venezuela</option>
+                    
+                        <!-- Oceania -->
+                        <option value="australia">Australia</option>
+                        <option value="fiji">Fiji</option>
+                        <option value="newZealand">New Zealand</option>
+                    
+                        <!-- Multiple Continents -->
+                        <option value="multipleContinents">Multiple Continents</option>
+                    </select>
+                    <div class="whenButton">Past</div>
+                    <div class="whenButton">Recent</div>
+                    <div class="whenButton selected">Upcoming</div>     
+                    <input type="checkBox" />              
+                </div>
+                <table id="compTable">
+                    <tbody id="compTBody">
+                        <!--<tr class="compRow">
+                            <td class="status">
+                                <img src="icons/closed.svg" width="18px" height="18px"/>
+                            </td>
+                            <td class="date"><span>Sep 10-11 2024</span></td>
+                            <td class="name"><a href="#" class="arrowLink">Chilling in Toowoomba 2024</a></td>
+                            <td class="locationAndRegion">
+                                <span class="location">Toowoomba, Queensland</span>
+                                <span class="region">Australia</span>
+                            </td>
+                            <td class="flag au"></td>
+                            <td class="info"></td>
+                        </tr>
+                        <tr class="compEvents">
+                            <td>34567</td>
+                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+            <div id="infoPane">
+                select a competition from the list to display more info
+            </div>
+        </div>
+        <script>
+            const countryCodeMapping = {
+    // Africa
+    "DZ": "Algeria",
+    "EG": "Egypt",
+    "GH": "Ghana",
+    "KE": "Kenya",
+    "MA": "Morocco",
+    "NG": "Nigeria",
+    "ZA": "South Africa",
+    "MU": "Mauritius",
+    
+    // Asia
+    "AF": "Afghanistan",
+    "CN": "China",
+    "HK": "Hong Kong",
+    "IN": "India",
+    "ID": "Indonesia",
+    "IR": "Iran",
+    "IL": "Israel",
+    "JP": "Japan",
+    "KZ": "Kazakhstan",
+    "KR": "Korea",
+    "KW": "Kuwait",
+    "LB": "Lebanon",
+    "MY": "Malaysia",
+    "PH": "Philippines",
+    "QA": "Qatar",
+    "SA": "Saudi Arabia",
+    "SG": "Singapore",
+    "TW": "Taiwan",
+    "TH": "Thailand",
+    "TR": "Turkey",
+    "AE": "United Arab Emirates",
+    "VN": "Vietnam",
+    "AZ": "Azerbaijan",
+    
+    // Europe
+    "AT": "Austria",
+    "BE": "Belgium",
+    "BG": "Bulgaria",
+    "CZ": "Czech Republic",
+    "DK": "Denmark",
+    "EE": "Estonia",
+    "FI": "Finland",
+    "FR": "France",
+    "DE": "Germany",
+    "GR": "Greece",
+    "HU": "Hungary",
+    "IS": "Iceland",
+    "IE": "Ireland",
+    "IT": "Italy",
+    "LV": "Latvia",
+    "LT": "Lithuania",
+    "NL": "Netherlands",
+    "NO": "Norway",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "RO": "Romania",
+    "RU": "Russia",
+    "RS": "Serbia",
+    "SK": "Slovakia",
+    "SI": "Slovenia",
+    "ES": "Spain",
+    "SE": "Sweden",
+    "CH": "Switzerland",
+    "UA": "Ukraine",
+    "GB": "United Kingdom",
+    "GE": "Georgia",
+    "HR": "Croatia",
+    
+    // North America
+    "BS": "Bahamas",
+    "BB": "Barbados",
+    "CA": "Canada",
+    "CR": "Costa Rica",
+    "CU": "Cuba",
+    "DO": "Dominican Republic",
+    "SV": "El Salvador",
+    "GT": "Guatemala",
+    "HN": "Honduras",
+    "JM": "Jamaica",
+    "MX": "Mexico",
+    "PA": "Panama",
+    "PR": "Puerto Rico",
+    "TT": "Trinidad and Tobago",
+    "US": "United States",
+    
+    // South America
+    "AR": "Argentina",
+    "BO": "Bolivia",
+    "BR": "Brazil",
+    "CL": "Chile",
+    "CO": "Colombia",
+    "EC": "Ecuador",
+    "PY": "Paraguay",
+    "PE": "Peru",
+    "UY": "Uruguay",
+    "VE": "Venezuela",
+    
+    // Oceania
+    "AU": "Australia",
+    "FJ": "Fiji",
+    "NZ": "New Zealand"
+};
+
+            var infoPane;
+            var allFutureComps = [];
+            var lastClicked;
+
+            fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions.json')
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                allFutureComps.push(...data.items)
+                orderAndTruncate();
+            })
+            .catch(error => {
+                console.error('Error fetching competitions:', error); // Handle any errors
+            });
+
+            function orderAndTruncate(){
+                const today = new Date(); // Get today's date
+                // Sort competitions by date (ascending)
+                allFutureComps.sort((a, b) => new Date(a.date.from) - new Date(b.date.from));
+                // Filter out competitions that are in the past
+                allFutureComps = allFutureComps.filter(comp => new Date(comp.date.from) >= today);
+                addRows();
+            }
+            
+            function addRows(){
+                var competitionTable = document.querySelector("#compTBody");
+                allFutureComps.slice(0, 100).forEach(function(competition) {
+                    competitionTable.innerHTML += `
+                    <tr id="${competition.id}" class="compRow">
+                        <td class="status">
+                            <img src="icons/closed.svg" width="18px" height="18px"/>
+                        </td>
+                        <td class="date"><span>${formatCompetitionDates(competition.date.from, competition.date.till)}</span></td>
+                        <td class="name"><a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
+                        <td class="locationAndRegion">
+                            <span class="location">${competition.city}</span>
+                            <span class="region">${countryCodeMapping[competition.country] || competition.country}</span>
+                        </td>
+                        <td class="flag ${competition.country.toLowerCase()}"></td>
+                        <td class="info"></td>
+                    </tr>
+                    ${displayEventsTable(competition.events)}
+                    `; // Example: Log competition names
+                });
+
+                            // Get all elements with the class 'compRow'
+                let compRows = document.querySelectorAll('.compRow');
+                    compRows.forEach(function(row) {
+                        row.addEventListener('click', function() {
+                            let elementId = row.id; // Get the id of the clicked element
+                            handleRowClick(elementId); // Call your function and pass the id
+                    });
+                });
+
+            }
+
+            function truncateString(str) {
+                if (str.length > 32) {
+                    return str.slice(0, 24) + "..." + str.slice(-5);
+                }
+                return str; // If the string is less than or equal to 32 characters, return it as is
+            }
+
+            
+
+            // Function that gets called on click, with the id as a parameter
+            function handleRowClick(id) {
+                infoPane = document.querySelector("#infoPane");
+                let competition = allFutureComps.find(comp => comp.id === id);
+                if (lastClicked){
+                    lastClicked.classList.remove("highlightedRow");
+                }
+                lastClicked = document.querySelector("#" + id);
+                lastClicked.classList.add("highlightedRow");
+                if (competition) {
+                    infoPane.innerHTML = `
+                        <h1>${competition.name}</h1>
+                        <div class="flagHolderPane"><div class="flag ${competition.country.toLowerCase()}"></div><p>${countryCodeMapping[competition.country] || competition.country}</p></div>
+                        <p>${competition.city}</p>
+                        <p>${formatCompetitionDates(competition.date.from, competition.date.till)}</p>
+                        <p>${createLinkFromString(competition.venue.name)}</p>
+                        <div class="eventsListPane">${displayEventsPane(competition.events)}</div>
+                        <div class="button">View Competition</div>
+                        <div class="button">Register Now</div>
+                    `;
+                } else {
+                    console.log("Competition not found error.");
+                }
+            }
+
+            function formatCompetitionDates(fromDate, toDate) {
+                const options = { month: 'short', day: 'numeric', year: 'numeric' };
+                const from = new Date(fromDate);
+                const to = new Date(toDate);
+
+                // If from and to dates are the same
+                if (from.toDateString() === to.toDateString()) {
+                    return from.toLocaleDateString('en-US', options);
+                }
+
+                // If dates are in the same year and month
+                if (from.getFullYear() === to.getFullYear() && from.getMonth() === to.getMonth()) {
+                    const fromDay = from.toLocaleDateString('en-US', { day: 'numeric' });
+                    const toDay = to.toLocaleDateString('en-US', { day: 'numeric' });
+                    const month = from.toLocaleDateString('en-US', { month: 'short' });
+                    const year = from.getFullYear();
+                    return `${month} ${fromDay} - ${toDay}, ${year}`;
+                }
+
+                // If dates are in the same year but different months
+                if (from.getFullYear() === to.getFullYear()) {
+                    const fromFormat = from.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const toFormat = to.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const year = from.getFullYear();
+                    return `${fromFormat} - ${toFormat}, ${year}`;
+                }
+
+                // If dates are in different years
+                const fromFormat = from.toLocaleDateString('en-US', options);
+                const toFormat = to.toLocaleDateString('en-US', options);
+                return `${fromFormat} - ${toFormat}`;
+            }
+
+            function createLinkFromString(str) {
+                // Regular expression to match the format [text](url)
+                const regex = /\[(.*?)\]\((.*?)\)/;
+                const match = str.match(regex);
+
+                // If a match is found, return the <a> tag
+                if (match) {
+                    const linkText = match[1]; // Text inside the square brackets []
+                    const url = match[2]; // URL inside the parentheses ()
+                    return `<a href="${url}" target="_blank">${linkText}</a>`;
+                }
+                
+                // If no match, return the original string
+                return str;
+            }
+
+            function displayEventsPane(events){
+                let eventStringBuilder = "";
+                events.forEach(function(event) {
+                    eventStringBuilder += `
+                        <img class="indivEventPane" src="icons/${event}.svg"" />
+                    `;
+                });
+                return eventStringBuilder;
+            }
+
+            function displayEventsTable(events){
+                let eventStringBuilder = `<tr class="eventRow"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
+                events.forEach(function(event) {
+                    eventStringBuilder += `
+                        <img class="indivEventRow" src="icons/${event}.svg"" />
+                    `;
+                });
+                eventStringBuilder += "</td><td></td><td></td></tr>";
+                return eventStringBuilder;
+            }
+
+
+        </script>
+        <style>
+            @font-face {
+                font-family: 'Norms';
+                src: url('TT Norms pro Trial Variable.ttf')  format('truetype');
+            }
+            #header{
+                height: 60px;
+                padding: 10px;
+                background-color: #FFFFFF;
+            }
+            .button{
+                padding: 10px 16px 10px 16px;
+                border-radius: 5px;
+                background-color: #0051BA;
+                color: white;
+                cursor: pointer;
+            }
+            .linksHolder{
+                display: flex;
+                flex-direction: row;
+                gap: 40px;
+                align-items: center;
+            }
+            .linksHolder a{
+                font-size: 16px;
+                color: black;
+                text-decoration: none;
+                border-bottom: 2px solid transparent;
+                transition: border 250ms;
+            }
+            .noDrop:hover {
+                border-bottom: 2px black solid;
+            }
+            .dropDownLink::after{
+                content: '\25BC';
+                font-size: 0.8em;
+                margin-left: 5px;
+                vertical-align: middle;
+            }
+            #pageContent{
+                /*width: calc(100% - 20px);*/
+                padding: 20px 0px 20px 0px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+            }
+            #competitionsHolder{
+                width: 1100px;
+                max-width: 1100px;
+            }
+            #infoPane{
+                max-width: 320px;
+                width: 320px;
+                background-color: #eeeeee;
+                padding: 15px;
+                height: fit-content;
+                position: sticky;
+                top: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                align-items: center;
+                gap: 10px;
+            }
+            .indivEventPane{
+                width: 30px;
+                height: 30px;
+            }
+            .flagHolderPane{
+                display: flex;
+                gap:5px;
+                align-items: center;
+            }
+            .whenButton{
+                padding: 5px 15px 5px 15px;
+                border: 1px solid grey;
+                cursor: pointer;
+                transition: background-color 250ms;
+            }
+            .whenButton:hover{
+                background-color: #cccccc;
+            }
+            .selected{
+                background-color: #aaaaaa;
+            }
+            #quickAccessFilters{
+                display: flex;
+            }
+            html, body{
+                margin: 0px;
+                padding: 0px;
+                background-color: #FCFCFC;
+                font-size: 14px;
+                line-height: 18px;
+                font-family: 'Norms';
+            }
+            h1, h2, h3, h4, h5, h6{
+                line-height: 1.1;
+            }
+            a{
+                color: #0051BA;
+                font-weight: 500;
+                text-decoration: none;
+            }
+            #compTable{
+                border-collapse: collapse;
+                width: 1100px;
+                margin-top:30px;
+            }
+            tr:nth-child(4n-3),
+            tr:nth-child(4n-2) {
+                background-color: #f2f2f2; /* Color 1 for the first two rows in every group of four */
+            }
+
+            tr:nth-child(4n-1),
+            tr:nth-child(4n) {
+                background-color: #e0e0e0; /* Color 2 for the second two rows in every group of four */
+            }
+
+            .compRow:hover{
+                background-color: #fdfdfd;
+            }
+            .compRow:hover + .eventRow {
+                background-color: #fdfdfd; /* Change this to the color you want */
+            }
+
+            .highlightedRow{
+                background-color: #FFD59E!important;
+            }
+            .indivEventRow{
+                width: 18px;
+                height: 18px;
+            }
+            .eventsTitleRow{
+                text-align: right;
+            }
+            .eventRow{
+            }
+            .compRow{
+                height: 30px;
+                cursor: pointer;
+                max-height: 30px;
+                padding: 0px!important;
+                border: 0px;
+                border-spacing: 0px!important;      
+                td{
+                    height: 18px;
+                    border: 0px!important;
+                    padding: 0px;
+                border-spacing: 0px!important;
+                vertical-align: middle;
+                line-height: 30px;
+                }
+                .status{
+                    width: 30px;
+                    img{
+                        padding: 0 6px 0 6px;
+                    }
+                }
+                .date{
+                    width: calc(159px + 16px);
+                }
+                .name{
+                    width: calc(234px + 16px);
+                    padding-right:6px;
+                }
+                .arrowLink{
+                    position: relative;
+                    padding: 0px 0px 0px 6px;
+                }
+                span{
+                    padding: 0px 6px 0px 6px;
+                }
+                .arrowLink::after{
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        width: 7px;  /* Width of your SVG */
+                        height: 12px; /* Height of your SVG */
+                        background: url('icons/linkArrow.svg') no-repeat;
+                        background-size: contain;
+                        transform: translateY(-50%);
+                        transition: all 0.3s ease-in-out; /* Control the animation */
+                        opacity: 0;
+                    }
+                .arrowLink:hover::after{
+                    transform: translateY(-50%) translateX(12px);
+                    opacity: 1;
+                }
+                .locationAndRegion{
+                    width: 569px;
+                    max-width: 569px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .location{
+                    padding: 0 8px 0 8px;
+                }
+                .region{
+                    padding: 0 8px 0 8px;
+                    font-weight: 500;
+                }
+                .flag{
+                    width: 42px;
+                    height: 18px;
+                    max-height:18px;
+                    background-size: 70%;
+                    background-image: url("flags/blank.svg");
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+                .info{
+                    width: 30px;
+                    background-image: url("info.svg");
+                    background-repeat: no-repeat;
+                    background-size: 60%;
+                    background-position: center;
+                }
+            }
+            #infoPane, .compRow{
+                .flag{
+                    width: 42px;
+                    height: 30px;
+                    max-height:30px;
+                    background-size: 70%;
+                    background-image: url("flags/blank.svg");
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+                .au {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e6-1f1fa.svg") !important;
+                }
+                .br {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1f7.svg") !important;
+                }
+                .ch {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e8-1f1ed.svg") !important;
+                }
+                .ec {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ea-1f1e8.svg") !important;
+                }
+                .gb {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1e7.svg") !important;
+                }
+                .id {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1e9.svg") !important;
+                }
+                .ir {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1f7.svg") !important;
+                }
+                .kr {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f0-1f1f7.svg") !important;
+                }
+                .kw {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f0-1f1fc.svg") !important;
+                }
+                .np {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f3-1f1f5.svg") !important;
+                }
+                .nz {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f3-1f1ff.svg") !important;
+                }
+                .qa {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f6-1f1e6.svg") !important;
+                }
+                .ro {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f7-1f1f4.svg") !important;
+                }
+                .th {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f9-1f1ed.svg") !important;
+                }
+                .tr {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f9-1f1f7.svg") !important;
+                }
+                .us {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1fa-1f1f8.svg") !important;
+                }
+                .mx {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f2-1f1fd.svg") !important;
+                }
+                .za {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ff-1f1e6.svg") !important;
+                }
+                .bg {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1ec.svg") !important;
+                }
+                .pl {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f5-1f1f1.svg") !important;
+                }
+                .ua {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1fa-1f1e6.svg") !important;
+                }
+                .ca {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e8-1f1e6.svg") !important;
+                }
+                .in {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1f3.svg") !important;
+                }
+                .fr {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1eb-1f1f7.svg") !important;
+                }
+                .hu {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ed-1f1fa.svg") !important;
+                }
+                .se {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f8-1f1ea.svg") !important;
+                }
+                .sk {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f8-1f1f0.svg") !important;
+                }
+                .vn {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1fb-1f1f3.svg") !important;
+                }
+                .de {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e9-1f1ea.svg") !important;
+                }
+                .it {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1f9.svg") !important;
+                }
+                .ph {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f5-1f1ed.svg") !important;
+                }
+                .cn {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e8-1f1f3.svg") !important;
+                }
+                .sg {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f8-1f1ec.svg") !important;
+                }
+                .ie {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1ea.svg") !important;
+                }
+                .be {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1ea.svg") !important;
+                }
+                .sv {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f8-1f1fb.svg") !important;
+                }
+                .co {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e8-1f1f4.svg") !important;
+                }
+                .il {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ee-1f1f1.svg") !important;
+                }
+                .gr {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1f7.svg") !important;
+                }
+                .no {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f3-1f1f4.svg") !important;
+                }
+                .tw {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f9-1f1fc.svg") !important;
+                }
+                .bo {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1f4.svg") !important;
+                }
+                .ar {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e6-1f1f7.svg") !important;
+                }
+                .az {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e6-1f1ff.svg") !important;
+                }
+                .es {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ea-1f1f8.svg") !important;
+                }
+                .my {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f2-1f1fe.svg") !important;
+                }
+                .rs {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f7-1f1f8.svg") !important;
+                }
+                .ge {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1ea.svg") !important;
+                }
+                .hr {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ed-1f1f7.svg") !important;
+                }
+                .mu {
+                    background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1f2-1f1fa.svg") !important;
+                }
+
+
+            }
+            
+        </style>
+    </body>
+</html>
