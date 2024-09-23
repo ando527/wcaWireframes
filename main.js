@@ -4,6 +4,11 @@ var compsToDraw = [];
 var lastClicked;
 var map;
 var markerLayer;
+var eventsToFilter = [];
+
+var currentCountry = "";
+
+var displayingMap = false;
 
 fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions.json')
 .then(response => response.json()) // Parse the JSON response
@@ -24,26 +29,127 @@ function orderAndTruncate(){
     allFutureComps.sort((a, b) => new Date(a.date.from) - new Date(b.date.from));
     // Filter out competitions that are in the past
     allFutureComps = allFutureComps.filter(comp => new Date(comp.date.from) >= today);
-    addRows(allFutureComps);
     compsToDraw = allFutureComps;
-
+    loadMap();
+    addRows(allFutureComps);
+    document.querySelector("#mapPane").style.display = "none";
+    document.querySelector("#compTable").style.display = "flex";
     document.getElementById('country').addEventListener('change', function() {
         handleCountryChange(this.value);
     });
     document.getElementById('mapButton').addEventListener('click', function() {
-        loadMap();
+        mapToggle(this);
     });
+
+    // Add event listener to all checkboxes with the class 'toggle-checkbox'
+    document.querySelectorAll('.toggle-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('click', function() {
+            handleToggleClick(this);
+        });
+    });    
+
+    document.getElementById('continent').addEventListener('change', function() {
+        // Get the selected continent value
+        var selectedContinent = this.value;
+    
+        // Get all the country options
+        var countryOptions = document.querySelectorAll('#country option');
+    
+        // Loop through all the options in the country dropdown
+        countryOptions.forEach(function(option) {
+            // Get the continent of the current option from the dataset property
+            var optionContinent = option.dataset.continent;
+    
+            // Show or hide the option based on whether it matches the selected continent
+            if (selectedContinent === '' || optionContinent === selectedContinent || option.value === '') {
+                option.hidden = false;  // Show option
+            } else {
+                option.hidden = true;   // Hide option
+            }
+        });
+    });
+
+    
 }
 
-function handleCountryChange(countryCode) {
-    if (countryCode == ""){
+function mapToggle(button){
+    if (displayingMap){
+        button.innerHTML = "Map View";
         clearTable();
-        addRows(allFutureComps);
+        addRows(compsToDraw);
+        document.querySelector("#mapPane").style.display = "none";
+        document.querySelector("#compTable").style.display = "flex";
+        displayingMap = false;
     } else {
-        let compsToDraw = allFutureComps.filter(comp => comp.country === countryCode);
+        button.innerHTML = "List View";
+        refreshMarkers(compsToDraw);
+        document.querySelector("#mapPane").style.display = "block";
+        document.querySelector("#compTable").style.display = "none";
+        displayingMap = true;
+    }
+}
+
+// The function to handle toggle clicks
+function handleToggleClick(checkbox) {
+    // Access the custom data-event attribute
+    const eventName = checkbox.getAttribute('data-event');
+    if (checkbox.checked){
+        addStringToArray(eventsToFilter, eventName);
+    } else {
+        removeStringFromArray(eventsToFilter, eventName);
+    }
+    collateFilters();
+    
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
         clearTable();
         addRows(compsToDraw);
     }
+
+}
+
+// Function to add a string to the array, if it doesn't already exist
+function addStringToArray(arr, str) {
+    if (!arr.includes(str)) {
+        arr.push(str);
+    }
+}
+
+// Function to remove a string from the array, if it exists
+function removeStringFromArray(arr, str) {
+    const index = arr.indexOf(str);
+    if (index !== -1) {
+        arr.splice(index, 1);
+    }
+}
+
+function handleCountryChange(countryCode) {
+    currentCountry = countryCode;
+    collateFilters();
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
+
+function collateFilters(){
+    if (currentCountry == ""){
+        compsToDraw = allFutureComps.filter(comp => 
+            eventsToFilter.every(event => comp.events.includes(event))
+        );
+    } else {
+        compsToDraw = allFutureComps.filter(comp => comp.country === currentCountry);
+    }
+
+    if (eventsToFilter.length > 0){
+        compsToDraw = compsToDraw.filter(comp => 
+            eventsToFilter.every(event => comp.events.includes(event))
+        );
+    }
+    
 }
 
 function clearTable(){
@@ -58,7 +164,24 @@ function loadMap(){
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     markerLayer = L.layerGroup().addTo(map);
-    compsToDraw.slice(0, 100).forEach(function(competition) {
+    compsToDraw.forEach(function(competition) {
+        var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
+            compId: competition.id
+        }).addTo(markerLayer);
+        marker.on('click', function(e){
+            let competition = allFutureComps.find(comp => comp.id === e.target.options.compId);
+            if (competition) {
+                updateInfoPane(competition);
+            } else {
+                console.log("Competition not found error.");
+            }
+        });``
+    });
+}
+
+function refreshMarkers(drawTheseComps){
+    markerLayer.clearLayers();
+    drawTheseComps.forEach(function(competition) {
         var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
             compId: competition.id
         }).addTo(markerLayer);
@@ -71,6 +194,28 @@ function loadMap(){
             }
         });
     });
+    if(markerLayer.getLayers().length === 0){
+        map.setView([15, 0], 2);
+    } else {
+        var bounds = L.latLngBounds();  // `extend` will be called on this object
+
+        // Iterate over each layer (marker) in the layer group and extend the bounds
+        markerLayer.eachLayer(function(layer) {
+        if (layer instanceof L.Marker) {  // Check if the layer is a marker
+            bounds.extend(layer.getLatLng()); // Extend the bounds to include the marker's LatLng
+        }
+        });
+            // Add a buffer to the bounds
+        var southWest = bounds.getSouthWest();
+        var northEast = bounds.getNorthEast();
+
+        // Create new bounds with buffer (5 lat and 5 long points)
+        var newBounds = L.latLngBounds(
+        [southWest.lat - 5, southWest.lng - 5], // SouthWest with buffer
+        [northEast.lat + 5, northEast.lng + 5]  // NorthEast with buffer
+        );
+        map.fitBounds(newBounds);
+}
 }
 
 function addRows(drawTheseComps){
@@ -92,7 +237,7 @@ function addRows(drawTheseComps){
                 <td class="info"></td>
             </tr>
             ${displayEventsTable(competition.events)}
-            `; // Example: Log competition names
+            `; 
         });
 
                     // Get all elements with the class 'compRow'
@@ -231,7 +376,7 @@ function displayEventsPane(events){
 }
 
 function displayEventsTable(events){
-    let eventStringBuilder = `<tr class="eventRow" style="display: none;"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
+    let eventStringBuilder = `<tr class="eventRow" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
     events.forEach(function(event) {
         eventStringBuilder += `
             <img class="indivEventRow" src="icons/${event}.svg"" />
@@ -239,4 +384,12 @@ function displayEventsTable(events){
     });
     eventStringBuilder += "</td><td></td><td></td></tr>";
     return eventStringBuilder;
+}
+
+function displayEventsCheck(){
+    if (document.getElementById('showEvents').checked){
+        return 'table-row';
+    } else {
+        return 'none';
+    }
 }
