@@ -148,6 +148,10 @@
                         </div>
 
                     </div>
+                    <div id="showEventsHolder">
+                        <h3>Show Events in Table</h3>
+                        <input type="checkBox" id="showEvents"/> 
+                    </div>
                 </div>
             </div>
             <div id="competitionsHolder">
@@ -158,7 +162,7 @@
                         <option value="AF">Africa</option>
                         <option value="AS">Asia</option>
                         <option value="EU">Europe</option>
-                        <option value="multiple">Multiple Continents</option>
+                        <option value="MX">Multiple Continents</option>
                         <option value="NA">North America</option>
                         <option value="OC">Oceania</option>
                         <option value="SA">South America</option>
@@ -368,12 +372,12 @@
 
                     
                         <!-- Multiple Continents -->
-                        <option value="multipleContinents">Multiple Continents</option>
+                        <option value="multipleContinents"  data-continent="MX">Multiple Continents</option>
                     </select>
                     <div class="whenButton">Past<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton">Recent<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton selected">Upcoming</div>     
-                    <input type="checkBox" id="showEvents"/> 
+                    
                     <div class="button" id="mapButton">Map View</div>             
                 </div>
                 <table id="compTable">
