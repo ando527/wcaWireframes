@@ -24,7 +24,8 @@
         </div>
         <div id="pageContent">
             <div id="advancedFilters">
-                Advanced filters
+                <h1>Advanced filters</h1>
+                <a class="button-small" href="#" id="clearFilters">Clear Filters</a>
                 <div id="filterHolder">
                     <h3>Filter by Event:</h3>
                     <div id="eventsToggle">
@@ -86,7 +87,7 @@
 
                         <div class="event-container">
                             <input type="checkbox" id="toggle-333oh" class="toggle-checkbox" data-event="333oh">
-                            <label for="toggle-333og" class="toggle-label">
+                            <label for="toggle-333oh" class="toggle-label">
                                 <img src="icons/333oh.svg" alt="3x3x3 Cube One-Handed">
                             </label>
                         </div>
@@ -155,8 +156,14 @@
                 </div>
             </div>
             <div id="competitionsHolder">
-                <h1>All Competitions</h1>
+                <div id="newcomer">
+                    <h1>Why Compete?</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus, officiis animi iusto repellat culpa, rem vero perspiciatis expedita quae, consequatur fugit sit voluptas ipsa nostrum soluta earum repudiandae maiores ex?</p>
+                    <div class="button">Find out more</div>
+                </div>
+                <h1 class="pageTitle"><img src="icons/allComps.svg" class="compIcon" />All Competitions</h1>
                 <div id="quickAccessFilters">
+                    <div id="leftQuickAccessFilters">
                     <select name="continent" id="continent">
                         <option value="">Select Continent</option>
                         <option value="AF">Africa</option>
@@ -377,27 +384,11 @@
                     <div class="whenButton">Past<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton">Recent<span class="tooltip">Not Yet Implemented</span></div>
                     <div class="whenButton selected">Upcoming</div>     
-                    
+                    </div>
                     <div class="button" id="mapButton">Map View</div>             
                 </div>
                 <table id="compTable">
                     <tbody id="compTBody">
-                        <!--<tr class="compRow">
-                            <td class="status">
-                                <img src="icons/closed.svg" width="18px" height="18px"/>
-                            </td>
-                            <td class="date"><span>Sep 10-11 2024</span></td>
-                            <td class="name"><a href="#" class="arrowLink">Chilling in Toowoomba 2024</a></td>
-                            <td class="locationAndRegion">
-                                <span class="location">Toowoomba, Queensland</span>
-                                <span class="region">Australia</span>
-                            </td>
-                            <td class="flag au"></td>
-                            <td class="info"></td>
-                        </tr>
-                        <tr class="compEvents">
-                            <td>34567</td>
-                        </tr>-->
                     </tbody>
                 </table>
                 <div id="mapPane">
@@ -411,5 +402,32 @@
         <script src="leaflet.js"></script>
         <script src="countries.js"></script>
         <script src="main.js"></script>
+
+
+        <footer class="footer">
+            <div class="footer-content">
+                <!-- Social Media Icons -->
+                <div class="social-media">
+                    <a href="#" class="social-icon"><img src="icons/instagram.svg" alt="Instagram"></a>
+                    <a href="#" class="social-icon"><img src="icons/facebook.svg" alt="Facebook"></a>
+                    <a href="#" class="social-icon"><img src="icons/x.svg" alt="Cross Icon"></a>
+                    <a href="#" class="social-icon"><img src="icons/twitch.svg" alt="Twitch"></a>
+                    <a href="#" class="social-icon"><img src="icons/weibo.svg" alt="Weibo"></a>
+                    <a href="#" class="social-icon"><img src="icons/youtube.svg" alt="YouTube"></a>
+                </div>
+    
+                <!-- Footer Links -->
+                <div class="footer-links">
+                    <img class="footer-logo" src="wca_logo.svg" alt="WCA Logo">
+                    <a href="#">About Us</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact</a>
+                    <a href="#"><img src="icons/github.png" alt="GitHub">GitHub</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Disclaimer</a>
+                    <a href="#">Forum</a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

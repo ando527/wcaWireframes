@@ -33,6 +33,7 @@ const countryCodeMapping = {
     "AE": "United Arab Emirates",
     "VN": "Vietnam",
     "AZ": "Azerbaijan",
+    "MN": "Mongolia",
     
     // Europe
     "AT": "Austria",
@@ -101,4 +102,118 @@ const countryCodeMapping = {
     "AU": "Australia",
     "FJ": "Fiji",
     "NZ": "New Zealand"
+};
+
+const countryCodeToContinent = {
+    // Africa
+    "DZ": "AF",  // Algeria
+    "EG": "AF",  // Egypt
+    "GH": "AF",  // Ghana
+    "KE": "AF",  // Kenya
+    "MA": "AF",  // Morocco
+    "NG": "AF",  // Nigeria
+    "ZA": "AF",  // South Africa
+    "MU": "AF",  // Mauritius
+
+    // Asia
+    "AF": "AS",  // Afghanistan
+    "CN": "AS",  // China
+    "HK": "AS",  // Hong Kong, China
+    "IN": "AS",  // India
+    "ID": "AS",  // Indonesia
+    "IR": "AS",  // Iran
+    "IL": "AS",  // Israel
+    "JP": "AS",  // Japan
+    "KZ": "AS",  // Kazakhstan
+    "KR": "AS",  // Republic of Korea
+    "KW": "AS",  // Kuwait
+    "LB": "AS",  // Lebanon
+    "MY": "AS",  // Malaysia
+    "PH": "AS",  // Philippines
+    "QA": "AS",  // Qatar
+    "SA": "AS",  // Saudi Arabia
+    "SG": "AS",  // Singapore
+    "TW": "AS",  // Taiwan
+    "TH": "AS",  // Thailand
+    "TR": "AS",  // Turkey
+    "AE": "AS",  // United Arab Emirates
+    "VN": "AS",  // Vietnam
+
+    // Europe
+    "AL": "EU",  // Albania
+    "AT": "EU",  // Austria
+    "BE": "EU",  // Belgium
+    "BG": "EU",  // Bulgaria
+    "CY": "EU",  // Cyprus
+    "CZ": "EU",  // Czech Republic
+    "DK": "EU",  // Denmark
+    "EE": "EU",  // Estonia
+    "FI": "EU",  // Finland
+    "FR": "EU",  // France
+    "DE": "EU",  // Germany
+    "GR": "EU",  // Greece
+    "HU": "EU",  // Hungary
+    "IS": "EU",  // Iceland
+    "IE": "EU",  // Ireland
+    "IT": "EU",  // Italy
+    "LV": "EU",  // Latvia
+    "LT": "EU",  // Lithuania
+    "LU": "EU",  // Luxembourg
+    "MT": "EU",  // Malta
+    "NL": "EU",  // Netherlands
+    "NO": "EU",  // Norway
+    "PL": "EU",  // Poland
+    "PT": "EU",  // Portugal
+    "RO": "EU",  // Romania
+    "RU": "EU",  // Russia
+    "SK": "EU",  // Slovakia
+    "SI": "EU",  // Slovenia
+    "ES": "EU",  // Spain
+    "SE": "EU",  // Sweden
+    "CH": "EU",  // Switzerland
+    "UA": "EU",  // Ukraine
+    "GB": "EU",  // United Kingdom
+
+    // North America
+    "BS": "NA",  // Bahamas
+    "BB": "NA",  // Barbados
+    "CA": "NA",  // Canada
+    "CR": "NA",  // Costa Rica
+    "CU": "NA",  // Cuba
+    "DO": "NA",  // Dominican Republic
+    "SV": "NA",  // El Salvador
+    "GT": "NA",  // Guatemala
+    "HN": "NA",  // Honduras
+    "JM": "NA",  // Jamaica
+    "MX": "NA",  // Mexico
+    "PA": "NA",  // Panama
+    "PR": "NA",  // Puerto Rico
+    "TT": "NA",  // Trinidad and Tobago
+    "US": "NA",  // United States
+
+    // South America
+    "AR": "SA",  // Argentina
+    "BO": "SA",  // Bolivia
+    "BR": "SA",  // Brazil
+    "CL": "SA",  // Chile
+    "CO": "SA",  // Colombia
+    "EC": "SA",  // Ecuador
+    "PY": "SA",  // Paraguay
+    "PE": "SA",  // Peru
+    "UY": "SA",  // Uruguay
+    "VE": "SA",  // Venezuela
+
+    // Oceania
+    "AU": "OC",  // Australia
+    "FJ": "OC",  // Fiji
+    "KI": "OC",  // Kiribati
+    "FM": "OC",  // Federated States of Micronesia
+    "NR": "OC",  // Nauru
+    "NZ": "OC",  // New Zealand
+    "PW": "OC",  // Palau
+    "PG": "OC",  // Papua New Guinea
+    "WS": "OC",  // Samoa
+    "SB": "OC",  // Solomon Islands
+    "TV": "OC",  // Tuvalu
+    "VU": "OC",  // Vanuatu
 };

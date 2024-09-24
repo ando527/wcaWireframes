@@ -4,11 +4,62 @@ var compsToDraw = [];
 var lastClicked;
 var map;
 var markerLayer;
+var locationLayer;
 var eventsToFilter = [];
+var userX;
+var userY;
 
 var currentCountry = "";
+var currentContinent = "";
 
 var displayingMap = false;
+
+const champIcon = L.icon({
+    iconUrl: 'images/champ-marker.svg',
+    shadowUrl: 'images/marker-shadow.png',
+    shadowAnchor: [13, 43],
+    iconSize: [26, 40],
+    iconAnchor: [13, 40],
+    popupAnchor: [0, 0]
+});
+
+const compIcon = L.icon({
+    iconUrl: 'images/comp-marker.svg',
+    shadowUrl: 'images/marker-shadow.png',
+    shadowAnchor: [13, 43],
+    iconSize: [26, 40],
+    iconAnchor: [13, 40],
+    popupAnchor: [0, 0]
+});
+
+const locationIcon = L.icon({
+    iconUrl: 'icons/location.svg',
+    iconSize: [15, 15],
+    iconAnchor: [7, 7],
+    popupAnchor: [0, 0]
+});
+
+const eventMap = {
+    "222": "2x2x2 Cube",
+    "333": "3x3x3 Cube",
+    "333bf": "3x3x3 Blindfolded",
+    "333mbf": "3x3x3 Multi-Blind",
+    "333fm": "3x3x3 Fewest Moves",
+    "333oh": "3x3x3 One-Handed",
+    "444": "4x4x4 Cube",
+    "444bf": "4x4x4 Blindfolded",
+    "555": "5x5x5 Cube",
+    "555bf": "5x5x5 Blindfolded",
+    "666": "6x6x6 Cube",
+    "777": "7x7x7 Cube",
+    "clock": "Clock",
+    "minx": "Megaminx",
+    "pyram": "Pyraminx",
+    "skewb": "Skewb",
+    "sq1": "Square-1"
+};
+
+
 
 fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions.json')
 .then(response => response.json()) // Parse the JSON response
@@ -40,6 +91,9 @@ function orderAndTruncate(){
     document.getElementById('mapButton').addEventListener('click', function() {
         mapToggle(this);
     });
+    document.getElementById('clearFilters').addEventListener('click', function() {
+        clearFilters();
+    });
 
     // Add event listener to all checkboxes with the class 'toggle-checkbox'
     document.querySelectorAll('.toggle-checkbox').forEach(function(checkbox) {
@@ -51,7 +105,7 @@ function orderAndTruncate(){
     document.getElementById('continent').addEventListener('change', function() {
         // Get the selected continent value
         var selectedContinent = this.value;
-    
+        console.log(selectedContinent);
         // Get all the country options
         var countryOptions = document.querySelectorAll('#country option');
     
@@ -67,6 +121,11 @@ function orderAndTruncate(){
                 option.hidden = true;   // Hide option
             }
         });
+
+        
+        currentContinent = selectedContinent;
+
+        handleContinentChange(selectedContinent);
     });
 
     
@@ -89,6 +148,14 @@ function mapToggle(button){
     }
 }
 
+function filterLocation(){
+    navigator.geolocation.getCurrentPosition((position) => {
+        L.marker([position.coords.latitude, position.coords.longitude], { icon: locationIcon }).addTo(locationLayer);
+        userX = position.coords.latitude;
+        userY = position.coords.longitude;
+    });
+}
+
 // The function to handle toggle clicks
 function handleToggleClick(checkbox) {
     // Access the custom data-event attribute
@@ -106,7 +173,6 @@ function handleToggleClick(checkbox) {
         clearTable();
         addRows(compsToDraw);
     }
-
 }
 
 // Function to add a string to the array, if it doesn't already exist
@@ -135,11 +201,27 @@ function handleCountryChange(countryCode) {
     }
 }
 
+function handleContinentChange(continentCode){
+    //currentContinent = continentCode;
+    collateFilters();
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
+
 function collateFilters(){
     if (currentCountry == ""){
-        compsToDraw = allFutureComps.filter(comp => 
-            eventsToFilter.every(event => comp.events.includes(event))
-        );
+        if (currentContinent == ""){
+            compsToDraw = allFutureComps.filter(comp => 
+                eventsToFilter.every(event => comp.events.includes(event))
+            );
+        } else{
+            console.log(currentContinent);
+            compsToDraw = allFutureComps.filter(comp => countryCodeToContinent[comp.country] === currentContinent);
+        }
     } else {
         compsToDraw = allFutureComps.filter(comp => comp.country === currentCountry);
     }
@@ -164,6 +246,7 @@ function loadMap(){
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     markerLayer = L.layerGroup().addTo(map);
+    locationLayer = L.layerGroup().addTo(map);
     compsToDraw.forEach(function(competition) {
         var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
             compId: competition.id
@@ -182,9 +265,17 @@ function loadMap(){
 function refreshMarkers(drawTheseComps){
     markerLayer.clearLayers();
     drawTheseComps.forEach(function(competition) {
-        var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
-            compId: competition.id
-        }).addTo(markerLayer);
+        if (competition.name.includes("Championship") || competition.name.includes("Nationals")){
+            var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
+                compId: competition.id,
+                icon: champIcon
+            }).addTo(markerLayer);
+        } else {
+            var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
+                compId: competition.id,
+                icon: compIcon
+            }).addTo(markerLayer);
+        }
         marker.on('click', function(e){
             let competition = allFutureComps.find(comp => comp.id === e.target.options.compId);
             if (competition) {
@@ -221,14 +312,33 @@ function refreshMarkers(drawTheseComps){
 function addRows(drawTheseComps){
     var competitionTable = document.querySelector("#compTBody");
     if (drawTheseComps.length > 0){
-        drawTheseComps.slice(0, 100).forEach(function(competition) {
+        drawTheseComps.slice(0, 100).forEach(function(competition, index) {
+            let oddOrEven = index % 2 === 0 ? "evenRow" : "oddRow";
+            var championship=""
+            if (competition.name.includes("Championship") || competition.name.includes("Nationals")){
+                if (competition.name.includes("African") || competition.name.includes("Asian") || competition.name.includes("European") || competition.name.includes("American") || competition.name.includes("Oceanic")){
+                    championship = `
+                        <span><img src="icons/championship.svg" class="championshipIcon"/>Continental Championship<br /></span>
+                    `;
+                } else if (competition.name.includes("National")){
+                    championship = `
+                        <span><img src="icons/championship.svg" class="championshipIcon"/>National Championship<br /></span>
+                    `;
+                } else {
+                    championship = `
+                        <span><img src="icons/championship.svg" class="championshipIcon"/>Championship<br /></span>
+                    `;
+                }
+                oddOrEven = "championshipRow";
+            } 
+            
             competitionTable.innerHTML += `
-            <tr id="comp${competition.id}" class="compRow" data-compid="${competition.id}">
+            <tr id="comp${competition.id}" class="compRow ${oddOrEven}" data-compid="${competition.id}">
                 <td class="status">
-                    <img src="icons/closed.svg" width="18px" height="18px"/>
+                    <img src="icons/${randomIcon()}.svg" width="18px" height="18px"/>
                 </td>
                 <td class="date"><span>${formatCompetitionDates(competition.date.from, competition.date.till)}</span></td>
-                <td class="name"><a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
+                <td class="name">${championship}<a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
                 <td class="locationAndRegion">
                     <span class="location">${competition.city}</span>
                     <span class="region">${countryCodeMapping[competition.country] || competition.country}</span>
@@ -236,16 +346,16 @@ function addRows(drawTheseComps){
                 <td class="flag ${competition.country.toLowerCase()}"></td>
                 <td class="info"></td>
             </tr>
-            ${displayEventsTable(competition.events)}
+            ${displayEventsTable(competition.events, oddOrEven)}
             `; 
         });
 
-                    // Get all elements with the class 'compRow'
+        
         let compRows = document.querySelectorAll('.compRow');
             compRows.forEach(function(row) {
                 row.addEventListener('click', function() {
-                    let elementId = row.dataset.compid; // Get the id of the clicked element
-                    handleRowClick(elementId); // Call your function and pass the id
+                    let elementId = row.dataset.compid; 
+                    handleRowClick(elementId); 
             });
         });
     } else {
@@ -275,6 +385,22 @@ function addRows(drawTheseComps){
 
 }
 
+function randomIcon(){
+    
+    let randomNum = Math.random();
+
+    if (randomNum < 0.25) {
+        return "regoFull";
+    } else if (randomNum < 0.5) {
+        return "closed";
+    } else if (randomNum < 0.9) {
+        return "open";
+    } else {
+        return "notOpen";
+    }
+}
+
+
 function truncateString(str) {
     if (str.length > 32) {
         return str.slice(0, 24) + "..." + str.slice(-5);
@@ -282,6 +408,20 @@ function truncateString(str) {
     return str; // If the string is less than or equal to 32 characters, return it as is
 }
 
+function clearFilters(){
+    document.querySelectorAll('.toggle-checkbox').forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
+    document.querySelector("#continent").value="";
+    document.querySelector("#country").value="";
+    compsToDraw = allFutureComps;
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
 
 
 // Function that gets called on click, with the id as a parameter
@@ -303,14 +443,63 @@ function handleRowClick(id) {
 function updateInfoPane(competition){
     infoPane = document.querySelector("#infoPane");
     infoPane.innerHTML = `
-            <h1>${competition.name}</h1>
-            <div class="flagHolderPane"><div class="flag ${competition.country.toLowerCase()}"></div><p>${countryCodeMapping[competition.country] || competition.country}</p></div>
-            <p>${competition.city}</p>
-            <p>${formatCompetitionDates(competition.date.from, competition.date.till)}</p>
-            <p>${createLinkFromString(competition.venue.name)}</p>
+            <h1><img src="icons/${competition.name.includes("Championship") || competition.name.includes("Nationals") ? "championship" : "comp"}.svg" class="compIcon" />${competition.name}</h1>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="infoIconsHolder">
+                            <div class="flagHolderPane"><div class="flag ${competition.country.toLowerCase()}"></div>
+                        </td>
+                        <td>
+                            <b>${countryCodeMapping[competition.country] || competition.country}</b> ${competition.city}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="infoIconsHolder">
+                            <img src="icons/calendar.svg" class="infoIcon" />
+                        </td>
+                        <td>
+                            ${formatCompetitionDates(competition.date.from, competition.date.till)}
+                        </td>
+                    </tr>
+
+                     <tr>
+                        <td class="infoIconsHolder">
+                            <img src="icons/competitors.svg" class="infoIcon" />
+                        </td>
+                        <td>
+                            285 Competitor Limit
+                        </td>
+                    </tr>
+
+                     <tr>
+                        <td class="infoIconsHolder">
+                            <img src="icons/register.svg" class="infoIcon" />
+                        </td>
+                        <td>
+                            43 Spots left
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="infoIconsHolder">
+                            <img src="icons/venue.svg" class="infoIcon" />
+                        </td>
+                        <td>
+                        ${createLinkFromString(competition.venue.name)}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <span>Events:</span>
             <div class="eventsListPane">${displayEventsPane(competition.events)}</div>
-            <div class="button">View Competition</div>
-            <div class="button">Register Now</div>
+            <br />
+            <div id="infoPaneButtons">
+                <a class="button-secondary" href="#">Register Now</a>
+                <a class="button" href="#">View Competition</a>
+            </div>
         `;
 }
 
@@ -369,14 +558,14 @@ function displayEventsPane(events){
     let eventStringBuilder = "";
     events.forEach(function(event) {
         eventStringBuilder += `
-            <img class="indivEventPane" src="icons/${event}.svg"" />
+            <img class="indivEventPane" src="icons/${event}.svg" title="${eventMap[event] || event}" />
         `;
     });
     return eventStringBuilder;
 }
 
-function displayEventsTable(events){
-    let eventStringBuilder = `<tr class="eventRow" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
+function displayEventsTable(events, oddOrEven){
+    let eventStringBuilder = `<tr class="eventRow ${oddOrEven}" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
     events.forEach(function(event) {
         eventStringBuilder += `
             <img class="indivEventRow" src="icons/${event}.svg"" />
