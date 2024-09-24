@@ -5,14 +5,22 @@ var lastClicked;
 var map;
 var markerLayer;
 var locationLayer;
+var squareLayer;
 var eventsToFilter = [];
 var userX;
 var userY;
+var startDate;
+var endDate;
+
+var distance = 0;
+var locationWorks = false;
 
 var currentCountry = "";
 var currentContinent = "";
 
 var displayingMap = false;
+
+var radioButtons;
 
 const champIcon = L.icon({
     iconUrl: 'images/champ-marker.svg',
@@ -123,26 +131,38 @@ function orderAndTruncate(){
         });
 
         
-        currentContinent = selectedContinent;
+        //currentContinent = selectedContinent;
 
         handleContinentChange(selectedContinent);
     });
 
-    const startDatePicker = document.getElementById('start-date');
-    const endDatePicker = document.getElementById('end-date');
+    const startDatePicker = document.getElementById('startDate');
+    const endDatePicker = document.getElementById('endDate');
 
     // Event listener for the start date picker
     startDatePicker.addEventListener('change', function() {
-        console.log('Start Date selected: ', startDatePicker.value);
-        // You can add any custom functionality here when the start date is changed
+        startDate = startDatePicker.value;
+        handleDateChange();
     });
 
     // Event listener for the end date picker
     endDatePicker.addEventListener('change', function() {
-        console.log('End Date selected: ', endDatePicker.value);
-        // You can add any custom functionality here when the end date is changed
+        endDate = endDatePicker.value;
+        handleDateChange();
+    });
+
+    radioButtons = document.querySelectorAll('input[name="distance"]');
+    radioButtons.forEach(function(radioButton) {
+        radioButton.addEventListener('change', handleDistanceRadioChange);
+    });
+
+    document.querySelector("#filterLocation").addEventListener('click', function() {
+        filterLocation();
     });
     
+    document.querySelector("#exitNewcomer").addEventListener('click', function() {
+        closeNewcomer();
+    });
 }
 
 function mapToggle(button){
@@ -161,13 +181,54 @@ function mapToggle(button){
         displayingMap = true;
     }
 }
+function distanceToCompCalc(coordinates){
+    let distanceTo = (111 * Math.sqrt((coordinates.latitude-userX)*(coordinates.latitude-userX)+(coordinates.longitude-userY)*(coordinates.longitude-userY))).toFixed(0);
+    if (distanceTo > 1){
+        return distanceTo;
+    } else {
+        return "<0"
+    }
+}
+
+function compDistance(coordinates){
+    if (locationWorks){
+        let distanceToComp = distanceToCompCalc(coordinates);
+        return `
+            <tr>
+                <td class="infoIconsHolder">
+                    <img src="icons/distance.svg" class="infoIcon" />
+                </td>
+                <td>
+                    ${distanceToComp}km away
+                </td>
+            </tr>
+        `
+    } else {
+        return "";
+    }
+}
+
+
 
 function filterLocation(){
-    navigator.geolocation.getCurrentPosition((position) => {
-        L.marker([position.coords.latitude, position.coords.longitude], { icon: locationIcon }).addTo(locationLayer);
-        userX = position.coords.latitude;
-        userY = position.coords.longitude;
-    });
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            L.marker([position.coords.latitude, position.coords.longitude], { icon: locationIcon }).addTo(locationLayer);
+            userX = position.coords.latitude;
+            userY = position.coords.longitude;
+            locationWorks = true;
+            radioButtons.forEach(function(radioButton) {
+                radioButton.disabled = false;
+            });
+        }, 
+        (error) => {
+            console.error('Error getting location:', error.message);
+
+            alert('Unable to retrieve your location. Please ensure location services are enabled.');
+
+        }
+
+    );
 }
 
 // The function to handle toggle clicks
@@ -187,6 +248,10 @@ function handleToggleClick(checkbox) {
         clearTable();
         addRows(compsToDraw);
     }
+}
+
+function closeNewcomer(){
+    document.querySelector("#newcomer").style.display = "none";
 }
 
 // Function to add a string to the array, if it doesn't already exist
@@ -216,7 +281,7 @@ function handleCountryChange(countryCode) {
 }
 
 function handleContinentChange(continentCode){
-    //currentContinent = continentCode;
+    currentContinent = continentCode;
     collateFilters();
     if (displayingMap){
         refreshMarkers(compsToDraw);
@@ -226,18 +291,104 @@ function handleContinentChange(continentCode){
     }
 }
 
+function handleDateChange(){
+    collateFilters();
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
+
+function handleDistanceRadioChange(event) {
+    const selectedValue = event.target.getAttribute('data-name'); // Get the custom data-name attribute
+    
+    switch(selectedValue){
+        case 'closest':
+            distance = 5;
+            drawSquare();
+            break;
+        case 'close':
+            distance = 10;
+            drawSquare();
+            break;
+        case 'far':
+            distance = 15;
+            drawSquare();
+            break;
+        case 'furthest':
+            distance = 25;
+            drawSquare();
+            break;
+        case 'all':
+            distance = 0;
+            drawSquare();
+            break;
+        default:
+            distance = 0;
+            drawSquare();
+            break;
+    }
+    collateFilters();
+    if (displayingMap){
+        refreshMarkers(compsToDraw);
+    } else {
+        clearTable();
+        addRows(compsToDraw);
+    }
+}
+
+function drawSquare(){
+    if (distance == 0){
+        //do nothing
+    } else {
+        var latlngs = [
+            [userX - distance, userY - distance],  // Bottom-left
+            [userX - distance, userY + distance],  // Bottom-right
+            [userX + distance, userY + distance],  // Top-right
+            [userX + distance, userY - distance]   // Top-left
+        ];
+        
+        squareLayer.clearLayers();
+        /*var squarePolygon = */
+        L.polygon(latlngs, {color: '#C1E6CD'}).addTo(squareLayer);
+        //markerLayer.addLayer(square);
+    }
+}
+
 function collateFilters(){
+    if (startDate || endDate){
+        if(startDate){
+            compsToDraw = allFutureComps.filter(comp => new Date(comp.date.from) >= new Date(startDate));
+        }
+        if (endDate){
+            compsToDraw = allFutureComps.filter(comp => new Date(comp.date.from) <= new Date(endDate));
+        }   
+    } else {
+        compsToDraw = allFutureComps;
+    }
+    if (distance > 0 && locationWorks){
+        compsToDraw = compsToDraw.filter(comp => 
+            comp.venue.coordinates.longitude <= (userY + distance) && 
+            comp.venue.coordinates.longitude >= (userY - distance)
+        );
+        compsToDraw = compsToDraw.filter(comp => 
+            comp.venue.coordinates.latitude <= (userX + distance) && 
+            comp.venue.coordinates.latitude >= (userX - distance)
+        );
+    }
     if (currentCountry == ""){
         if (currentContinent == ""){
-            compsToDraw = allFutureComps.filter(comp => 
+            compsToDraw = compsToDraw.filter(comp => 
                 eventsToFilter.every(event => comp.events.includes(event))
             );
         } else{
             console.log(currentContinent);
-            compsToDraw = allFutureComps.filter(comp => countryCodeToContinent[comp.country] === currentContinent);
+            compsToDraw = compsToDraw.filter(comp => countryCodeToContinent[comp.country] === currentContinent);
         }
     } else {
-        compsToDraw = allFutureComps.filter(comp => comp.country === currentCountry);
+        compsToDraw = compsToDraw.filter(comp => comp.country === currentCountry);
     }
 
     if (eventsToFilter.length > 0){
@@ -261,6 +412,7 @@ function loadMap(){
     }).addTo(map);
     markerLayer = L.layerGroup().addTo(map);
     locationLayer = L.layerGroup().addTo(map);
+    squareLayer = L.layerGroup().addTo(map);
     compsToDraw.forEach(function(competition) {
         var marker = L.marker([competition.venue.coordinates.latitude, competition.venue.coordinates.longitude], {
             compId: competition.id
@@ -272,7 +424,7 @@ function loadMap(){
             } else {
                 console.log("Competition not found error.");
             }
-        });``
+        });
     });
 }
 
@@ -320,7 +472,8 @@ function refreshMarkers(drawTheseComps){
         [northEast.lat + 5, northEast.lng + 5]  // NorthEast with buffer
         );
         map.fitBounds(newBounds);
-}
+    }
+    locationLayer.setZIndex(1000);
 }
 
 function addRows(drawTheseComps){
@@ -410,7 +563,7 @@ function randomIcon(){
     } else if (randomNum < 0.9) {
         return "open";
     } else {
-        return "notOpen";
+        return "notOpenYet";
     }
 }
 
@@ -456,8 +609,12 @@ function handleRowClick(id) {
 
 function updateInfoPane(competition){
     infoPane = document.querySelector("#infoPane");
+    var championshipIconOrNot = "";
+    if (competition.name.includes("Championship") || competition.name.includes("Nationals")){
+        championshipIconOrNot = "<img src=\"icons/championship.svg\" class=\"compIcon\" />";
+    }
     infoPane.innerHTML = `
-            <h1><img src="icons/${competition.name.includes("Championship") || competition.name.includes("Nationals") ? "championship" : "comp"}.svg" class="compIcon" />${competition.name}</h1>
+            <h1>${championshipIconOrNot} ${competition.name}</h1>
             
             <table>
                 <tbody>
@@ -466,7 +623,7 @@ function updateInfoPane(competition){
                             <div class="flagHolderPane"><div class="flag ${competition.country.toLowerCase()}"></div>
                         </td>
                         <td>
-                            <b>${countryCodeMapping[competition.country] || competition.country}</b> ${competition.city}
+                            <b>${countryCodeMapping[competition.country] || competition.country}</b> &nbsp; ${competition.city}
                         </td>
                     </tr>
                     <tr>
@@ -504,6 +661,7 @@ function updateInfoPane(competition){
                         ${createLinkFromString(competition.venue.name)}
                         </td>
                     </tr>
+                    ${compDistance(competition.venue.coordinates)}
                 </tbody>
             </table>
             <br />

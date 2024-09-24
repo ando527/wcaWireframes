@@ -24,7 +24,7 @@
         </div>
         <div id="pageContent">
             <div id="advancedFilters">
-                <h1><img src="icons/filters.svg" class="compIcon" />Advanced Filters</h1>
+                <h2><img src="icons/filters.svg" class="compIcon" />Advanced Filters</h2>
                 <a class="button-small" href="#" id="clearFilters">Clear Filters</a>
                 <div id="filterHolder">
                     <h3>Filter by Event:</h3>
@@ -160,13 +160,35 @@
                         <label for="end-date">End Date</label>
                         <input type="date" id="endDate">
                     </div>
+                    <div class="button" id="filterLocation">See comps close to me</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="distance" data-name="closest" value="closest" disabled> Closest
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="close" value="close" disabled> Close
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="far" value="far" disabled> Far
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="furthest" value="furthest" disabled> Furthest
+                        </label>
+                        <label></label>
+                            <input type="radio" name="distance" data-name="all" value="all" disabled> All
+                        </label>
+                    </div>
                 </div>
             </div>
             <div id="competitionsHolder">
                 <div id="newcomer">
-                    <h1>Why Compete?</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus, officiis animi iusto repellat culpa, rem vero perspiciatis expedita quae, consequatur fugit sit voluptas ipsa nostrum soluta earum repudiandae maiores ex?</p>
-                    <div class="button">Find out more</div>
+                    <img src="icons/cross.svg" id="exitNewcomer" />
+                    <img src="images/newcomer.png" class="newcomerImg"/>
+                    <div class="newcomerRight">
+                        <h1>Why Compete?</h1>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus, officiis animi iusto repellat culpa, rem vero perspiciatis expedita quae, consequatur fugit sit voluptas ipsa nostrum soluta earum repudiandae maiores ex?</p>
+                        <div class="button">Find out more</div>
+                    </div>
                 </div>
                 <h1 class="pageTitle"><img src="icons/allComps.svg" class="compIcon" />All Competitions</h1>
                 <div id="quickAccessFilters">
