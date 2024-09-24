@@ -128,6 +128,20 @@ function orderAndTruncate(){
         handleContinentChange(selectedContinent);
     });
 
+    const startDatePicker = document.getElementById('start-date');
+    const endDatePicker = document.getElementById('end-date');
+
+    // Event listener for the start date picker
+    startDatePicker.addEventListener('change', function() {
+        console.log('Start Date selected: ', startDatePicker.value);
+        // You can add any custom functionality here when the start date is changed
+    });
+
+    // Event listener for the end date picker
+    endDatePicker.addEventListener('change', function() {
+        console.log('End Date selected: ', endDatePicker.value);
+        // You can add any custom functionality here when the end date is changed
+    });
     
 }
 

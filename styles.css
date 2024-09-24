@@ -91,7 +91,7 @@
 #advancedFilters{
     max-width: 320px;
     width: 320px;
-    background-color: #eeeeee;
+    background-color: #ededed;
     padding: 15px;
     height: fit-content;
     position: sticky;
@@ -102,6 +102,9 @@
     text-align: left;
     align-items: flex-start;
     gap: 10px;
+    margin-left: 30px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 #filterHolder{
     display: flex;
