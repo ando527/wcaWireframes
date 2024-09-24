@@ -329,6 +329,10 @@ a{
     background-color: #FFE4C2;
 }
 
+.championshipEvents + .championshipRow{
+    border-top: 1px black solid!important;
+}
+
 .highlightedRow{
     background-color: #C1E6CD!important;
 }

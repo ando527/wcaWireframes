@@ -565,6 +565,9 @@ function displayEventsPane(events){
 }
 
 function displayEventsTable(events, oddOrEven){
+    if (oddOrEven == "championshipRow"){
+        oddOrEven = "championshipRow championshipEvents";
+    }
     let eventStringBuilder = `<tr class="eventRow ${oddOrEven}" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
     events.forEach(function(event) {
         eventStringBuilder += `
