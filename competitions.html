@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="flags.css" />
+        <link rel="stylesheet" href="leaflet.css" />
+        <link rel="icon" type="image/x-icon" href="s.png">
+        <title>Competitions Page</title>
+    </head>
+    <body>
+        <div id="header">
+            <div class="linksHolder">
+                <img src="wca_logo.svg" width="60px" height="60px"/>
+                <a href="#" class="noDrop">About Us</a>
+                <a href="#" class="noDrop">FAQ's</a>
+                <a href="#" class="dropDownLink">Competitions</a>
+                <a href="#" class="dropDownLink">Results</a>
+                <a href="#" class="dropDownLink">Regulations</a>
+                <a href="#" class="dropDownLink">Information</a>
+                <a href="#" class="noDrop">WCA Live</a>
+            </div>
+            <div class="searchProfile">
+
+            </div>
+        </div>
+        <div id="pageContent">
+            <div id="advancedFilters">
+                <h2><img src="icons/filters.svg" class="compIcon" />Advanced Filters</h2>
+                <a class="button-small" href="#" id="clearFilters">Clear Filters</a>
+                <div id="filterHolder">
+                    <h3>Filter by Event:</h3>
+                    <div id="eventsToggle">
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-333" class="toggle-checkbox" data-event="333">
+                            <label for="toggle-333" class="toggle-label">
+                                <img src="icons/333.svg" alt="3x3x3 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-222" class="toggle-checkbox" data-event="222">
+                            <label for="toggle-222" class="toggle-label">
+                                <img src="icons/222.svg" alt="2x2x2 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-444" class="toggle-checkbox" data-event="444">
+                            <label for="toggle-444" class="toggle-label">
+                                <img src="icons/444.svg" alt="4x4x4 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-555" class="toggle-checkbox" data-event="555">
+                            <label for="toggle-555" class="toggle-label">
+                                <img src="icons/555.svg" alt="5x5x5 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-666" class="toggle-checkbox" data-event="666">
+                            <label for="toggle-666" class="toggle-label">
+                                <img src="icons/666.svg" alt="6x6x6 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-777" class="toggle-checkbox" data-event="777">
+                            <label for="toggle-777" class="toggle-label">
+                                <img src="icons/777.svg" alt="7x7x7 Cube">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-333bf" class="toggle-checkbox" data-event="333bf">
+                            <label for="toggle-333bf" class="toggle-label">
+                                <img src="icons/333bf.svg" alt="3x3x3 Cube Blindfolded">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-333fm" class="toggle-checkbox" data-event="333fm">
+                            <label for="toggle-333fm" class="toggle-label">
+                                <img src="icons/333fm.svg" alt="3x3x3 Fewest Moves">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-333oh" class="toggle-checkbox" data-event="333oh">
+                            <label for="toggle-333oh" class="toggle-label">
+                                <img src="icons/333oh.svg" alt="3x3x3 Cube One-Handed">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-clock" class="toggle-checkbox" data-event="clock">
+                            <label for="toggle-clock" class="toggle-label">
+                                <img src="icons/clock.svg" alt="Clock">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-minx" class="toggle-checkbox" data-event="minx">
+                            <label for="toggle-minx" class="toggle-label">
+                                <img src="icons/minx.svg" alt="Megaminx">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-pyram" class="toggle-checkbox" data-event="pyram">
+                            <label for="toggle-pyram" class="toggle-label">
+                                <img src="icons/pyram.svg" alt="Pyraminx">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-skewb" class="toggle-checkbox" data-event="skewb">
+                            <label for="toggle-skewb" class="toggle-label">
+                                <img src="icons/skewb.svg" alt="Skewb">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-sq1" class="toggle-checkbox" data-event="sq1">
+                            <label for="toggle-sq1" class="toggle-label">
+                                <img src="icons/sq1.svg" alt="Square-1">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-444bf" class="toggle-checkbox" data-event="444bf">
+                            <label for="toggle-444bf" class="toggle-label">
+                                <img src="icons/444bf.svg" alt="4x4x4 Blindfolded">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-555bf" class="toggle-checkbox" data-event="555bf">
+                            <label for="toggle-555bf" class="toggle-label">
+                                <img src="icons/555bf.svg" alt="5x5x5 Blindfolded">
+                            </label>
+                        </div>
+
+                        <div class="event-container">
+                            <input type="checkbox" id="toggle-333mbf" class="toggle-checkbox" data-event="333mbf">
+                            <label for="toggle-333mbf" class="toggle-label">
+                                <img src="icons/333mbf.svg" alt="3x3x3 Multi-Blind">
+                            </label>
+                        </div>
+
+                    </div>
+                    <div id="showEventsHolder">
+                        <h3>Show Events in Table</h3>
+                        <input type="checkBox" id="showEvents"/> 
+                    </div>
+                    <div class="date-picker-container">
+                        <label for="start-date">Start Date</label>
+                        <input type="date" id="startDate">
+                        <br />
+                        <label for="end-date">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <div class="button" id="filterLocation">Use my Location</div>
+                    <div id="successLocation" style="display: none;">Select Distance below</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="distance" data-name="closest" value="closest" disabled> Closest
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="close" value="close" disabled> Close
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="far" value="far" disabled> Far
+                        </label>
+                        <label>
+                            <input type="radio" name="distance" data-name="furthest" value="furthest" disabled> Furthest
+                        </label>
+                        <label></label>
+                            <input type="radio" name="distance" data-name="all" value="all" disabled> All
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="competitionsHolder">
+                <div id="newcomer">
+                    <img src="icons/cross.svg" id="exitNewcomer" />
+                    <img src="images/newcomer.png" class="newcomerImg"/>
+                    <div class="newcomerRight">
+                        <h1>Why Compete?</h1>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus, officiis animi iusto repellat culpa, rem vero perspiciatis expedita quae, consequatur fugit sit voluptas ipsa nostrum soluta earum repudiandae maiores ex?</p>
+                        <div class="button">Find out more</div>
+                    </div>
+                </div>
+                <h1 class="pageTitle"><img src="icons/allComps.svg" class="compIcon" />All Competitions</h1>
+                <div id="quickAccessFilters">
+                    <div id="leftQuickAccessFilters">
+                    <select name="continent" id="continent">
+                        <option value="">Select Continent</option>
+                        <option value="AF">Africa</option>
+                        <option value="AS">Asia</option>
+                        <option value="EU">Europe</option>
+                        <option value="MX">Multiple Continents</option>
+                        <option value="NA">North America</option>
+                        <option value="OC">Oceania</option>
+                        <option value="SA">South America</option>
+                    </select>
+                    <select name="country" id="country">
+                        <option value="">Select Region</option>
+
+                        <option value="AF" data-continent="AS" hidden>Afghanistan</option>
+                        <option value="AL" data-continent="EU">Albania</option>
+                        <option value="DZ" data-continent="AF">Algeria</option>
+                        <option value="AD" data-continent="EU">Andorra</option>
+                        <option value="AO" data-continent="AF">Angola</option>
+                        <option value="AG" data-continent="NA">Antigua and Barbuda</option>
+                        <option value="AR" data-continent="SA">Argentina</option>
+                        <option value="AM" data-continent="EU">Armenia</option>
+                        <option value="AU" data-continent="OC">Australia</option>
+                        <option value="AT" data-continent="EU">Austria</option>
+                        <option value="AZ" data-continent="AS">Azerbaijan</option>
+                        <option value="BS" data-continent="NA">Bahamas</option>
+                        <option value="BH" data-continent="AS">Bahrain</option>
+                        <option value="BD" data-continent="AS">Bangladesh</option>
+                        <option value="BB" data-continent="NA">Barbados</option>
+                        <option value="BY" data-continent="EU">Belarus</option>
+                        <option value="BE" data-continent="EU">Belgium</option>
+                        <option value="BZ" data-continent="NA">Belize</option>
+                        <option value="BJ" data-continent="AF">Benin</option>
+                        <option value="BT" data-continent="AS">Bhutan</option>
+                        <option value="BO" data-continent="SA">Bolivia</option>
+                        <option value="BA" data-continent="EU">Bosnia and Herzegovina</option>
+                        <option value="BW" data-continent="AF">Botswana</option>
+                        <option value="BR" data-continent="SA">Brazil</option>
+                        <option value="BN" data-continent="AS">Brunei</option>
+                        <option value="BG" data-continent="EU">Bulgaria</option>
+                        <option value="BF" data-continent="AF">Burkina Faso</option>
+                        <option value="BI" data-continent="AF">Burundi</option>
+                        <option value="CV" data-continent="AF">Cabo Verde</option>
+                        <option value="KH" data-continent="AS">Cambodia</option>
+                        <option value="CM" data-continent="AF">Cameroon</option>
+                        <option value="CA" data-continent="NA">Canada</option>
+                        <option value="CF" data-continent="AF">Central African Republic</option>
+                        <option value="TD" data-continent="AF">Chad</option>
+                        <option value="CL" data-continent="SA">Chile</option>
+                        <option value="CN" data-continent="AS">China</option>
+                        <option value="CO" data-continent="SA">Colombia</option>
+                        <option value="KM" data-continent="AF">Comoros</option>
+                        <option value="CG" data-continent="AF">Congo</option>
+                        <option value="CR" data-continent="NA">Costa Rica</option>
+                        <option value="CI" data-continent="AF">Côte d'Ivoire</option>
+                        <option value="HR" data-continent="EU">Croatia</option>
+                        <option value="CU" data-continent="NA">Cuba</option>
+                        <option value="CY" data-continent="EU">Cyprus</option>
+                        <option value="CZ" data-continent="EU">Czech Republic</option>
+                        <option value="KP" data-continent="AS">Democratic People's Republic of Korea</option>
+                        <option value="CD" data-continent="AF">Democratic Republic of the Congo</option>
+                        <option value="DK" data-continent="EU">Denmark</option>
+                        <option value="DJ" data-continent="AF">Djibouti</option>
+                        <option value="DM" data-continent="NA">Dominica</option>
+                        <option value="DO" data-continent="NA">Dominican Republic</option>
+                        <option value="EC" data-continent="SA">Ecuador</option>
+                        <option value="EG" data-continent="AF">Egypt</option>
+                        <option value="SV" data-continent="NA">El Salvador</option>
+                        <option value="GQ" data-continent="AF">Equatorial Guinea</option>
+                        <option value="ER" data-continent="AF">Eritrea</option>
+                        <option value="EE" data-continent="EU">Estonia</option>
+                        <option value="SZ" data-continent="AF">Eswatini</option>
+                        <option value="ET" data-continent="AF">Ethiopia</option>
+                        <option value="FM" data-continent="OC">Federated States of Micronesia</option>
+                        <option value="FJ" data-continent="OC">Fiji</option>
+                        <option value="FI" data-continent="EU">Finland</option>
+                        <option value="FR" data-continent="EU">France</option>
+                        <option value="GA" data-continent="AF">Gabon</option>
+                        <option value="GM" data-continent="AF">Gambia</option>
+                        <option value="GE" data-continent="EU">Georgia</option>
+                        <option value="DE" data-continent="EU">Germany</option>
+                        <option value="GH" data-continent="AF">Ghana</option>
+                        <option value="GR" data-continent="EU">Greece</option>
+                        <option value="GD" data-continent="NA">Grenada</option>
+                        <option value="GT" data-continent="NA">Guatemala</option>
+                        <option value="GN" data-continent="AF">Guinea</option>
+                        <option value="GW" data-continent="AF">Guinea Bissau</option>
+                        <option value="GY" data-continent="SA">Guyana</option>
+                        <option value="HT" data-continent="NA">Haiti</option>
+                        <option value="HN" data-continent="NA">Honduras</option>
+                        <option value="HK" data-continent="AS">Hong Kong, China</option>
+                        <option value="HU" data-continent="EU">Hungary</option>
+                        <option value="IS" data-continent="EU">Iceland</option>
+                        <option value="IN" data-continent="AS">India</option>
+                        <option value="ID" data-continent="AS">Indonesia</option>
+                        <option value="IR" data-continent="AS">Iran</option>
+                        <option value="IQ" data-continent="AS">Iraq</option>
+                        <option value="IE" data-continent="EU">Ireland</option>
+                        <option value="IL" data-continent="AS">Israel</option>
+                        <option value="IT" data-continent="EU">Italy</option>
+                        <option value="JM" data-continent="NA">Jamaica</option>
+                        <option value="JP" data-continent="AS">Japan</option>
+                        <option value="JO" data-continent="AS">Jordan</option>
+                        <option value="KZ" data-continent="AS">Kazakhstan</option>
+                        <option value="KE" data-continent="AF">Kenya</option>
+                        <option value="KI" data-continent="OC">Kiribati</option>
+                        <option value="XK" data-continent="EU">Kosovo</option>
+                        <option value="KW" data-continent="AS">Kuwait</option>
+                        <option value="KG" data-continent="AS">Kyrgyzstan</option>
+                        <option value="LA" data-continent="AS">Laos</option>
+                        <option value="LV" data-continent="EU">Latvia</option>
+                        <option value="LB" data-continent="AS">Lebanon</option>
+                        <option value="LS" data-continent="AF">Lesotho</option>
+                        <option value="LR" data-continent="AF">Liberia</option>
+                        <option value="LY" data-continent="AF">Libya</option>
+                        <option value="LI" data-continent="EU">Liechtenstein</option>
+                        <option value="LT" data-continent="EU">Lithuania</option>
+                        <option value="LU" data-continent="EU">Luxembourg</option>
+                        <option value="MO" data-continent="AS">Macau, China</option>
+                        <option value="MG" data-continent="AF">Madagascar</option>
+                        <option value="MW" data-continent="AF">Malawi</option>
+                        <option value="MY" data-continent="AS">Malaysia</option>
+                        <option value="MV" data-continent="AS">Maldives</option>
+                        <option value="ML" data-continent="AF">Mali</option>
+                        <option value="MT" data-continent="EU">Malta</option>
+                        <option value="MH" data-continent="OC">Marshall Islands</option>
+                        <option value="MR" data-continent="AF">Mauritania</option>
+                        <option value="MU" data-continent="AF">Mauritius</option>
+                        <option value="MX" data-continent="NA">Mexico</option>
+                        <option value="MD" data-continent="EU">Moldova</option>
+                        <option value="MC" data-continent="EU">Monaco</option>
+                        <option value="MN" data-continent="AS">Mongolia</option>
+                        <option value="ME" data-continent="EU">Montenegro</option>
+                        <option value="MA" data-continent="AF">Morocco</option>
+                        <option value="MZ" data-continent="AF">Mozambique</option>
+                        <option value="MM" data-continent="AS">Myanmar</option>
+                        <option value="NA" data-continent="AF">Namibia</option>
+                        <option value="NR" data-continent="OC">Nauru</option>
+                        <option value="NP" data-continent="AS">Nepal</option>
+                        <option value="NL" data-continent="EU">Netherlands</option>
+                        <option value="NZ" data-continent="OC">New Zealand</option>
+                        <option value="NI" data-continent="NA">Nicaragua</option>
+                        <option value="NE" data-continent="AF">Niger</option>
+                        <option value="NG" data-continent="AF">Nigeria</option>
+                        <option value="MK" data-continent="EU">North Macedonia</option>
+                        <option value="NO" data-continent="EU">Norway</option>
+                        <option value="OM" data-continent="AS">Oman</option>
+                        <option value="PK" data-continent="AS">Pakistan</option>
+                        <option value="PW" data-continent="OC">Palau</option>
+                        <option value="PS" data-continent="AS">Palestine</option>
+                        <option value="PA" data-continent="NA">Panama</option>
+                        <option value="PG" data-continent="OC">Papua New Guinea</option>
+                        <option value="PY" data-continent="SA">Paraguay</option>
+                        <option value="PE" data-continent="SA">Peru</option>
+                        <option value="PH" data-continent="AS">Philippines</option>
+                        <option value="PL" data-continent="EU">Poland</option>
+                        <option value="PT" data-continent="EU">Portugal</option>
+                        <option value="QA" data-continent="AS">Qatar</option>
+                        <option value="KR" data-continent="AS">Republic of Korea</option>
+                        <option value="RO" data-continent="EU">Romania</option>
+                        <option value="RU" data-continent="EU">Russia</option>
+                        <option value="RW" data-continent="AF">Rwanda</option>
+                        <option value="KN" data-continent="NA">Saint Kitts and Nevis</option>
+                        <option value="LC" data-continent="NA">Saint Lucia</option>
+                        <option value="VC" data-continent="NA">Saint Vincent and the Grenadines</option>
+                        <option value="WS" data-continent="OC">Samoa</option>
+                        <option value="SM" data-continent="EU">San Marino</option>
+                        <option value="ST" data-continent="AF">São Tomé and Príncipe</option>
+                        <option value="SA" data-continent="AS">Saudi Arabia</option>
+                        <option value="SN" data-continent="AF">Senegal</option>
+                        <option value="RS" data-continent="EU">Serbia</option>
+                        <option value="SC" data-continent="AF">Seychelles</option>
+                        <option value="SL" data-continent="AF">Sierra Leone</option>
+                        <option value="SG" data-continent="AS">Singapore</option>
+                        <option value="SK" data-continent="EU">Slovakia</option>
+                        <option value="SI" data-continent="EU">Slovenia</option>
+                        <option value="SB" data-continent="OC">Solomon Islands</option>
+                        <option value="SO" data-continent="AF">Somalia</option>
+                        <option value="ZA" data-continent="AF">South Africa</option>
+                        <option value="SS" data-continent="AF">South Sudan</option>
+                        <option value="ES" data-continent="EU">Spain</option>
+                        <option value="LK" data-continent="AS">Sri Lanka</option>
+                        <option value="SD" data-continent="AF">Sudan</option>
+                        <option value="SR" data-continent="SA">Suriname</option>
+                        <option value="SE" data-continent="EU">Sweden</option>
+                        <option value="CH" data-continent="EU">Switzerland</option>
+                        <option value="SY" data-continent="AS">Syria</option>
+                        <option value="TJ" data-continent="AS">Tajikistan</option>
+                        <option value="TZ" data-continent="AF">Tanzania</option>
+                        <option value="TH" data-continent="AS">Thailand</option>
+                        <option value="TL" data-continent="AS">Timor-Leste</option>
+                        <option value="TG" data-continent="AF">Togo</option>
+                        <option value="TO" data-continent="OC">Tonga</option>
+                        <option value="TT" data-continent="NA">Trinidad and Tobago</option>
+                        <option value="TN" data-continent="AF">Tunisia</option>
+                        <option value="TR" data-continent="AS">Turkey</option>
+                        <option value="TM" data-continent="AS">Turkmenistan</option>
+                        <option value="TV" data-continent="OC">Tuvalu</option>
+                        <option value="UG" data-continent="AF">Uganda</option>
+                        <option value="UA" data-continent="EU">Ukraine</option>
+                        <option value="AE" data-continent="AS">United Arab Emirates</option>
+                        <option value="GB" data-continent="EU">United Kingdom</option>
+                        <option value="US" data-continent="NA">United States</option>
+                        <option value="UY" data-continent="SA">Uruguay</option>
+                        <option value="UZ" data-continent="AS">Uzbekistan</option>
+                        <option value="VU" data-continent="OC">Vanuatu</option>
+                        <option value="VA" data-continent="EU">Vatican City</option>
+                        <option value="VE" data-continent="SA">Venezuela</option>
+                        <option value="VN" data-continent="AS">Vietnam</option>
+                        <option value="YE" data-continent="AS">Yemen</option>
+                        <option value="ZM" data-continent="AF">Zambia</option>
+                        <option value="ZW" data-continent="AF">Zimbabwe</option>
+
+
+                    
+                        <!-- Multiple Continents -->
+                        <option value="multipleContinents"  data-continent="MX">Multiple Continents</option>
+                    </select>
+                    <div class="whenButton">Past<span class="tooltip">Not Yet Implemented</span></div>
+                    <div class="whenButton">Recent<span class="tooltip">Not Yet Implemented</span></div>
+                    <div class="whenButton selected">Upcoming</div>     
+                    </div>
+                    <div class="button" id="mapButton">Map View</div>             
+                </div>
+                <br />
+                <span id="displayingCount">Currently Dislaying: 0</span>
+                <table id="compTable">
+                    <tbody id="compTBody">
+                    </tbody>
+                </table>
+                <div id="mapPane">
+                    <div class="mapKey">
+                        <h4>Legend:</h4>
+                        <div>
+                            <img src="images/champ-marker.svg" />
+                            <span>Championship</span>
+                        </div>
+                        <div>
+                            <img src="images/comp-marker.svg" />
+                            <span>Regular Competition</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="infoPane">
+                select a competition from the list to display more info
+            </div>
+        </div>
+        <script src="leaflet.js"></script>
+        <script src="countries.js"></script>
+        <script src="main.js"></script>
+
+
+        <footer class="footer">
+            <div class="footer-content">
+                <!-- Social Media Icons -->
+                <div class="social-media">
+                    <a href="#" class="social-icon"><img src="icons/instagram.svg" alt="Instagram"></a>
+                    <a href="#" class="social-icon"><img src="icons/facebook.svg" alt="Facebook"></a>
+                    <a href="#" class="social-icon"><img src="icons/x.svg" alt="Cross Icon"></a>
+                    <a href="#" class="social-icon"><img src="icons/twitch.svg" alt="Twitch"></a>
+                    <a href="#" class="social-icon"><img src="icons/weibo.svg" alt="Weibo"></a>
+                    <a href="#" class="social-icon"><img src="icons/youtube.svg" alt="YouTube"></a>
+                </div>
+    
+                <!-- Footer Links -->
+                <div class="footer-links">
+                    <img class="footer-logo" src="wca_logo.svg" alt="WCA Logo">
+                    <a href="#">About Us</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Contact</a>
+                    <a href="#"><img src="icons/github.png" alt="GitHub">GitHub</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Disclaimer</a>
+                    <a href="#">Forum</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
