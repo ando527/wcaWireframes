@@ -121,7 +121,10 @@ function orderAndTruncate(){
         handleCountryChange(this.value);
     });
     document.getElementById('mapButton').addEventListener('click', function() {
-        mapToggle(this);
+        mapToggle();
+    });
+    document.getElementById('listButton').addEventListener('click', function() {
+        listToggle();
     });
     document.getElementById('clearFilters').addEventListener('click', function() {
         clearFilters();
@@ -187,22 +190,44 @@ function orderAndTruncate(){
     document.querySelector("#exitNewcomer").addEventListener('click', function() {
         closeNewcomer();
     });
+
+    document.querySelector("#advancedFilters").addEventListener('click', function() {
+        openCloseAdvanced();
+    });
+
 }
 
-function mapToggle(button){
+function openCloseAdvanced() {
+    const dropdown = document.querySelector("#advancedDropDownContent");
+    if (dropdown.style.maxHeight === "0px" || dropdown.style.maxHeight === "") {
+        // Get the scrollHeight (total height of the content)
+        dropdown.style.maxHeight = dropdown.scrollHeight + "px"; // Set max-height to content's height
+    } else {
+        dropdown.style.maxHeight = "0px"; // Collapse
+    }
+}
+
+function mapToggle(){
+    if (!displayingMap){
+        refreshMarkers(compsToDraw);
+        document.querySelector("#mapPane").style.display = "block";
+        document.querySelector("#compTable").style.display = "none";
+        document.querySelector("#listButton").classList.remove('selectedMode');
+        document.querySelector("#mapButton").classList.add('selectedMode');
+        displayingMap = true;
+    }
+    countComps();
+}
+
+function listToggle(){
     if (displayingMap){
-        button.innerHTML = "Map View";
         clearTable();
         addRows(compsToDraw);
         document.querySelector("#mapPane").style.display = "none";
         document.querySelector("#compTable").style.display = "flex";
+        document.querySelector("#listButton").classList.add('selectedMode');
+        document.querySelector("#mapButton").classList.remove('selectedMode');
         displayingMap = false;
-    } else {
-        button.innerHTML = "List View";
-        refreshMarkers(compsToDraw);
-        document.querySelector("#mapPane").style.display = "block";
-        document.querySelector("#compTable").style.display = "none";
-        displayingMap = true;
     }
     countComps();
 }

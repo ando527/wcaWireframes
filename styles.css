@@ -14,7 +14,7 @@
     background-color: #0051BA;
     border: 2px solid #0051BA;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
 
     transition: all 250ms;
@@ -54,6 +54,41 @@
 .button-small:hover{
     background-color: #EDEDED;
 }
+
+.listMapButtons{
+    display: flex;
+}
+.listButton{
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px 0px 0px 5px;
+    border: 2px solid #0153C1;
+    border-right: transparent;
+    background-color: transparent;
+    color: #0153C1;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 250ms;
+    text-decoration: none;
+}
+.mapButton{
+    padding: 10px 20px 10px 20px;
+    border-radius: 0px 5px 5px 0px;
+    border: 2px solid #0153C1;
+    border-left: transparent;
+    background-color: transparent;
+    color: #0153C1;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 250ms;
+    text-decoration: none;
+}
+
+.selectedMode{
+    box-shadow: inset rgba(0, 0, 0, 0.25) 0px 0px 5px 0px;
+    color: white;
+    background-color: #0153C1;
+}
+
 .linksHolder{
     display: flex;
     flex-direction: row;
@@ -66,7 +101,7 @@
     text-decoration: none;
     border-bottom: 2px solid transparent;
     transition: border 250ms;
-    font-weight: 500;
+    font-weight: 600;
 }
 .noDrop:hover {
     border-bottom: 2px black solid;
@@ -113,6 +148,11 @@
     margin-left: 30px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+#advancedDropDownContent{
+    overflow: hidden;
+    position: relative; 
+    transition: max-height 0.25s ease-in;
 }
 #filterHolder{
     display: flex;
@@ -276,7 +316,7 @@ input[type="date"] {
     cursor: pointer;
     position: relative;
     transition: all 250ms;
-    font-weight: 500;
+    font-weight: 600;
 }
 .whenButton .tooltip{
     visibility: hidden;
@@ -295,7 +335,8 @@ input[type="date"] {
     border: 1px solid #6B6B6B;
     color: #6B6B6B;
     border-radius: 5px;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: 'Norms';
 }
 
 #mapPane{
@@ -371,7 +412,7 @@ h1{
 }
 a{
     color: #0051BA;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
 }
 
@@ -384,7 +425,7 @@ a{
     width: 1100px;
     /*margin-top:30px;*/
     border-radius: 5px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .oddRow {
     background-color: #ededed; 
@@ -393,11 +434,13 @@ a{
     background-color: #dcdcdc; 
 }
 .twinComp + .twinComp{
-    box-shadow: inset 2px 0px 0 0 black;
+    /*box-shadow: inset 3px 0px 0 0 #6b6b6b;*/
+    box-shadow: -3px 0px 0 0 #6b6b6b;
 }
 
 .twinComp:has(+ .twinComp) {
-    box-shadow: inset 2px 0px 0 0 black;
+    /*box-shadow: inset 3px 0px 0 0 #6b6b6b;*/
+    box-shadow: -3px 0px 0 0 #6b6b6b;
 }
 
 .twinComp{
@@ -434,7 +477,7 @@ a{
 }
 
 .championshipEvents + .championshipRow{
-    border-top: 1px black solid!important;
+    border-top: 1px #6b6b6b solid!important;
 }
 
 .highlightedRow{
@@ -455,9 +498,11 @@ a{
 .eventsTitleRow{
     text-align: right;
     max-height: 30px;
-    font-weight: 500;
+    font-weight: 600;
 }
 .eventRow{
+
+    
     max-height: 30px;
     transition: background-color 150ms;
     td{
@@ -536,7 +581,7 @@ a{
     }
     .region{
         padding: 0 8px 0 8px;
-        font-weight: 500;
+        font-weight: 600;
     }
     .flag{
         width: 42px;
@@ -628,7 +673,7 @@ a{
     text-decoration: none;
     color: #333;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .footer-links a:hover {
