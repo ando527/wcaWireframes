@@ -460,7 +460,7 @@ function drawSquare(){
             [userX + distance, userY + distance],  // Top-right
             [userX + distance, userY - distance]   // Top-left
         ];
-        radiusCircle = 1000 * (distance * 111)
+        radiusCircle = 1000 * (distance * 95)
         squareLayer.clearLayers();
         /*var squarePolygon = */
         //L.polygon(latlngs, {color: '#C1E6CD'}).addTo(squareLayer);
