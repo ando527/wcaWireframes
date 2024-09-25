@@ -12,6 +12,8 @@ var userY;
 var startDate;
 var endDate;
 
+var twinComps = [];
+
 var distance = 0;
 var locationWorks = false;
 
@@ -42,8 +44,8 @@ const compIcon = L.icon({
 
 const locationIcon = L.icon({
     iconUrl: 'icons/location.svg',
-    iconSize: [15, 15],
-    iconAnchor: [7, 7],
+    iconSize: [25, 25],
+    iconAnchor: [12, 12],
     popupAnchor: [0, 0]
 });
 
@@ -85,14 +87,36 @@ fetch('https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/ap
 function orderAndTruncate(){
     const today = new Date(); // Get today's date
     // Sort competitions by date (ascending)
-    allFutureComps.sort((a, b) => new Date(a.date.from) - new Date(b.date.from));
+    //allFutureComps.sort((a, b) => new Date(a.date.from) - new Date(b.date.from));
+
+    // Sort competitions by start date (ascending)
+    allFutureComps.sort((a, b) => {
+        const startDateA = new Date(a.date.from);
+        const startDateB = new Date(b.date.from);
+
+        // If the start dates are the same, sort by end date (date.to)
+        if (startDateA.getTime() === startDateB.getTime()) {
+            const endDateA = new Date(a.date.till);
+            const endDateB = new Date(b.date.till);
+            return endDateA - endDateB;
+        }
+
+        // Otherwise, sort by start date (date.from)
+        return startDateA - startDateB;
+    });
+
+
     // Filter out competitions that are in the past
     allFutureComps = allFutureComps.filter(comp => new Date(comp.date.from) >= today);
+
+    allFutureComps = groupCloseCompetitionsByLocation(allFutureComps);
+
     compsToDraw = allFutureComps;
     loadMap();
     addRows(allFutureComps);
     document.querySelector("#mapPane").style.display = "none";
     document.querySelector("#compTable").style.display = "flex";
+    countComps();
     document.getElementById('country').addEventListener('change', function() {
         handleCountryChange(this.value);
     });
@@ -180,13 +204,23 @@ function mapToggle(button){
         document.querySelector("#compTable").style.display = "none";
         displayingMap = true;
     }
+    countComps();
 }
+
 function distanceToCompCalc(coordinates){
     let distanceTo = (111 * Math.sqrt((coordinates.latitude-userX)*(coordinates.latitude-userX)+(coordinates.longitude-userY)*(coordinates.longitude-userY))).toFixed(0);
     if (distanceTo > 1){
         return distanceTo;
     } else {
         return "<0"
+    }
+}
+
+function countComps(){
+    if (displayingMap || compsToDraw.length < 100){
+        document.querySelector("#displayingCount").innerHTML = "Currently Displaying: " + compsToDraw.length + " comps";
+    } else {
+        document.querySelector("#displayingCount").innerHTML = "Currently Displaying: 100 comps";
     }
 }
 
@@ -208,6 +242,41 @@ function compDistance(coordinates){
     }
 }
 
+function groupCloseCompetitionsByLocation(comps) {
+    let result = [];
+
+    // Loop through the competitions
+    for (let i = 0; i < comps.length; i++) {
+        const currentComp = comps[i];
+        const currentDate = new Date(currentComp.date.from);
+        
+        // Add current competition to the result list
+        result.push(currentComp);
+
+        // Check subsequent competitions for matching location and close date
+        for (let j = i + 1; j < comps.length; j++) {
+            const nextComp = comps[j];
+            const nextDate = new Date(nextComp.date.from);
+
+            const dayDifference = Math.abs((nextDate - currentDate) / (1000 * 60 * 60 * 24));
+
+            // If the location is the same and the date is within 2 days
+            if (currentComp.venue.address === nextComp.venue.address && dayDifference <= 2 && (currentComp.name.toLowerCase().indexOf("fmc") === -1 && nextComp.name.toLowerCase().indexOf("fmc") === -1) ) {
+                // Move the next competition to directly after the current competition
+                result.push(nextComp);
+                twinComps.push([currentComp.id, nextComp.id]);
+                // Remove the moved competition from the main list (to avoid duplicate entries)
+                comps.splice(j, 1);
+
+                // Adjust the index as we removed one element
+                j--;
+            }
+        }
+    }
+
+    return result;
+}
+
 
 
 function filterLocation(){
@@ -219,7 +288,22 @@ function filterLocation(){
             locationWorks = true;
             radioButtons.forEach(function(radioButton) {
                 radioButton.disabled = false;
+                if (radioButton.value == "close"){
+                    radioButton.checked = true;
+                    distance = 10;
+                    drawSquare();
+                    collateFilters();
+                    if (displayingMap){
+                        refreshMarkers(compsToDraw);
+                    } else {
+                        clearTable();
+                        addRows(compsToDraw);
+                    }
+                }
             });
+            document.querySelector("#filterLocation").style.display = "none";
+            document.querySelector("#successLocation").style.display = "block";
+
         }, 
         (error) => {
             console.error('Error getting location:', error.message);
@@ -341,7 +425,7 @@ function handleDistanceRadioChange(event) {
 
 function drawSquare(){
     if (distance == 0){
-        //do nothing
+        squareLayer.clearLayers();
     } else {
         var latlngs = [
             [userX - distance, userY - distance],  // Bottom-left
@@ -349,13 +433,21 @@ function drawSquare(){
             [userX + distance, userY + distance],  // Top-right
             [userX + distance, userY - distance]   // Top-left
         ];
-        
+        radiusCircle = 1000 * (distance * 111)
         squareLayer.clearLayers();
         /*var squarePolygon = */
-        L.polygon(latlngs, {color: '#C1E6CD'}).addTo(squareLayer);
+        //L.polygon(latlngs, {color: '#C1E6CD'}).addTo(squareLayer);
+        L.circle([userX, userY], {radius: radiusCircle, color: '#C1E6CD'}).addTo(squareLayer);
         //markerLayer.addLayer(square);
     }
 }
+
+function approximateDistance(lat1, lon1, lat2, lon2) {
+    const dLat = lat2 - lat1;
+    const dLon = lon2 - lon1;
+    return dLat * dLat + dLon * dLon; // Return the squared distance
+}
+
 
 function collateFilters(){
     if (startDate || endDate){
@@ -368,15 +460,19 @@ function collateFilters(){
     } else {
         compsToDraw = allFutureComps;
     }
-    if (distance > 0 && locationWorks){
-        compsToDraw = compsToDraw.filter(comp => 
-            comp.venue.coordinates.longitude <= (userY + distance) && 
-            comp.venue.coordinates.longitude >= (userY - distance)
-        );
-        compsToDraw = compsToDraw.filter(comp => 
-            comp.venue.coordinates.latitude <= (userX + distance) && 
-            comp.venue.coordinates.latitude >= (userX - distance)
-        );
+    if (distance > 0 && locationWorks) {
+        const distanceSquared = distance * distance; // Square the distance for comparison
+        
+        compsToDraw = compsToDraw.filter(comp => {
+            const compLatitude = comp.venue.coordinates.latitude;
+            const compLongitude = comp.venue.coordinates.longitude;
+    
+            // Calculate the approximate squared distance
+            const compDistanceSquared = approximateDistance(userX, userY, compLatitude, compLongitude);
+    
+            // Check if the competition is within the specified radius (compare squared distances)
+            return compDistanceSquared <= distanceSquared;
+        });
     }
     if (currentCountry == ""){
         if (currentContinent == ""){
@@ -396,6 +492,7 @@ function collateFilters(){
             eventsToFilter.every(event => comp.events.includes(event))
         );
     }
+    countComps();
     
 }
 
@@ -500,7 +597,7 @@ function addRows(drawTheseComps){
             } 
             
             competitionTable.innerHTML += `
-            <tr id="comp${competition.id}" class="compRow ${oddOrEven}" data-compid="${competition.id}">
+            <tr id="comp${competition.id}" class="compRow ${oddOrEven} ${((twinComps.some(pair => pair.includes(competition.id))) ? "twinComp": "")}" data-compid="${competition.id}">
                 <td class="status">
                     <img src="icons/${randomIcon()}.svg" width="18px" height="18px"/>
                 </td>
@@ -513,7 +610,7 @@ function addRows(drawTheseComps){
                 <td class="flag ${competition.country.toLowerCase()}"></td>
                 <td class="info"></td>
             </tr>
-            ${displayEventsTable(competition.events, oddOrEven)}
+            ${displayEventsTable(competition.events, oddOrEven, competition)}
             `; 
         });
 
@@ -736,11 +833,11 @@ function displayEventsPane(events){
     return eventStringBuilder;
 }
 
-function displayEventsTable(events, oddOrEven){
+function displayEventsTable(events, oddOrEven, competition){
     if (oddOrEven == "championshipRow"){
         oddOrEven = "championshipRow championshipEvents";
     }
-    let eventStringBuilder = `<tr class="eventRow ${oddOrEven}" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
+    let eventStringBuilder = `<tr class="eventRow ${oddOrEven} ${((twinComps.some(pair => pair.includes(competition.id))) ? "twinComp": "")}" style="display: ${displayEventsCheck()};"><td></td><td></td><td class="eventsTitleRow">Events:</td><td>`;
     events.forEach(function(event) {
         eventStringBuilder += `
             <img class="indivEventRow" src="icons/${event}.svg"" />

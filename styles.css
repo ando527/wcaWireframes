@@ -71,12 +71,17 @@
 .noDrop:hover {
     border-bottom: 2px black solid;
 }
-.dropDownLink::after{
-    content: '\25BC';
-    font-size: 0.8em;
-    margin-left: 5px;
-    vertical-align: middle;
+.dropDownLink::after {
+    content: '';
+    display: inline-block; /* Ensure it behaves like an element */
+    width: 10px; /* Set the size of the icon */
+    height: 10px; /* Set the size of the icon */
+    margin-left: 5px; /* Space between the text and the icon */
+    background: url('icons/dropdown.svg') no-repeat center;
+    background-size: contain; /* Ensure the image scales appropriately */
+    vertical-align: middle; /* Align it with the middle of the text */
 }
+
 #pageContent{
     /*width: calc(100% - 20px);*/
     padding: 20px 0px 20px 0px;
@@ -289,6 +294,33 @@
 #mapPane{
     height: 500px;
     margin-top: 30px;
+    position: relative;
+    border-radius: 5px;
+}
+.mapKey{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0px 5px 0px 5px;
+    padding: 10px;
+    background-color: #ededed;
+    z-index: 500;
+    font-size: 14px;
+    font-family: "Norms";
+    img{
+        height: 2em;
+    }
+    div{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 2.5px;
+        margin-bottom: 2.5px;
+    }
+    h4{
+        margin: 0px;
+        padding: 0ps;
+    }
 }
 
 .whenButton:hover .tooltip {
@@ -337,11 +369,13 @@ a{
 }
 
 
-
+#displayingCount{
+    /*margin-top: 30px;*/
+}
 #compTable{
     border-collapse: collapse;
     width: 1100px;
-    margin-top:30px;
+    /*margin-top:30px;*/
     border-radius: 5px;
     overflow: hidden;
 }
@@ -351,6 +385,18 @@ a{
 .evenRow {
     background-color: #dcdcdc; 
 }
+.twinComp + .twinComp{
+    box-shadow: inset 2px 0px 0 0 black;
+}
+
+.twinComp:has(+ .twinComp) {
+    box-shadow: inset 2px 0px 0 0 black;
+}
+
+.twinComp{
+    /*background-color: #cacaca;*/
+}
+
 .championshipRow{
     background-color: #FFD59E;
     .locationAndRegion{
