@@ -713,6 +713,11 @@ function clearFilters(){
             distance = 0;
         }
     });
+    squareLayer.clearLayers();
+    document.getElementById('startDate').value = '';
+    document.getElementById('endDate').value = '';
+    startDate = "";
+    endDate = "";
 
     collateFilters();
     if (displayingMap){

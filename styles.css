@@ -524,6 +524,17 @@ a{
             inset -1px -1px 0 0 #0051BA, /* right side */
             inset 0 -1px 0 0 #0051BA;    /* bottom side */
 }
+
+/* Handle highlightedRow + adjacent twinComp scenario */
+.highlightedRow.twinComp + .twinComp {
+    box-shadow: inset 1px -1px 0 0 #0051BA, /* left side */
+    inset -1px -1px 0 0 #0051BA, /* right side */
+    inset 0 -1px 0 0 #0051BA, -3px 0px 0 0 #6b6b6b;
+}
+.highlightedRow.twinComp {
+    box-shadow: inset 0 0 0 1.5px #0051BA, -3px 0px 0 0 #6b6b6b !important;
+}
+
 .indivEventRow{
     width: 22px;
     height: 22px;
