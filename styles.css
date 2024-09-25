@@ -41,7 +41,7 @@
 
 }
 .button-small{
-    padding: 2px 4px 2px 4px;
+    padding: 6px 16px 6px 16px;
     border-radius: 5px;
     border: 1px solid #0153C1;
     background-color: transparent;
@@ -52,7 +52,8 @@
     text-decoration: none;
 }
 .button-small:hover{
-    background-color: #EDEDED;
+    background-color: #99C7FF;
+    color: #003366;
 }
 
 .listMapButtons{
@@ -146,13 +147,27 @@
     align-items: flex-start;
     gap: 10px;
     margin-left: 30px;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
+}
+#filterArrow{
+    width: 15px;
+    height: auto;
+    transition: transform 250ms;
+}
+.flipped{
+    transform: rotate(180deg);
 }
 #advancedDropDownContent{
     overflow: hidden;
     position: relative; 
     transition: max-height 0.25s ease-in;
+}
+#advancedFiltersToggle{
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 #filterHolder{
     display: flex;
@@ -163,14 +178,14 @@
 #eventsToggle{
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
     flex-wrap: wrap;
 }
 
 .event-container {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     margin-bottom: 10px; /* Just for some spacing between toggle switches */
 }
 
@@ -257,7 +272,7 @@ input[type="date"] {
     max-width: 320px;
     width: 320px;
     background-color: #ededed;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     height: fit-content;
     position: sticky;
@@ -268,7 +283,7 @@ input[type="date"] {
     text-align: left;
     margin-right: 30px;
     gap: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
     h1{
         line-height: 1.5em;
         margin-top: 0;
@@ -298,6 +313,14 @@ input[type="date"] {
     line-height: 1;
     transform: translateY(0.35em);
 }
+.filtersIcon{
+    width: 1em;
+    height: 1em;
+    margin-right: .3em;
+    line-height: 1;
+    transform: translateY(0.15em);
+}
+
 .indivEventPane{
     width: 30px;
     height: 30px;
@@ -408,6 +431,10 @@ h1, h2, h3, h4, h5, h6{
 }
 h1{
     font-size: 36px;
+    font-weight: 800;
+}
+h3{
+    font-size: 27px;
     font-weight: 800;
 }
 a{

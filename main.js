@@ -191,7 +191,7 @@ function orderAndTruncate(){
         closeNewcomer();
     });
 
-    document.querySelector("#advancedFilters").addEventListener('click', function() {
+    document.querySelector("#advancedFiltersToggle").addEventListener('click', function() {
         openCloseAdvanced();
     });
 
@@ -202,8 +202,10 @@ function openCloseAdvanced() {
     if (dropdown.style.maxHeight === "0px" || dropdown.style.maxHeight === "") {
         // Get the scrollHeight (total height of the content)
         dropdown.style.maxHeight = dropdown.scrollHeight + "px"; // Set max-height to content's height
+        document.querySelector("#filterArrow").classList.add("flipped");
     } else {
         dropdown.style.maxHeight = "0px"; // Collapse
+        document.querySelector("#filterArrow").classList.remove("flipped");
     }
 }
 
@@ -703,7 +705,16 @@ function clearFilters(){
     });
     document.querySelector("#continent").value="";
     document.querySelector("#country").value="";
-    compsToDraw = allFutureComps;
+
+    radioButtons = document.querySelectorAll('input[name="distance"]');
+    radioButtons.forEach(function(radioButton) {
+        if (radioButton.value = 'all'){
+            radioButton.checked = true;
+            distance = 0;
+        }
+    });
+
+    collateFilters();
     if (displayingMap){
         refreshMarkers(compsToDraw);
     } else {
