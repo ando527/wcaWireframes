@@ -272,6 +272,7 @@ input[type="date"] {
     width: 1100px;
     max-width: 1100px;
 }
+
 #infoPane{
     max-width: 320px;
     width: 320px;
@@ -293,6 +294,21 @@ input[type="date"] {
         margin-top: 0;
     }
 }
+
+/*infopane and filter pane wider with wider screen2220*/
+@media only screen and (min-width: 2220px) {
+    #infoPane {
+      max-width: 500px;
+      width: 500px;
+    }
+    #advancedFilters {
+        max-width: 500px;
+        width: 500px;
+      }
+
+  }
+
+  
 #infoPaneButtons{
     width: 100%;
     display: flex;
