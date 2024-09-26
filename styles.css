@@ -291,7 +291,7 @@ input[type="date"] {
     margin-right: 30px;
     gap: 10px;
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
-    h1{
+    h2{
         line-height: 1.5em;
         margin-top: 0;
     }

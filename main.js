@@ -752,7 +752,7 @@ function updateInfoPane(competition){
         championshipIconOrNot = "<img src=\"icons/championship.svg\" class=\"compIcon\" />";
     }
     infoPane.innerHTML = `
-            <h1>${championshipIconOrNot} ${competition.name}</h1>
+            <h2>${championshipIconOrNot} ${competition.name}</h2>
             
             <table>
                 <tbody>
