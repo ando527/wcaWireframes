@@ -160,10 +160,10 @@
                             <input type="checkBox" id="showEvents"/> 
                         </div>
                         <div class="date-picker-container">
-                            <label for="start-date">Start Date</label>
+                            <label for="start-date">Date From:</label>
                             <input type="date" id="startDate">
                             <br />
-                            <label for="end-date">End Date</label>
+                            <label for="end-date">Date To:</label>
                             <input type="date" id="endDate">
                         </div>
                         <div class="button" id="filterLocation">Use my Location</div>
@@ -428,7 +428,27 @@
                     </div>        
                 </div>
                 <br />
-                <span id="displayingCount">Currently Dislaying: 0</span>
+                <div id="infoHolder">
+                    <span id="displayingCount">Currently Dislaying: 0</span>
+                    <div id="registrationKey">
+                        <div class="individualRegistrationKey">
+                            <img src="icons/regoFull.svg" />
+                            <span>Registration Full</span>
+                        </div>
+                        <div class="individualRegistrationKey">
+                            <img src="icons/closed.svg" />
+                            <span>Registration Closed</span>
+                        </div>
+                        <div class="individualRegistrationKey">
+                            <img src="icons/notOpenYet.svg" />
+                            <span>Registration Not Open</span>
+                        </div>
+                        <div class="individualRegistrationKey">
+                            <img src="icons/open.svg" />
+                            <span>Registration Open</span>
+                        </div>
+                    </div>
+                </div>
                 <table id="compTable">
                     <tbody id="compTBody">
                     </tbody>
