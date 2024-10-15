@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('TTNorms.ttf')  format('truetype'),
+    url('TTNorms.woff') format('woff');
+}
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Norms';
+    background-color: #EDEDED;
+}
+
+#profileHolder{
+    width: calc(100% - 60px);
+    position: relative;
+    display: flex;
+    padding: 30px;
+    min-height: 100%;
+    background-color: #EDEDED;
+}
+#profileCard{
+    border-radius: 10px;
+    background-color: #FCFCFC;
+    padding: 30px;
+    position: sticky;
+    top: 0;
+    height: 100%;
+    width: 400px;
+    max-width: calc(100% - 1090px);
+    margin-right: 30px;
+}
+#profilePhoto{
+    background: url("images/loading.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+}
+#profileDetails{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+    
+}
+.profileInfoHeading{
+    font-size: 12px;
+}
+.profileInfo{
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 16px);
+
+}
+.profileInfoValue{
+    font-size: 14px;
+    font-weight: 700;
+}
+.right{
+    text-align: right;
+}
+
+#rightContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+
+}
+#resultsTableHolder{
+    border-radius: 10px;
+    background-color: #FCFCFC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+tbody{
+    td{
+        padding-left: 50px;
+    }
+    .icon{
+        padding-left: 10px;
+    }
+    img{
+        width: 20px;
+    }
+    .event{
+        width: 140px;
+        padding-left: 0px;
+    }
+    .nr{
+        width: 42px;
+    }
+    .cr{
+        width: 42px;
+    }
+    .wr{
+        width: 50px;
+    }
+    .single{
+        width: 80px;
+        font-weight: 700;
+    }
+    .average{
+        width: 60px;
+        font-weight: 700;
+    }
+    .left{
+        text-align: left;
+    }
+    .right{
+        text-align: right;
+    }
+    .green{
+        font-weight: 600;
+        color: #029347;
+    }
+    .orange{
+        font-weight: 600;
+        color: #FF5800;
+    }
+}

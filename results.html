@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="results.css" />
+        <link rel="stylesheet" href="flags.css" />
+        <link rel="stylesheet" href="leaflet.css" />
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="icon" type="image/x-icon" href="s.png">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <title>Results Page</title>
+    </head>
+    <body>
+        <div id="header">
+            <div class="linksHolder">
+                <a href="index.html"><img src="wca_logo.svg" width="60px" height="60px"/></a>
+                <a href="#" class="noDrop">About Us</a>
+                <a href="#" class="noDrop">FAQ's</a>
+                <a href="#" class="dropDownLink">Competitions</a>
+                <a href="#" class="dropDownLink">Results</a>
+                <a href="#" class="dropDownLink">Regulations</a>
+                <a href="#" class="dropDownLink">Information</a>
+                <a href="#" class="noDrop">WCA Live</a>
+            </div>
+            <div class="searchProfile">
+
+            </div>
+        </div>
+        <div id="profileHolder">
+            <div id="profileCard">
+                <div id="profilePhoto"></div>
+                <h1 id="profileName"><span class="flag au"></span>Mitchell Anderson</h1>
+                <div id="profileDetails">
+                    <div class="profileInfo">
+                        <span class="profileInfoHeading">WCA ID</span>
+                        <span class="profileInfoValue">2022ANDE01</span>
+                    </div>
+                    <div class="profileInfo right">
+                        <span class="profileInfoHeading">Region</span>
+                        <span class="profileInfoValue">Australia</span>
+                    </div>
+                    <div class="profileInfo">
+                        <span class="profileInfoHeading">Gender</span>
+                        <span class="profileInfoValue">Male</span>
+                    </div>
+                    <div class="profileInfo right">
+                        <span class="profileInfoHeading">Competitions</span>
+                        <span class="profileInfoValue">48</span>
+                    </div>
+                    <div class="profileInfo">
+                        <span class="profileInfoHeading">Completed Solves</span>
+                        <span class="profileInfoValue">1659</span>
+                    </div>
+                </div>
+            </div>
+            <div id="rightContent">
+                <div id="resultsTableHolder">
+                    <h3>
+                        Current Personal Records
+                    </h3>
+                    <table>
+                        <tbody id="results">
+                            <tr>
+                                <td class="icon"><img src="icons/event.svg"/></td>
+                                <td class="event left">Event</td>
+                                <td class="nr right">NR</td>
+                                <td class="cr right">CR</td>
+                                <td class="wr right">WR</td>
+                                <td class="single right">Single</td>
+                                <td class="average left">Average</td>
+                                <td class="wr left">WR</td>
+                                <td class="cr left">CR</td>
+                                <td class="nr left">NR</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="recordsAndMore">
+
+                </div>
+                <div id="allResults">
+                    
+                </div>
+            </div>
+        </div>
+        <script src="results.js"></script>
+    </body>
+</html>
