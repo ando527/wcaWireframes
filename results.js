@@ -27,7 +27,7 @@ $( document ).ready(function() {
             document.querySelector("#profileName").innerHTML = data.name;
             document.querySelector(".wcaId").innerHTML = data.id;
             document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
-            document.querySelector(".solves").innerHTML = data.numberOfCompetitions;
+            document.querySelector(".solves").innerHTML = countTotalValidSolves(data);
             for (let result of data.rank.singles){
                 document.querySelector("#results").innerHTML += `
                 <tr class="resultRow-${result.eventId}"> 
@@ -75,7 +75,7 @@ $( document ).ready(function() {
                   console.log("Dataraw:", response);
 
                 document.querySelector(".region").innerHTML = response.person.country.name;
-                document.querySelector(".gender").innerHTML = parseGender(response.person.gender);
+                parseGender(response.person.gender);
 
                 if (response.records.continental == 0){
                     document.querySelector(".continent").remove();
@@ -107,14 +107,36 @@ $( document ).ready(function() {
     });
 });
 
+function countTotalValidSolves(data) {
+    let totalSolveCount = 0;
+    for (const compId of data.competitionIds) {
+        const events = data.results[compId];
+        if (events) {
+            for (const eventId in events) {
+                const rounds = events[eventId];
+                rounds.forEach(round => {
+                    if (round.solves && Array.isArray(round.solves)) {
+                        round.solves.forEach(solve => {
+                            if (solve !== -1 && solve !== -2 && solve !== 0) {
+                                totalSolveCount++;
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    }
+    return totalSolveCount;
+}
+
 function parseGender(genderChar){
     if (genderChar == "f"){
-        return "Female";
+        document.querySelector(".gender").innerHTML = "Female";
     } else if (genderChar == "m"){
-        return "Male";
+        document.querySelector(".gender").innerHTML = "Male";
     }
     else {
-        return genderChar;
+        document.querySelector(".genderData").remove();
     }
 }
 
