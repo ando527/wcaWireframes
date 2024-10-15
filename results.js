@@ -1,5 +1,6 @@
 var map;
 var markerLayer;
+var wcaId = "2022ANDE01";
 var data = {
     resource_id: "wcaID",
 };
@@ -10,13 +11,23 @@ var data2 = {
 
 $( document ).ready(function() {
     
+    if (window.location.hash) {
+        hash = window.location.hash.substring(1);
+        if (/^[0-9]{4}[A-Z]{4}[0-9]{2}$/.test(hash)){
+            wcaId = hash;
+        }
+    }
 
     $.ajax({
-        url: "https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/persons/2022ANDE01.json",
+        url: `https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/persons/${wcaId}.json`,
         dataType: "json", 
         cache: true,
         success: function(data) {
             console.log(data);
+            document.querySelector("#profileName").innerHTML = data.name;
+            document.querySelector(".wcaId").innerHTML = data.id;
+            document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
+            document.querySelector(".solves").innerHTML = data.numberOfCompetitions;
             for (let result of data.rank.singles){
                 document.querySelector("#results").innerHTML += `
                 <tr class="resultRow-${result.eventId}"> 
@@ -37,12 +48,55 @@ $( document ).ready(function() {
                     <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
                 `;
             }
+
+            if (data.medals.bronze == 0){
+                document.querySelector(".bronze").remove();
+            } else {
+                document.querySelector(".bronzeMedals").innerHTML = data.medals.bronze;
+            }
+
+            if (data.medals.silver == 0){
+                document.querySelector(".silver").remove();
+            } else {
+                document.querySelector(".silverMedals").innerHTML = data.medals.silver;
+            }
+
+            if (data.medals.gold == 0){
+                document.querySelector(".gold").remove();
+            } else {
+                document.querySelector(".goldMedals").innerHTML = data.medals.gold;
+            }
+
             $.ajax({
                 url: `https://www.worldcubeassociation.org/api/v0/persons/${data.id}`,
                 method: "GET",
                 success: function(response) {
                   const avatarUrl = response.person.avatar.url;
-                  //console.log("Avatar URL:", avatarUrl);
+                  console.log("Dataraw:", response);
+
+                document.querySelector(".region").innerHTML = response.person.country.name;
+                document.querySelector(".gender").innerHTML = parseGender(response.person.gender);
+
+                if (response.records.continental == 0){
+                    document.querySelector(".continent").remove();
+                } else {
+                    document.querySelector(".continentalRecords").innerHTML = response.records.continental;
+                }
+                if (response.records.national == 0){
+                    document.querySelector(".national").remove();
+                } else {
+                    document.querySelector(".nationalRecords").innerHTML = response.records.national;
+                }
+                if (response.records.world == 0){
+                    document.querySelector(".world").remove();
+                } else {
+                    document.querySelector(".worldRecords").innerHTML = response.records.world;
+                }
+
+                if (response.records.continental == 0 && response.records.national == 0 && response.records.world == 0){
+                    document.querySelector(".recordsHolder").remove();
+                }
+
                   $('#profilePhoto').css('background-image', `url(${avatarUrl})`);
                 },
                 error: function(error) {
@@ -52,6 +106,17 @@ $( document ).ready(function() {
         }
     });
 });
+
+function parseGender(genderChar){
+    if (genderChar == "f"){
+        return "Female";
+    } else if (genderChar == "m"){
+        return "Male";
+    }
+    else {
+        return genderChar;
+    }
+}
 
 function prettyRank(result){
     if (parseInt(result) == 1){
