@@ -32,7 +32,7 @@ $( document ).ready(function() {
                 document.querySelector("#results").innerHTML += `
                 <tr class="resultRow-${result.eventId}"> 
                     <td class="icon"><img src="icons/${result.eventId}.svg"/></td>
-                    <td class="event left">${result.eventId}</td>
+                    <td class="event left">${getEventName(result.eventId)}</td>
                     <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
                     <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
                     <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
@@ -67,6 +67,10 @@ $( document ).ready(function() {
                 document.querySelector(".goldMedals").innerHTML = data.medals.gold;
             }
 
+            career(data);
+            medals(data);
+            showCompetitions(data);
+
             $.ajax({
                 url: `https://www.worldcubeassociation.org/api/v0/persons/${data.id}`,
                 method: "GET",
@@ -93,11 +97,13 @@ $( document ).ready(function() {
                     document.querySelector(".worldRecords").innerHTML = response.records.world;
                 }
 
+                records(response);
+
                 if (response.records.continental == 0 && response.records.national == 0 && response.records.world == 0){
                     document.querySelector(".recordsHolder").remove();
                 }
 
-                  $('#profilePhoto').css('background-image', `url(${avatarUrl})`);
+                  $('#profilePhoto').attr("src",avatarUrl);
                 },
                 error: function(error) {
                   console.error("Error fetching data:", error);
@@ -105,6 +111,12 @@ $( document ).ready(function() {
               });
         }
     });
+
+
+    
+
+
+
 });
 
 function countTotalValidSolves(data) {
@@ -138,6 +150,7 @@ function parseGender(genderChar){
     else {
         document.querySelector(".genderData").remove();
     }
+
 }
 
 function prettyRank(result){
@@ -197,7 +210,7 @@ function parseResult(event, result, single){
             let seconds = (result % 6000) / 100;
             return `${minutes}:${seconds.toFixed(2).padStart(5, '0')}`; // Ensures two decimal places
         } 
-        return parseFloat(result).toFixed(2)/100;
+        return (parseFloat(result).toFixed(2)/100).toFixed(2);
     }
 }
 
@@ -207,4 +220,167 @@ function secToMin(seconds){
     const paddedSeconds = remainingSeconds.toString().padStart(2, '0');
     
     return `${minutes}:${paddedSeconds}`;
+}
+
+function career(data){
+    let latestYear = 0;
+    let careerLength = 0;
+
+    Object.keys(data.results).forEach(id => {
+        // Get the last 4 characters of the ID as a year
+        const year = parseInt(id.slice(-4));
+        
+        // Update latestYear if this year is more recent
+        if (year > latestYear) {
+            latestYear = year;
+        }
+    });
+    const idYear = data.id.slice(0, 4);
+
+    careerLength = latestYear - idYear;
+    if (careerLength == 0){
+        document.querySelector(".career").innerHTML = "Newcomer";
+    } else {
+        document.querySelector(".career").innerHTML = careerLength + " Year Career";
+    }
+}
+
+function medals(data){
+    if (data.medals.gold > 0){
+        document.querySelector(".medals").innerHTML = data.medals.gold + " Gold Medals";
+    } else if (data.medals.silver > 0){
+        document.querySelector(".medals").innerHTML = data.medals.silver + " Silver Medals";
+    } else if (data.medals.bronze > 0){
+        document.querySelector(".medals").innerHTML = data.medals.bronze + " Bronze Medals";
+    } else {
+        document.querySelector(".medals").remove();
+    }
+}
+
+function records(data){
+    
+    if (data.records.world > 0){
+        document.querySelector(".records").innerHTML = data.records.world + " time World Record Holder";
+    } else if (data.records.continental > 0){
+        document.querySelector(".records").innerHTML = data.records.continental + " time Continental Record Holder";
+    } else if (data.records.national > 0){
+        document.querySelector(".records").innerHTML = data.records.national + " time National Record Holder";
+    } else {
+        document.querySelector(".records").remove();
+    }
+}
+
+function showCompetitions(data){
+    document.querySelector(".resultsPane").classList.add("hiddenPane");
+    document.querySelector(".competitionsPane").classList.remove("hiddenPane");
+    document.querySelector(".recordsPane").classList.add("hiddenPane");
+    document.querySelector(".championshipsPane").classList.add("hiddenPane");
+    document.querySelector(".mapPane").classList.add("hiddenPane");
+
+
+
+    if (document.querySelector(".competitionsPane").innerHTML == ""){
+        let tableHTML = `<table><tbody>
+            <tr>
+                <td class="eventNameRow"><img src="icons/${event}.svg" />Event</td>
+                <td class="roundRow">Round</td>
+                <td class="placeRow">Place</td>
+                <td class="bestRow">Best</td>
+                <td class="averageRow">Average</td>
+                <td class="timeRow">1</td>
+                <td class="timeRow">2</td>
+                <td class="timeRow">3</td>
+                <td class="timeRow">4</td>
+                <td class="timeRow">5</td>
+            </tr>
+        `;
+        console.log(data.results);
+        // Iterate over each competition in the results
+        for (let [competition, events] of Object.entries(data.results)) {
+            // Insert competition name as a table header row
+            tableHTML += `
+                <tr class="competition-header">
+                    <td colspan="10" class="compTitle">${competition}</td>
+                </tr>
+            `;
+
+            // Iterate over each event within the competition
+            for (let [event, rounds] of Object.entries(events)) {
+                let roundFirst = true
+                for (let roundData of rounds) {
+                    // Start a new row for each round
+                    if (roundFirst){
+                        tableHTML += `
+                            <tr>
+                                <td class="eventNameRow"><img src="icons/${event}.svg" />${getEventName(event)}</td>
+                                <td class="roundRow">${roundData.round}</td>
+                                <td class="placeRow">${roundData.position || ''}</td>
+                                <td class="bestRow">${formatTime(roundData.best)}</td>
+                                <td class="averageRow">${formatTime(roundData.average)}</td>
+                                <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                            </tr>
+                        `;
+                        roundFirst = false;
+                    } else {
+                        tableHTML += `
+                            <tr>
+                                <td class="eventNameRow"></td>
+                                <td class="roundRow">${roundData.round}</td>
+                                <td class="placeRow">${roundData.position || ''}</td>
+                                <td class="bestRow">${formatTime(roundData.best)}</td>
+                                <td class="averageRow">${formatTime(roundData.average)}</td>
+                                <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                            </tr>
+                        `;
+                    }
+                    
+                }
+            }
+        }
+
+        // Close the table tags
+        tableHTML += `</tbody></table>`;
+
+        document.querySelector(".competitionsPane").innerHTML = tableHTML;
+    }
+}
+
+function getEventName(eventCode) {
+    const eventNames = {
+        "222": "2x2x2 Cube",
+        "333": "3x3x3 Cube",
+        "444": "4x4x4 Cube",
+        "555": "5x5x5 Cube",
+        "666": "6x6x6 Cube",
+        "777": "7x7x7 Cube",
+        "333bf": "3x3x3 Blindfolded",
+        "333fm": "3x3x3 Fewest Moves",
+        "333oh": "3x3x3 One-Handed",
+        "333ft": "3x3x3 With Feet",
+        "clock": "Clock",
+        "minx": "Megaminx",
+        "pyram": "Pyraminx",
+        "skewb": "Skewb",
+        "sq1": "Square-1",
+        "444bf": "4x4x4 Blindfolded",
+        "555bf": "5x5x5 Blindfolded",
+        "333mbf": "3x3x3 Multi-Blind"
+    };
+    return eventNames[eventCode] || eventCode;
+}
+
+function formatTime(time) {
+    if (time === -1) return "DNF";
+    if (time === -2) return "DNS";
+    if (time === 0) return "";
+
+    if (time.toString().length >8 ){
+        return parseResult( "333mbf", time,  true);
+    }
+    if (time > 5999) {
+        let minutes = Math.floor(time / 6000);
+        let seconds = (time % 6000) / 100;
+        return `${minutes}:${seconds.toFixed(2).padStart(5, '0')}`; // Ensures two decimal places
+    } 
+    return (time / 100).toFixed(2); // Assuming time is in centiseconds, convert to seconds
 }
