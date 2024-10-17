@@ -27,29 +27,32 @@
         </div>
         <div id="profileHolder">
             <div id="profileCard">
-                <img id="profilePhoto" src="images/loading.gif"></img>
-                <span class="flag au"></span>
-                <h1 id="profileName">Mitchell Anderson</h1>
-                <div id="profileDetails">
-                    <div class="profileInfo">
-                        <span class="profileInfoHeading">WCA ID</span>
-                        <span class="profileInfoValue wcaId">2022ANDE01</span>
-                    </div>
-                    <div class="profileInfo ">
-                        <span class="profileInfoHeading">Region</span>
-                        <span class="profileInfoValue region">Australia</span>
-                    </div>
-                    <div class="profileInfo genderData">
-                        <span class="profileInfoHeading">Gender</span>
-                        <span class="profileInfoValue gender">Male</span>
-                    </div>
-                    <div class="profileInfo">
-                        <span class="profileInfoHeading">Competitions</span>
-                        <span class="profileInfoValue comps">48</span>
-                    </div>
-                    <div class="profileInfo">
-                        <span class="profileInfoHeading">Completed Solves</span>
-                        <span class="profileInfoValue solves">1659</span>
+                <div class="leftTopContent">
+                    <img id="profilePhoto" src="images/loading.gif"></img>
+          
+                    <span class="flag au"></span>
+                    <h1 id="profileName">Mitchell Anderson</h1>
+                    <div id="profileDetails">
+                        <div class="profileInfo">
+                            <span class="profileInfoHeading">WCA ID</span>
+                            <span class="profileInfoValue wcaId">2022ANDE01</span>
+                        </div>
+                        <div class="profileInfo ">
+                            <span class="profileInfoHeading">Region</span>
+                            <span class="profileInfoValue region">Australia</span>
+                        </div>
+                        <div class="profileInfo genderData">
+                            <span class="profileInfoHeading">Gender</span>
+                            <span class="profileInfoValue gender">Male</span>
+                        </div>
+                        <div class="profileInfo">
+                            <span class="profileInfoHeading">Competitions</span>
+                            <span class="profileInfoValue comps">48</span>
+                        </div>
+                        <div class="profileInfo">
+                            <span class="profileInfoHeading">Completed Solves</span>
+                            <span class="profileInfoValue solves">1659</span>
+                        </div>
                     </div>
                 </div>
                 <div id="achievements">
@@ -64,11 +67,11 @@
                     <h3>
                         Current Personal Records
                     </h3>
-                    <table style="border-collapse: collapse;">
-                        <tbody id="results">
+                    <table style="border-collapse: collapse;" class="resultsTable">
+                        <thead>
                             <tr>
                                 <td class="icon"><img src="icons/event.svg"/></td>
-                                <td class="event left">Event</td>
+                                <td class="event left">Event</span></td>
                                 <td class="nr right">NR</td>
                                 <td class="cr right">CR</td>
                                 <td class="wr right">WR</td>
@@ -78,13 +81,16 @@
                                 <td class="cr left">CR</td>
                                 <td class="nr left">NR</td>
                             </tr>
+                        </thead>
+                        <tbody id="results">
+                            
                         </tbody>
                     </table>
                 </div>
                 <div id="recordsAndMore">
                     
 
-                    <div class="recordBox">
+                    <div class="recordBox medalsHolder">
                         <h3>Medal Collection</h3>
                         <div class="allMedals">
                             <div class="recordIndiv gold">
@@ -152,7 +158,8 @@
 
                     <div class="recordBox">
                         <h3>Share</h3>
-
+                        <span>Copy Link</span>
+                        <img src="icons/link.svg" />
                     </div>
                     
                 </div>

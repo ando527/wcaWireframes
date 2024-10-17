@@ -10,6 +10,100 @@ var data2 = {
 };
 
 $( document ).ready(function() {
+
+
+    const resultsTab = document.querySelector('.resultsTab');
+    const competitionsTab = document.querySelector('.competitionsTab');
+    const recordsTab = document.querySelector('.recordsTab');
+    const champsTab = document.querySelector('.champsTab');
+    const mapTab = document.querySelector('.mapTab');
+
+    const resultsPane = document.querySelector('.resultsPane');
+    const competitionsPane = document.querySelector('.competitionsPane');
+    const recordsPane = document.querySelector('.recordsPane');
+    const championshipsPane = document.querySelector('.championshipsPane');
+    const mapPane = document.querySelector('.mapPane');
+
+    resultsTab.addEventListener('click', () => {
+        console.log('Results tab clicked');
+
+        resultsTab.classList.add('selectedTab');
+        competitionsTab.classList.remove('selectedTab');
+        recordsTab.classList.remove('selectedTab');
+        champsTab.classList.remove('selectedTab');
+        mapTab.classList.remove('selectedTab');
+
+        resultsPane.classList.remove('hiddenPane');
+        competitionsPane.classList.add('hiddenPane');
+        recordsPane.classList.add('hiddenPane');
+        championshipsPane.classList.add('hiddenPane');
+        mapPane.classList.add('hiddenPane');
+    });
+
+    competitionsTab.addEventListener('click', () => {
+        console.log('Competitions tab clicked');
+
+        resultsTab.classList.remove('selectedTab');
+        competitionsTab.classList.add('selectedTab');
+        recordsTab.classList.remove('selectedTab');
+        champsTab.classList.remove('selectedTab');
+        mapTab.classList.remove('selectedTab');
+
+
+        resultsPane.classList.add('hiddenPane');
+        competitionsPane.classList.remove('hiddenPane');
+        recordsPane.classList.add('hiddenPane');
+        championshipsPane.classList.add('hiddenPane');
+        mapPane.classList.add('hiddenPane');
+    });
+    
+    recordsTab.addEventListener('click', () => {
+        console.log('Records tab clicked');
+
+        resultsTab.classList.remove('selectedTab');
+        competitionsTab.classList.remove('selectedTab');
+        recordsTab.classList.add('selectedTab');
+        champsTab.classList.remove('selectedTab');
+        mapTab.classList.remove('selectedTab');
+
+        resultsPane.classList.add('hiddenPane');
+        competitionsPane.classList.add('hiddenPane');
+        recordsPane.classList.remove('hiddenPane');
+        championshipsPane.classList.add('hiddenPane');
+        mapPane.classList.add('hiddenPane');
+    });
+    
+    champsTab.addEventListener('click', () => {
+        console.log('Championship Podiums tab clicked');
+
+        resultsTab.classList.remove('selectedTab');
+        competitionsTab.classList.remove('selectedTab');
+        recordsTab.classList.remove('selectedTab');
+        champsTab.classList.add('selectedTab');
+        mapTab.classList.remove('selectedTab');
+
+        resultsPane.classList.add('hiddenPane');
+        competitionsPane.classList.add('hiddenPane');
+        recordsPane.classList.add('hiddenPane');
+        championshipsPane.classList.remove('hiddenPane');
+        mapPane.classList.add('hiddenPane');
+    });
+    
+    mapTab.addEventListener('click', () => {
+        console.log('Map tab clicked');
+
+        resultsTab.classList.remove('selectedTab');
+        competitionsTab.classList.remove('selectedTab');
+        recordsTab.classList.remove('selectedTab');
+        champsTab.classList.remove('selectedTab');
+        mapTab.classList.add('selectedTab');
+
+        resultsPane.classList.add('hiddenPane');
+        competitionsPane.classList.add('hiddenPane');
+        recordsPane.classList.add('hiddenPane');
+        championshipsPane.classList.add('hiddenPane');
+        mapPane.classList.remove('hiddenPane');
+    });
     
     if (window.location.hash) {
         hash = window.location.hash.substring(1);
@@ -23,6 +117,25 @@ $( document ).ready(function() {
         dataType: "json", 
         cache: true,
         success: function(data) {
+
+            const eventOrder = [
+                "333", "222", "444", "555", "666", "777", 
+                "333bf", "333fm", "333oh", 
+                "clock", "minx", "pyram", "skewb", "sq1", 
+                "444bf", "555bf", "333mbf"
+            ];
+            
+            // Function to reorder an array based on the defined event order
+            function reorderArray(array) {
+                return array.sort((a, b) => {
+                    return eventOrder.indexOf(a.eventId) - eventOrder.indexOf(b.eventId);
+                });
+            }
+            
+            // Assuming `data.rank.averages` and `data.rank.singles` are the arrays to reorder
+            data.rank.averages = reorderArray(data.rank.averages);
+            data.rank.singles = reorderArray(data.rank.singles);
+
             console.log(data);
             document.querySelector("#profileName").innerHTML = data.name;
             document.querySelector(".wcaId").innerHTML = data.id;
@@ -71,6 +184,16 @@ $( document ).ready(function() {
             medals(data);
             showCompetitions(data);
 
+            const champWins = champs(data.results, data.championshipIds);
+            console.log(champWins);
+            if (champWins.wins > 0){
+                document.querySelector(".champs").innerHTML = champWins.wins + " Championship Titles";
+            } else if (champWins.podiums > 0){
+                document.querySelector(".champs").innerHTML = champWins.podiums + " Championship Podiums";
+            } else {
+                document.querySelector(".champs").remove();
+            }
+
             $.ajax({
                 url: `https://www.worldcubeassociation.org/api/v0/persons/${data.id}`,
                 method: "GET",
@@ -97,11 +220,9 @@ $( document ).ready(function() {
                     document.querySelector(".worldRecords").innerHTML = response.records.world;
                 }
 
-                records(response);
+                records(data, response);
 
-                if (response.records.continental == 0 && response.records.national == 0 && response.records.world == 0){
-                    document.querySelector(".recordsHolder").remove();
-                }
+                badges(response);
 
                   $('#profilePhoto').attr("src",avatarUrl);
                 },
@@ -113,7 +234,26 @@ $( document ).ready(function() {
     });
 
 
-    
+    const stickyElement = document.querySelector("#profileCard");
+    const header = document.querySelector("#header");
+
+    function adjustStickyHeight() {
+        const offset = 120; // Fixed offset from bottom
+        const viewportHeight = window.innerHeight;
+        const headerHeight = header.offsetHeight;
+        const scrollPos = window.scrollY;
+
+        // Calculate capped header offset
+        const headerOffset = Math.max(0, headerHeight - scrollPos);
+        
+        // Set height dynamically
+        stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
+    }
+
+    // Adjust height on scroll and on page load
+    window.addEventListener("scroll", adjustStickyHeight);
+    window.addEventListener("resize", adjustStickyHeight);
+    adjustStickyHeight(); // Initial call on page load
 
 
 
@@ -253,22 +393,114 @@ function medals(data){
     } else if (data.medals.bronze > 0){
         document.querySelector(".medals").innerHTML = data.medals.bronze + " Bronze Medals";
     } else {
+        document.querySelector(".medalsHolder").remove();
         document.querySelector(".medals").remove();
     }
 }
 
-function records(data){
-    
-    if (data.records.world > 0){
-        document.querySelector(".records").innerHTML = data.records.world + " time World Record Holder";
-    } else if (data.records.continental > 0){
-        document.querySelector(".records").innerHTML = data.records.continental + " time Continental Record Holder";
-    } else if (data.records.national > 0){
-        document.querySelector(".records").innerHTML = data.records.national + " time National Record Holder";
+function records(data1, data){
+    if (data1.rank.averages.some(event => event.rank && event.rank.world === 1) || data1.rank.singles.some(event => event.rank && event.rank.world === 1)){
+        document.querySelector(".records").innerHTML = "Current World Record Holder";
     } else {
-        document.querySelector(".records").remove();
+        if (data.records.world > 0){
+            document.querySelector(".records").innerHTML = data.records.world + " time World Record Holder";
+        } else if (data.records.continental > 0){
+            document.querySelector(".records").innerHTML = data.records.continental + " time Continental Record Holder";
+        } else if (data.records.national > 0){
+            document.querySelector(".records").innerHTML = data.records.national + " time National Record Holder";
+        } else {
+            document.querySelector(".recordsHolder").remove();
+            document.querySelector(".records").remove();
+        }
     }
 }
+
+function champs(results, championshipIds) {
+    let wins = 0;
+    let podiums = 0;
+
+    // Iterate through each championship ID
+    championshipIds.forEach(championshipId => {
+        if (results[championshipId]) {
+            // Iterate over each event in the championship
+            for (const event in results[championshipId]) {
+                const rounds = results[championshipId][event];
+                
+                // Check for a round marked as "Final"
+                rounds.forEach(round => {
+                    if (round.round === "Final" && round.position) {
+                        // Check if the position is 1, 2, or 3
+                        if (round.position == 1) {
+                            wins++;
+                            podiums++;
+                        } else if (round.position == 2 || round.position == 3) {
+                            podiums++;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    return { wins, podiums };
+}
+
+function badges(data){
+
+    
+
+    data.person.teams.forEach(team=> {
+        let teamText = team.friendly_id.toUpperCase();
+        let baseUrl = "greenBase.svg";
+        if (team.leader == true){
+            teamText += " LEADER";
+            baseUrl = "blueBase.svg";
+        } else {
+            if (team.senior_member == true){
+                teamText += " SENIOR MEMBER";
+                baseUrl = "orangeBase.svg";
+            } else {
+                teamText += " MEMBER";
+            }
+        }
+
+        document.querySelector(".leftTopContent").innerHTML = `
+        <div class="emblem">
+                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base">
+                        <svg viewBox="0 0 120 120" class="text-svg">
+                            <defs>
+                                <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
+                            </defs>
+                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.1">
+                              <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
+                                ${teamText}
+                              </textPath>
+                            </text>
+                          </svg>
+                      </div>
+        ` + document.querySelector(".leftTopContent").innerHTML;
+    });
+
+    if (data.person.delegate_status != null){
+        let delegateText = data.person.delegate_status.toUpperCase().replace(/_/g, ' ');
+        document.querySelector(".leftTopContent").innerHTML = `
+        <div class="emblem">
+                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base">
+                        <svg viewBox="0 0 120 120" class="text-svg">
+                            <defs>
+                                <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
+                            </defs>
+                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.1">
+                              <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
+                                ${delegateText}
+                              </textPath>
+                            </text>
+                          </svg>
+                      </div>
+        ` + document.querySelector(".leftTopContent").innerHTML;
+    };
+}
+
 
 function showCompetitions(data){
     document.querySelector(".resultsPane").classList.add("hiddenPane");
@@ -280,9 +512,9 @@ function showCompetitions(data){
 
 
     if (document.querySelector(".competitionsPane").innerHTML == ""){
-        let tableHTML = `<table><tbody>
+        let tableHTML = `<table><thead>
             <tr>
-                <td class="eventNameRow"><img src="icons/${event}.svg" />Event</td>
+                <td class="eventNameRow"><img src="icons/event.svg" />Event</td>
                 <td class="roundRow">Round</td>
                 <td class="placeRow">Place</td>
                 <td class="bestRow">Best</td>
@@ -292,7 +524,7 @@ function showCompetitions(data){
                 <td class="timeRow">3</td>
                 <td class="timeRow">4</td>
                 <td class="timeRow">5</td>
-            </tr>
+            </tr></thead><tbody>
         `;
         console.log(data.results);
         // Iterate over each competition in the results
@@ -342,6 +574,23 @@ function showCompetitions(data){
         tableHTML += `</tbody></table>`;
 
         document.querySelector(".competitionsPane").innerHTML = tableHTML;
+
+
+        const table = document.querySelector(".resultsTable");
+        const expectedColCount = table.querySelector("thead tr").children.length; // Number of columns in the header
+
+        table.querySelectorAll("tbody tr").forEach(row => {
+            const cellCount = row.children.length;
+
+            if (cellCount < expectedColCount) {
+                const colspan = expectedColCount - cellCount + 1; // Calculate colspan for the missing columns
+                const emptyCell = document.createElement("td");
+                emptyCell.setAttribute("colspan", colspan);
+                emptyCell.innerHTML = ""; // Add blank content
+
+                row.appendChild(emptyCell); // Append the colspan cell to make the row full-width
+            }
+        });
     }
 }
 

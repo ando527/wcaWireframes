@@ -87,6 +87,9 @@ border-radius: 5px;
     margin: 0px 30px 30px 30px;
     background-color: #EDEDED;
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
     .tabIndiv{
         width: 150px;
         padding: 10px 20px 10px 20px;
@@ -100,9 +103,17 @@ border-radius: 5px;
     }
     
     #tabsHolder{
+        
         display: flex;
         flex-direction: column;
         gap: 10px;
+        
+    }
+    #tabsContent{
+        background-color: #FDFDFD;
+        padding: 30px;
+        border-radius: 10px;
+        width: 100%;
     }
 }
 

@@ -3,32 +3,49 @@
     <head>
         <link rel="stylesheet" href="competition.css" />
         <link rel="stylesheet" href="flags.css" />
+        <link rel="stylesheet" href="styles.css" />
         <link rel="stylesheet" href="leaflet.css" />
         <link rel="icon" type="image/x-icon" href="s.png">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <title>Competition Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <div id="header">
+            <div class="linksHolder">
+                <a href="index.html"><img src="wca_logo.svg" width="60px" height="60px"/></a>
+                <a href="#" class="noDrop">About Us</a>
+                <a href="#" class="noDrop">FAQ's</a>
+                <a href="#" class="dropDownLink">Competitions</a>
+                <a href="#" class="dropDownLink">Results</a>
+                <a href="#" class="dropDownLink">Regulations</a>
+                <a href="#" class="dropDownLink">Information</a>
+                <a href="#" class="noDrop">WCA Live</a>
+            </div>
+            <div class="searchProfile">
+
+            </div>
+        </div>
         <div class="bentoWrapper">
             <div class="bentoCol">
                 <div id="mainInfo" class="bento">
-                    <h1 id="title"><img src="icons/bookmark.svg" />New Zealand Nationals 2024<img src="icons/championship.svg" /></h1>
+                    <h1 id="title"><img src="icons/bookmark.svg" /><span id="compName">New Zealand Nationals 2024</span><img src="icons/championship.svg" /></h1>
                     <div class="infoGrid 2col">
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/date.svg" />Date</span>
-                            <span class="snippetDetail bold">Dec 13-15 2024<img src="icons/addtocal.svg" /></span>
+                            <span class="snippetDetail bold compDates">Dec 13-15 2024<img src="icons/addtocal.svg" /></span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/locationIcon.svg" />Location</span>
-                            <span class="snippetDetail">Christchurch, <span class="bold">New Zealand</span><span class="flag nz"></span></span>
+                            <span class="snippetDetail compLocation">Christchurch, <span class="bold">New Zealand</span><span class="flag nz"></span></span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/competitors.svg" />Competitor Limit</span>
-                            <span class="snippetDetail bold">350</span>
+                            <span class="snippetDetail bold compCompetitorLimit">350</span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/locationIcon.svg" />Venue</span>
-                            <span class="snippetDetail"><span class="bold">Friday:</span> Multi Cultural Rec Centre <span class="bold">Sat/Sun:</span> Addington Raceway</span>
+                            <span class="snippetDetail compVenueDetails"><span class="bold">Friday:</span> Multi Cultural Rec Centre <span class="bold">Sat/Sun:</span> Addington Raceway</span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/bookmark.svg" />Bookmarked</span>
@@ -42,7 +59,7 @@
                     <div class="infoGrid 2col">
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/date.svg" />Base Registration Fee</span>
-                            <span class="snippetDetail bold">$43 NZD</span>
+                            <span class="snippetDetail bold compBaseRegistrationFee">$43 NZD</span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/locationIcon.svg" />Spots Left</span>
@@ -50,24 +67,24 @@
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/competitors.svg" />Spectators</span>
-                            <span class="snippetDetail bold">Free</span>
+                            <span class="snippetDetail bold compSpectators">Free</span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/locationIcon.svg" />On the spot Registration</span>
-                            <span class="snippetDetail bold">No</span> Addington Raceway</span>
+                            <span class="snippetDetail bold compOnTheSpot">No</span>
                         </div>
                         <div class="infoSnippet">
                             <span class="snippetTitle"><img src="icons/locationIcon.svg" />Payment</span>
-                            <span class="snippetDetail">Stripe (External)</span> Addington Raceway</span>
+                            <span class="snippetDetail">Stripe (External)</span>
                         </div>
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle"><img src="icons/bookmark.svg" />Registraion Opens</span>
-                        <span class="snippetDetail bold">Thursday, December 14, 2023 at 3:00 PM GMT+10</span>
+                        <span class="snippetDetail bold compRegoOpens">Thursday, December 14, 2023 at 3:00 PM GMT+10</span>
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle"><img src="icons/bookmark.svg" />Registration Closes</span>
-                        <span class="snippetDetail bold">Sunday, December 1, 2024 at 8:59 PM GMT+10</span>
+                        <span class="snippetDetail bold compRegoCloses">Sunday, December 1, 2024 at 8:59 PM GMT+10</span>
                     </div>
                 </div>
             </div>
@@ -86,19 +103,19 @@
                     <h4>Competition Info</h4>
                     <div class="infoSnippet">
                         <span class="snippetTitle">Organisers</span>
-                        <span class="snippetDetail"><span class="bold">Dwayne Ramos</span> and <span class="bold">Speedcubing New Zealand</span></span>
+                        <span class="snippetDetail compOrganisers"><span class="bold">Dwayne Ramos</span> and <span class="bold">Speedcubing New Zealand</span></span>
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle">WCA Delegates</span>
-                        <span class="snippetDetail bold">Alex Asbery, Caleb Hall, Daniel Fraser, David Lim, Finn Trass, Jack Maddigan, James Dyer, Liam Wadek, and Luke Heath-Edwards</span>
+                        <span class="snippetDetail bold compDelegates">Alex Asbery, Caleb Hall, Daniel Fraser, David Lim, Finn Trass, Jack Maddigan, James Dyer, Liam Wadek, and Luke Heath-Edwards</span>
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle">Contact</span>
-                        <span class="snippetDetail bold">https://speedcubing.nz/contact-us/</span>
+                        <span class="snippetDetail bold compContact">https://speedcubing.nz/contact-us/</span>
                     </div>
                     <div class="infoSnippet">
                         <h4>Address</h4>
-                        <span class="snippetDetail bold">75 Jack Hinton Drive, Addington, Christchurch 8024 (Please see venue tab for Friday address)</span>
+                        <span class="snippetDetail bold compVenueAddress">75 Jack Hinton Drive, Addington, Christchurch 8024 (Please see venue tab for Friday address)</span>
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle">Details</span>
@@ -106,7 +123,7 @@
                     </div>
                     <div class="infoSnippet">
                         <h4>Refunds</h4>
-                        <span class="snippetDetail bold">If your registration is cancelled before Friday, November 22, 2024 at 8:59 PM GMT+10 you will be refunded 100% of your registration fee.</span>
+                        <span class="snippetDetail bold compRefundPolicy">If your registration is cancelled before Friday, November 22, 2024 at 8:59 PM GMT+10 you will be refunded 100% of your registration fee.</span>
                     </div>
                     <a class="button-secondary">Download Competition Details (PDF)<img src="icons/pdf.svg" /></a>
                 </div>
@@ -122,8 +139,11 @@
                 <div class="tabIndiv alt">FAQ</div>
             </div>
             <div id="tabsContent">
-
-            </div>
+                <div class="generalInfo"></div>
+            </div> 
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="countries.js"></script>
+        <script src="competition.js"></script>
     </body>
 </html>

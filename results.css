@@ -26,7 +26,8 @@ html, body{
     background-color: #FCFCFC;
     padding: 30px;
     position: sticky;
-    top: 0;
+    top: 30px;
+    bottom: 30px;
     height: 100%;
     width: 400px;
     max-width: calc(100% - 1090px);
@@ -34,6 +35,7 @@ html, body{
     height: calc(100vh - 200px);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 #profilePhoto{
     width: fit-content;
@@ -82,12 +84,13 @@ html, body{
     flex-direction: column;
     align-items: center;
 }
-tbody{
+table{
     td{
         padding-left: 50px;
     }
     .icon{
         padding-left: 10px;
+        padding-right: 5px;
     }
     img{
         width: 20px;
@@ -154,6 +157,15 @@ tbody{
 }
 .iconAndResult{
     display: flex;
+    gap: 5px;
+    align-items: center;
+    span{
+        font-weight: 600;
+    }
+}
+.recordBox img{
+    height: 1.5em;
+    width: 1.5em;
 }
 
 #achievements{
@@ -241,18 +253,18 @@ tbody{
         padding-top: 5px;
     }
     tbody tr:nth-child(even) {
-        background-color: #EDEDED;
-        border-color: #EDEDED;
+        background-color: #DCDCDC;
+        border-color: #DCDCDC;
         td{
-            border-color: #EDEDED;
+            border-color: #DCDCDC;
         }
     }
 }
 #results tr:nth-child(even) {
-    background-color: #EDEDED;
-    border-color: #EDEDED;
+    background-color: #DCDCDC;
+    border-color: #DCDCDC;
     td{
-        border-color: #EDEDED;
+        border-color: #DCDCDC;
     }
 }
 .eventIcon{
@@ -284,4 +296,62 @@ tbody{
 .compTitle{
     font-weight: 600;
     color: #0051BA;
+}
+
+.leftTopContent .emblem:nth-child(1) {
+    right: -15px;
+    top: -15px;
+  }
+  
+  .leftTopContent .emblem:nth-child(2) {
+    right: -15px;
+    top: 120px;
+  }
+  
+  .leftTopContent .emblem:nth-child(6) {
+    right: -15px;
+    top: 255px;
+  }
+  
+  .leftTopContent .emblem:nth-child(3) {
+    left: -15px;
+    top: -15px;
+  }
+
+  .leftTopContent .emblem:nth-child(5) {
+    left: -15px;
+    top: 120px;
+  }
+
+  .leftTopContent .emblem:nth-child(4) {
+    left: -15px;
+    top: 255px;
+  }
+
+.emblem {
+    position: absolute;
+    
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+}
+  
+.emblem-base {
+    width: 100%;
+    height: 100%;
+}
+  
+.text-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: rotateText 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes rotateText {
+    0% { transform:  rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
