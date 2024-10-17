@@ -1,5 +1,96 @@
 $( document ).ready(function() {
 
+    const generalTab = document.querySelector('.generalTab');
+    const competitorsTab = document.querySelector('.competitorsTab');
+    const registerTab = document.querySelector('.registerTab');
+    const eventsTab = document.querySelector('.eventsTab');
+    const scheduleTab = document.querySelector('.scheduleTab');
+
+    const generalInfo = document.querySelector('.generalInfo');
+    const psychSheet = document.querySelector('.psychSheet');
+    const registerInfo = document.querySelector('.registerInfo');
+    const eventsInfo = document.querySelector('.eventsInfo');
+    const scheduleInfo = document.querySelector('.scheduleInfo');
+
+    generalTab.addEventListener('click', () => {
+        generalTab.classList.add('selected');
+        competitorsTab.classList.remove('selected');
+        registerTab.classList.remove('selected');
+        eventsTab.classList.remove('selected');
+        scheduleTab.classList.remove('selected');
+
+        generalInfo.classList.remove('hidden');
+        psychSheet.classList.add('hidden');
+        registerInfo.classList.add('hidden');
+        eventsInfo.classList.add('hidden');
+        scheduleInfo.classList.add('hidden');
+    });
+
+    competitorsTab.addEventListener('click', () => {
+        generalTab.classList.remove('selected');
+        competitorsTab.classList.add('selected');
+        registerTab.classList.remove('selected');
+        eventsTab.classList.remove('selected');
+        scheduleTab.classList.remove('selected');
+
+
+        generalInfo.classList.add('hidden');
+        psychSheet.classList.remove('hidden');
+        registerInfo.classList.add('hidden');
+        eventsInfo.classList.add('hidden');
+        scheduleInfo.classList.add('hidden');
+    });
+
+    registerTab.addEventListener('click', () => {
+        generalTab.classList.remove('selected');
+        competitorsTab.classList.remove('selected');
+        registerTab.classList.add('selected');
+        eventsTab.classList.remove('selected');
+        scheduleTab.classList.remove('selected');
+
+
+        generalInfo.classList.add('hidden');
+        psychSheet.classList.add('hidden');
+        registerInfo.classList.remove('hidden');
+        eventsInfo.classList.add('hidden');
+        scheduleInfo.classList.add('hidden');
+    });
+
+    eventsTab.addEventListener('click', () => {
+        generalTab.classList.remove('selected');
+        competitorsTab.classList.remove('selected');
+        registerTab.classList.remove('selected');
+        eventsTab.classList.add('selected');
+        scheduleTab.classList.remove('selected');
+
+
+        generalInfo.classList.add('hidden');
+        psychSheet.classList.add('hidden');
+        registerInfo.classList.add('hidden');
+        eventsInfo.classList.remove('hidden');
+        scheduleInfo.classList.add('hidden');
+    });
+
+    scheduleTab.addEventListener('click', () => {
+        generalTab.classList.remove('selected');
+        competitorsTab.classList.remove('selected');
+        registerTab.classList.remove('selected');
+        eventsTab.classList.remove('selected');
+        scheduleTab.classList.add('selected');
+
+
+        generalInfo.classList.add('hidden');
+        psychSheet.classList.add('hidden');
+        registerInfo.classList.add('hidden');
+        eventsInfo.classList.add('hidden');
+        scheduleInfo.classList.remove('hidden');
+    });
+
+
+
+
+
+
     $.ajax({
         url: `https://www.worldcubeassociation.org/api/v0/competitions/BrisbaneMegaBlind2024`,
         dataType: "json", 
@@ -22,6 +113,7 @@ $( document ).ready(function() {
             
             // Set venue details
             document.querySelector(".compVenueDetails").textContent = data.venue_details;
+            document.querySelector(".compVenueDetailsFull").textContent = data.venue_details;
 
             // Set registration fee
             const fee = data.base_entry_fee_lowest_denomination / 100;
@@ -90,11 +182,258 @@ $( document ).ready(function() {
             console.log(data);
 
 
+            $(document).ready(function() {
+                $.ajax({
+                    url: `https://www.worldcubeassociation.org/api/v0/competitions/${data.id}/wcif/public`,
+                    dataType: "json", 
+                    cache: true,
+                    success: function(dataWCIF) {
+                        // Function to render the table
+                        function renderTable(persons) {
+                            let tableHTML = `
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" data-sort="name">Name</th>
+                                            <th class="sortable" data-sort="countryIso2">Representing</th>
+                                            ${Array.isArray(data.event_ids) ? data.event_ids.map(event => `<th>${event}</th>`).join('') : ''}
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${persons
+                                            .filter(person => person.registration !== null) // Filter out users with null registration
+                                            .map(person => `
+                                                <tr>
+                                                    <td>${person.name}</td>
+                                                    <td>${countryCodeMapping[person.countryIso2] || person.countryIso2}</td>
+                                                    ${Array.isArray(data.event_ids) ? data.event_ids.map(event => `<td>${person.registration.eventIds.includes(event) ? `<img class="icon" src="icons/${event}.svg">` : ''}</td>`).join('') : ''}
+                                                    <td>${Array.isArray(person.registration.eventIds) ? person.registration.eventIds.length : 0}</td>
+                                                </tr>
+                                            `).join('')}
+                                    </tbody>
+                                </table>
+                            `;
+                            $('.psychSheet').html(tableHTML);
+                        }
+            
+                        // Sorting function
+                        function sortTable(field) {
+                            let sorted = dataWCIF.persons.sort((a, b) => {
+                                if (a[field] < b[field]) return -1;
+                                if (a[field] > b[field]) return 1;
+                                return 0;
+                            });
+                            renderTable(sorted);
+                        }
+                        
+                        console.log(dataWCIF);
+
+                        // Initial table render
+                        renderTable(dataWCIF.persons);
+
+                        
+            
+                        // Add click event listeners for sorting
+                        document.querySelectorAll('.sortable').forEach(header => {
+                            header.addEventListener('click', () => {
+                                let sortField = header.getAttribute('data-sort');
+                                sortTable(sortField);
+                            });
+                        });
+
+
+                        populateSchedule(dataWCIF.schedule);
+
+                        populateEventsInfo(dataWCIF.events);
+                    }
+                });
+            });
 
 
         }
     });
 });
+
+function populateSchedule(schedule) {
+    const scheduleInfoDiv = document.querySelector('.scheduleInfo');
+
+    // Create a table element for the detailed schedule
+    let tableHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Venue</th>
+                    <th>Room</th>
+                    <th>Activity</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // Array to hold all activities for sorting
+    let allActivities = [];
+
+    // Loop through each venue and room to gather all activities
+    schedule.venues.forEach(venue => {
+        venue.rooms.forEach(room => {
+            room.activities.forEach(activity => {
+                allActivities.push({
+                    venueName: venue.name,
+                    roomName: room.name,
+                    roomColor: room.color,  // Use room color
+                    activityName: activity.name,
+                    startTime: new Date(activity.startTime),
+                    endTime: new Date(activity.endTime),
+                    timeZone: venue.timezone
+                });
+            });
+        });
+    });
+
+    // Sort activities by start time
+    allActivities.sort((a, b) => a.startTime - b.startTime);
+
+    // Generate the schedule table based on the sorted activities
+    allActivities.forEach(activity => {
+        tableHTML += `
+            <tr>
+                <td>${activity.venueName}</td>
+                <td>${activity.roomName}</td>
+                <td>${activity.activityName}</td>
+                <td>${activity.startTime.toLocaleString('en-AU', { timeZone: activity.timeZone })}</td>
+                <td>${activity.endTime.toLocaleString('en-AU', { timeZone: activity.timeZone })}</td>
+            </tr>
+        `;
+    });
+
+    tableHTML += `
+            </tbody>
+        </table><div class="calendarView"></div>
+    `;
+
+    // Insert the table into the scheduleInfo div
+    scheduleInfoDiv.innerHTML = tableHTML;
+
+    // Now generate the calendar view
+    generateCalendarView(allActivities);
+}
+
+function generateCalendarView(activities) {
+    const calendarDiv = document.querySelector('.calendarView');
+
+    let calendarHTML = `<div class="calendar-grid">`;
+
+    activities.forEach(activity => {
+        const duration = (activity.endTime - activity.startTime) / (1000 * 60); // Get duration in minutes
+
+        calendarHTML += `
+            <div class="calendar-block" style="background-color: ${activity.roomColor}; height: ${duration}px;">
+                <strong>${activity.activityName}</strong><br>
+                ${activity.startTime.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', timeZone: activity.timeZone })} - 
+                ${activity.endTime.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', timeZone: activity.timeZone })}
+            </div>
+        `;
+    });
+
+    calendarHTML += `</div>`;
+
+    calendarDiv.innerHTML = calendarHTML;
+}
+
+function formatTimeLimit(timeLimit) {
+    if (!timeLimit) return 'N/A';
+
+    let totalSeconds = Math.floor(timeLimit.centiseconds / 100);
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+    let milliseconds = timeLimit.centiseconds % 100;
+
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}.${milliseconds < 10 ? '0' : ''}${milliseconds}`;
+}
+
+function populateEventsInfo(events) {
+    const eventsInfoDiv = document.querySelector('.eventsInfo');
+
+    let tableHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Round</th>
+                    <th>Format</th>
+                    <th>Time Limit</th>
+                    <th>Cutoff</th>
+                    <th>Advancement</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // Loop through events
+    events.forEach(event => {
+        // Get the event name (you can map the event ID to a readable name)
+        const eventName = getEventName(event.id); // Function that maps event ids like "333bf" to readable names
+
+        event.rounds.forEach(round => {
+            // Format the round info
+            const format = mapFormat(round.format); // Function that maps format IDs to readable names like Bo3, Ao5, etc.
+            const timeLimit = formatTimeLimit(round.timeLimit);
+            const cutoff = round.cutoff ? `${round.cutoff.numberOfAttempts} attempts to get < ${formatTimeLimit({ centiseconds: round.cutoff.attemptResult })}` : 'N/A';
+            const advancement = round.advancementCondition ? 
+                (round.advancementCondition.type === 'percent' ? `Top ${round.advancementCondition.level}% advance` : `Top ${round.advancementCondition.level} advance`) : 'N/A';
+
+            tableHTML += `
+                <tr>
+                    <td>${eventName}</td>
+                    <td>${mapRoundIdToReadable(round.id)}</td> <!-- Function to map round ID to readable name -->
+                    <td>${format}</td>
+                    <td>${timeLimit}</td>
+                    <td>${cutoff}</td>
+                    <td>${advancement}</td>
+                </tr>
+            `;
+        });
+    });
+
+    tableHTML += `
+            </tbody>
+        </table>
+    `;
+
+    // Insert the table into the eventsInfo div
+    eventsInfoDiv.innerHTML = tableHTML;
+}
+
+
+// Helper function to map format IDs to readable formats
+function mapFormat(formatId) {
+    const formatMapping = {
+        '1': 'Bo1',
+        '2': 'Bo2',
+        '3': 'Bo3',
+        'a': 'Ao5'
+    };
+    return formatMapping[formatId] || formatId;
+}
+
+// Helper function to map round IDs to readable names
+function mapRoundIdToReadable(roundId) {
+    const roundMapping = {
+        '333bf-r1': 'First round',
+        '333bf-r2': 'Second round',
+        '333bf-r3': 'Final',
+        'minx-r1': 'First round',
+        'minx-r2': 'Second round',
+        'minx-r3': 'Final',
+        '444bf-r1': 'Final',
+        '555bf-r1': 'Final',
+        '333mbf-r1': 'Final'
+    };
+    return roundMapping[roundId] || roundId;
+}
 
 
 function getEventName(eventCode) {

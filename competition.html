@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="styles.css" />
         <link rel="stylesheet" href="leaflet.css" />
         <link rel="icon" type="image/x-icon" href="s.png">
+        
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <title>Competition Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,7 +120,7 @@
                     </div>
                     <div class="infoSnippet">
                         <span class="snippetTitle">Details</span>
-                        <span class="snippetDetail bold">Friday: Recreational Hall (2nd Floor) Sat/Sun: Christian Cullen Lounge</span>
+                        <span class="snippetDetail bold compVenueDetailsFull">Friday: Recreational Hall (2nd Floor) Sat/Sun: Christian Cullen Lounge</span>
                     </div>
                     <div class="infoSnippet">
                         <h4>Refunds</h4>
@@ -131,15 +132,18 @@
         </div>
         <div id="tabs">
             <div id="tabsHolder">
-                <div class="tabIndiv">General Info</div>
-                <div class="tabIndiv">Register</div>
-                <div class="tabIndiv">Competitors</div>
-                <div class="tabIndiv">Events</div>
-                <div class="tabIndiv">Schedule</div>
-                <div class="tabIndiv alt">FAQ</div>
+                <div class="tabIndiv generalTab selected">General Info</div>
+                <div class="tabIndiv registerTab">Register</div>
+                <div class="tabIndiv competitorsTab">Competitors</div>
+                <div class="tabIndiv eventsTab">Events</div>
+                <div class="tabIndiv scheduleTab">Schedule</div>
             </div>
             <div id="tabsContent">
                 <div class="generalInfo"></div>
+                <div class="registerInfo hidden"><p>Registration not available through this Prototype webpage</p></div>
+                <div class="psychSheet hidden"></div>
+                <div class="eventsInfo hidden"></div>
+                <div class="scheduleInfo hidden"></div>
             </div> 
         </div>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>

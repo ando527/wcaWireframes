@@ -96,6 +96,7 @@ border-radius: 5px;
         background-color: #FDFDFD;
         border-radius: 5px;
         cursor: pointer;
+        border: 1px solid transparent;
     }
     .alt{
         background-color: #4F4F4F;
@@ -107,6 +108,11 @@ border-radius: 5px;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        .selected{
+            background-color: #EDEDED;
+            color: black;
+            border-color: #0051BA;
+        }
         
     }
     #tabsContent{
@@ -114,6 +120,9 @@ border-radius: 5px;
         padding: 30px;
         border-radius: 10px;
         width: 100%;
+        .hidden{
+            display: none;
+        }
     }
 }
 
@@ -184,4 +193,30 @@ border-radius: 5px;
     .bentoCol {
         width: 100%;
     }
+}
+
+.psychSheet{
+    .icon{
+        width: 20px;
+    }
+}
+
+.calendar-grid {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid black;
+    padding-left: 10px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.calendar-block {
+    width: 500px; /* Adjust as needed */
+    margin-bottom: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 12px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    position: relative;
 }
