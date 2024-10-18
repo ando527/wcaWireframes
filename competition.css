@@ -1,0 +1,222 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('TTNorms.ttf')  format('truetype'),
+    url('TTNorms.woff') format('woff');
+}
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Norms';
+}
+
+h4{
+    font-size: 18px;
+}
+.bentoWrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 30px;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.bentoCol{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: calc(50% - 15px);
+}
+
+.bento{
+    background-color: #EDEDED;
+    border-radius: 10px;
+    
+}
+#competitionInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+#registrationInfo{
+    flex-grow: 1;
+}
+
+h1, h4{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.snippetTitle{
+    font-size: 12px;
+    img{
+        height: 1em;
+        padding-right: 3px;
+    }
+}
+.infoSnippet{
+    display: flex;
+    flex-direction: column;
+}
+.snippetDetail{
+    font-size: 14px;
+    font-weight: 400;
+}
+.bold{
+    font-weight: 700;
+}
+.infoGrid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.indivEventIcon{
+    width: 30px;
+}
+.mainEvent{
+border: 2px #99C7FF solid;
+border-radius: 5px;
+}
+
+#tabs{
+    width: calc(100% - 120px);
+    padding: 30px;
+    margin: 0px 30px 30px 30px;
+    background-color: #EDEDED;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    .tabIndiv{
+        width: 150px;
+        padding: 10px 20px 10px 20px;
+        background-color: #FDFDFD;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    .alt{
+        background-color: #4F4F4F;
+        color: #FDFDFD;
+    }
+    
+    #tabsHolder{
+        
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .selected{
+            background-color: #EDEDED;
+            color: black;
+            border-color: #0051BA;
+        }
+        
+    }
+    #tabsContent{
+        background-color: #FDFDFD;
+        padding: 30px;
+        border-radius: 10px;
+        width: 100%;
+        .hidden{
+            display: none;
+        }
+    }
+}
+
+.button{
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: #0051BA;
+    border: 2px solid #0051BA;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 250ms;
+    text-decoration: none;
+    
+}
+.button:hover{
+    background-color: #003366;
+    border-color: #003366;
+}
+.button-secondary{
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    border: 2px solid #0153C1;
+    background-color: transparent;
+    color: #0153C1;
+    cursor: pointer;
+
+    transition: all 250ms;
+    text-decoration: none;
+    img{
+        margin-left: 10px;
+    }
+}
+.button-secondary:hover{
+    background-color: #99C7FF;
+    color: #003366;
+
+}
+.button-small{
+    padding: 6px 16px 6px 16px;
+    border-radius: 5px;
+    border: 1px solid #0153C1;
+    background-color: transparent;
+    color: #0153C1;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 250ms;
+    text-decoration: none;
+}
+.button-small:hover{
+    background-color: #99C7FF;
+    color: #003366;
+}
+
+/* Place the min-width rule first */
+@media only screen and (min-width: 601px) {
+    .bento {
+        padding: 30px;
+    }
+}
+
+/* Place the max-width rule afterward */
+@media only screen and (max-width: 600px) {
+    .bento {
+        padding: 15px;
+    }
+    .bentoCol {
+        width: 100%;
+    }
+}
+
+.psychSheet{
+    .icon{
+        width: 20px;
+    }
+}
+
+.calendar-grid {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid black;
+    padding-left: 10px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.calendar-block {
+    width: 500px; /* Adjust as needed */
+    margin-bottom: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 12px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    position: relative;
+}

@@ -1,0 +1,408 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('TTNorms.ttf')  format('truetype'),
+    url('TTNorms.woff') format('woff');
+}
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Norms';
+    background-color: #EDEDED!important;
+}
+
+#profileHolder{
+    width: calc(100% - 60px);
+    max-width: 1600px;
+    margin: auto;
+    position: relative;
+    display: flex;
+    padding: 30px;
+    min-height: 100%;
+    background-color: #EDEDED;
+}
+#profileCard{
+    border-radius: 10px;
+    background-color: #FCFCFC;
+    padding: 30px;
+    position: sticky;
+    top: 30px;
+    bottom: 30px;
+    height: 100%;
+    width: 400px;
+    max-width: calc(100% - 1090px);
+    margin-right: 30px;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#profilePhoto{
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 2;
+    border-radius: 10px;
+}
+#profileDetails{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+    
+}
+.profileInfoHeading{
+    font-size: 12px;
+}
+.profileInfo{
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 16px);
+
+}
+.profileInfoValue{
+    font-size: 14px;
+    font-weight: 700;
+}
+.right{
+    text-align: right;
+}
+
+#rightContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    gap: 30px;
+}
+#resultsTableHolder{
+    border-radius: 10px;
+    background-color: #FCFCFC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+table{
+    td{
+        padding-left: 50px;
+    }
+    .icon{
+        padding-left: 10px;
+        padding-right: 5px;
+    }
+    img{
+        width: 20px;
+    }
+    .event{
+        width: 140px;
+        padding-left: 0px;
+    }
+    .nr{
+        width: 42px;
+    }
+    .cr{
+        width: 42px;
+    }
+    .wr{
+        width: 50px;
+    }
+    .single{
+        width: 80px;
+        font-weight: 700;
+    }
+    .average{
+        width: 60px;
+        font-weight: 700;
+    }
+    .left{
+        text-align: left;
+    }
+    .right{
+        text-align: right;
+    }
+    .green{
+        font-weight: 600;
+        color: #029347;
+    }
+    .orange{
+        font-weight: 600;
+        color: #FF5800;
+    }
+}
+#recordsAndMore{
+    display: flex;
+    width: 100%;
+    align-content: flex-start;
+    gap: 30px;
+}
+.allMedals, .allRecords{
+    display: flex;
+    gap: 30px;
+}
+.recordBox{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #FCFCFC;
+    border-radius: 10px;
+    h3{
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+}
+.medalsHolder{
+    display: flex;
+}
+.iconAndResult{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    span{
+        font-weight: 600;
+    }
+}
+.recordBox img{
+    height: 1.5em;
+    width: 1.5em;
+}
+
+#achievements{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    div{
+        padding: 10px 20px 10px 20px;
+        border-radius: 10px;
+        flex-shrink: 1;
+        border: 2px solid black;
+        font-weight: 600;
+        font-size: 16px
+    }
+    .career{
+        background-color: #99C7FF;
+        border-color: #003366;
+    }
+    .records{
+        background-color: #FFF5AA;
+        border-color: #664D00;
+    }
+    .champs{
+        background-color: #E0DDD5;
+        border-color: #3B3B3B;
+    }
+    .medals{
+        background-color: #FFD5BD;
+        border-color: #7A2B00;
+    }
+}
+#profileDetails .profileInfo:nth-child(even) {
+    text-align: right;
+}
+#allResults{
+    width: 100%;
+    background-color: #FCFCFC;
+    border-radius: 10px;
+
+}
+.tabHeaders{
+    width: calc(100% - 60px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px;
+    border-radius: 10px;
+    div{
+        min-width: 12%;
+        width: max-content;
+        background-color: #B8B8B8;
+        border: 2px solid #B8B8B8;
+        text-align: center;
+        padding: 10px 16px 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 250ms;
+    }
+    div:not(.selectedTab):hover{
+        border-color: #0051BA;
+    }
+    .selectedTab{
+        background-color: #FCFCFC;
+        border-color: #FCFCFC;
+        font-weight: 700;
+        font-size: 1.2em;
+    }
+}
+
+.hiddenPane{
+    display: none;
+}
+.resultsPane, .competitionsPane, .recordsPane, .championshipsPane, .mapPane{
+    width: 100%;
+}
+
+.competitionsPane, .resultsPane, .championshipsPane{
+    table{
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td{
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-right: 0px;
+    }
+    tr{
+        padding-top: 5px;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #DCDCDC;
+        border-color: #DCDCDC;
+        td{
+            border-color: #DCDCDC;
+        }
+    }
+}
+
+#results tr:nth-child(even) {
+    background-color: #DCDCDC;
+    border-color: #DCDCDC;
+    td{
+        border-color: #DCDCDC;
+    }
+}
+.eventIcon{
+    max-width: 20px;
+}
+.eventNameRow{
+    width: 140px;
+    img{
+        height: 1.2em;
+        transform: translate(-0.25em, 0.25em);
+    }
+}
+.roundRow{
+    width: 100px;
+}
+.placeRow{
+    width: 42px;
+}
+.bestRow{
+    width: 80px;
+}
+.averageRow{
+    width: 80px;
+}
+.timeRow{
+    width: 55px;
+    text-align: right;
+}
+.compTitle{
+    font-weight: 600;
+    color: #0051BA;
+}
+.leftTopContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#profileName{
+    width: 100%;
+    text-align: left;
+}
+#profileDetails{
+    width: 100%;
+}
+.leftTopContent .emblem:nth-child(1) {
+    right: -15px;
+    top: -15px;
+  }
+  
+  .leftTopContent .emblem:nth-child(2) {
+    right: -15px;
+    top: 120px;
+  }
+  
+  .leftTopContent .emblem:nth-child(6) {
+    right: -15px;
+    top: 255px;
+  }
+  
+  .leftTopContent .emblem:nth-child(3) {
+    left: -15px;
+    top: -15px;
+  }
+
+  .leftTopContent .emblem:nth-child(5) {
+    left: -15px;
+    top: 120px;
+  }
+
+  .leftTopContent .emblem:nth-child(4) {
+    left: -15px;
+    top: 255px;
+  }
+
+.emblem {
+    position: absolute;
+    max-width: 35%;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+}
+  
+.emblem-base {
+    width: 100%;
+    height: 100%;
+}
+  
+.text-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: rotateText 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes rotateText {
+    0% { transform:  rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.eventPicker{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+    padding-bottom: 50px;
+    img{
+        width: 25px;
+        max-width: 14%;
+        transition: filter 250ms;
+        cursor: pointer;
+    }
+    img:hover{
+        /*filter: drop-shadow(0 0 0.75rem #0051BA);*/
+    }
+}
+.shareLink{
+    cursor: pointer;
+}
+
+.mapPane{
+    position: relative;
+    height: 600px;
+}
+#mapHolder{
+    height: 600px;
+    width: 100%;    
+}
+.tabContent{
+    position: relative;
+}
