@@ -224,10 +224,16 @@ table{
         padding: 10px 16px 10px 16px;
         border-radius: 10px;
         cursor: pointer;
+        transition: all 250ms;
+    }
+    div:not(.selectedTab):hover{
+        border-color: #0051BA;
     }
     .selectedTab{
         background-color: #FCFCFC;
-        border-color: #0051BA;
+        border-color: #FCFCFC;
+        font-weight: 700;
+        font-size: 1.2em;
     }
 }
 
@@ -298,7 +304,18 @@ table{
     font-weight: 600;
     color: #0051BA;
 }
-
+.leftTopContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#profileName{
+    width: 100%;
+    text-align: left;
+}
+#profileDetails{
+    width: 100%;
+}
 .leftTopContent .emblem:nth-child(1) {
     right: -15px;
     top: -15px;
@@ -331,7 +348,7 @@ table{
 
 .emblem {
     position: absolute;
-    
+    max-width: 35%;
     display: inline-block;
     width: 120px;
     height: 120px;
@@ -384,7 +401,7 @@ table{
 }
 #mapHolder{
     height: 600px;
-    width: 1000px;    
+    width: 100%;    
 }
 .tabContent{
     position: relative;

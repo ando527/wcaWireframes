@@ -13,9 +13,16 @@ let competitionMap = new Map();
 
 var map;
 
+var championships = 0;
+
+
 $( document ).ready(function() {
 
-    
+    // Listen for the hash change event
+    window.addEventListener('hashchange', function() {
+        // Reload the page when the hash changes
+        location.reload();
+    });
 
     const resultsTab = document.querySelector('.resultsTab');
     const competitionsTab = document.querySelector('.competitionsTab');
@@ -136,7 +143,7 @@ $( document ).ready(function() {
                 "333", "222", "444", "555", "666", "777", 
                 "333bf", "333fm", "333oh", 
                 "clock", "minx", "pyram", "skewb", "sq1", 
-                "444bf", "555bf", "333mbf"
+                "444bf", "555bf", "333mbf", "magic", "mmagic", "333mbo"
             ];
 
             loadCompetitionMap(data.competitionIds, function() {
@@ -144,89 +151,93 @@ $( document ).ready(function() {
         
                 // Now you can use getCompetitionName to retrieve names
                 showCompetitions(data);
-            showResultsWithEventPicker(data);
-            showChampionshipPodiums(data);
+                showResultsWithEventPicker(data);
+                showChampionshipPodiums(data);
+            
+
+                if (!document.querySelector("#mapHolder").hasChildNodes()) {
+                    map = initLeafletMap();
+                    addCompetitionMarkers(map, data.competitionIds); // Add markers based on competition IDs
+                }
+
+                mapPane.classList.add('hiddenPane');
+                
+                // Function to reorder an array based on the defined event order
+                function reorderArray(array) {
+                    return array.sort((a, b) => {
+                        return eventOrder.indexOf(a.eventId) - eventOrder.indexOf(b.eventId);
+                    });
+                }
+                
+                // Assuming `data.rank.averages` and `data.rank.singles` are the arrays to reorder
+                data.rank.averages = reorderArray(data.rank.averages);
+                data.rank.singles = reorderArray(data.rank.singles);
+
+                console.log(data);
+                document.querySelector("#profileName").innerHTML = data.name;
+                document.querySelector(".wcaId").innerHTML = data.id;
+                document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
+                document.querySelector(".solves").innerHTML = countTotalValidSolves(data);
+                for (let result of data.rank.singles){
+                    if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
+                        document.querySelector("#results").innerHTML += `
+                        <tr class="resultRow-${result.eventId}"> 
+                            <td class="icon"><img src="icons/${result.eventId}.svg"/></td>
+                            <td class="event left">${getEventName(result.eventId)}</td>
+                            <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
+                            <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
+                            <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                            <td class="single right">${parseResult(result.eventId, result.best, true)}</td>
+                        </tr>
+                        `;
+                    }
+                }
+                for (let result of data.rank.averages){
+                    if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
+                        document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
+                            <td class="average left">${parseResult(result.eventId, result.best, true)}</td>
+                            <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                            <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
+                            <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
+                        `;
+                    }
+                }
+
+                if (data.medals.bronze == 0){
+                    document.querySelector(".bronze").remove();
+                } else {
+                    document.querySelector(".bronzeMedals").innerHTML = data.medals.bronze;
+                }
+
+                if (data.medals.silver == 0){
+                    document.querySelector(".silver").remove();
+                } else {
+                    document.querySelector(".silverMedals").innerHTML = data.medals.silver;
+                }
+
+                if (data.medals.gold == 0){
+                    document.querySelector(".gold").remove();
+                } else {
+                    document.querySelector(".goldMedals").innerHTML = data.medals.gold;
+                }
+
+                career(data);
+                medals(data);
+                
+
+                const champWins = champs(data.results, data.championshipIds);
+                //console.log(champWins);
+                if (champWins.wins > 0){
+                    document.querySelector(".champs").innerHTML = champWins.wins + " Championship Titles";
+                } else if (champWins.podiums > 0){
+                    document.querySelector(".champs").innerHTML = champWins.podiums + " Championship Podiums";
+                } else {
+                    document.querySelector(".champs").remove();
+                    championshipsPane.remove();
+                    champsTab.remove();
+                }
+
             });
-
-            if (!document.querySelector("#mapHolder").hasChildNodes()) {
-                map = initLeafletMap();
-                addCompetitionMarkers(map, data.competitionIds); // Add markers based on competition IDs
-            }
-
-            mapPane.classList.add('hiddenPane');
-            
-            // Function to reorder an array based on the defined event order
-            function reorderArray(array) {
-                return array.sort((a, b) => {
-                    return eventOrder.indexOf(a.eventId) - eventOrder.indexOf(b.eventId);
-                });
-            }
-            
-            // Assuming `data.rank.averages` and `data.rank.singles` are the arrays to reorder
-            data.rank.averages = reorderArray(data.rank.averages);
-            data.rank.singles = reorderArray(data.rank.singles);
-
-            console.log(data);
-            document.querySelector("#profileName").innerHTML = data.name;
-            document.querySelector(".wcaId").innerHTML = data.id;
-            document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
-            document.querySelector(".solves").innerHTML = countTotalValidSolves(data);
-            for (let result of data.rank.singles){
-                if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
-                    document.querySelector("#results").innerHTML += `
-                    <tr class="resultRow-${result.eventId}"> 
-                        <td class="icon"><img src="icons/${result.eventId}.svg"/></td>
-                        <td class="event left">${getEventName(result.eventId)}</td>
-                        <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
-                        <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
-                        <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
-                        <td class="single right">${parseResult(result.eventId, result.best, true)}</td>
-                    </tr>
-                    `;
-                }
-            }
-            for (let result of data.rank.averages){
-                if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
-                    document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
-                        <td class="average left">${parseResult(result.eventId, result.best, true)}</td>
-                        <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
-                        <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
-                        <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
-                    `;
-                }
-            }
-
-            if (data.medals.bronze == 0){
-                document.querySelector(".bronze").remove();
-            } else {
-                document.querySelector(".bronzeMedals").innerHTML = data.medals.bronze;
-            }
-
-            if (data.medals.silver == 0){
-                document.querySelector(".silver").remove();
-            } else {
-                document.querySelector(".silverMedals").innerHTML = data.medals.silver;
-            }
-
-            if (data.medals.gold == 0){
-                document.querySelector(".gold").remove();
-            } else {
-                document.querySelector(".goldMedals").innerHTML = data.medals.gold;
-            }
-
-            career(data);
-            medals(data);
-            
-
-            const champWins = champs(data.results, data.championshipIds);
-            console.log(champWins);
-            if (champWins.wins > 0){
-                document.querySelector(".champs").innerHTML = champWins.wins + " Championship Titles";
-            } else if (champWins.podiums > 0){
-                document.querySelector(".champs").innerHTML = champWins.podiums + " Championship Podiums";
-            } else {
-                document.querySelector(".champs").remove();
-            }
 
             $.ajax({
                 url: `https://www.worldcubeassociation.org/api/v0/persons/${data.id}`,
@@ -252,6 +263,12 @@ $( document ).ready(function() {
                     document.querySelector(".world").remove();
                 } else {
                     document.querySelector(".worldRecords").innerHTML = response.records.world;
+                }
+
+
+                if (response.records.world == 0 && response.records.continental == 0 && response.records.national == 0){
+                    recordsPane.remove();
+                    recordsTab.remove();
                 }
 
                 records(data, response);
@@ -288,13 +305,14 @@ $( document ).ready(function() {
         
         // Set height dynamically
         stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
+        setImageMaxHeight();
     }
 
     // Adjust height on scroll and on page load
     window.addEventListener("scroll", adjustStickyHeight);
     window.addEventListener("resize", adjustStickyHeight);
     adjustStickyHeight(); // Initial call on page load
-
+    setImageMaxHeight();
 
 
 });
@@ -481,7 +499,7 @@ function champs(results, championshipIds) {
             }
         }
     });
-
+    championships = podiums;
     return { wins, podiums };
 }
 
@@ -636,12 +654,33 @@ function showResultsWithEventPicker(data) {
  if (document.querySelector(".resultsPane").innerHTML == "") {
     let eventPickerHTML = `<div class="eventPicker">`;
     const eventIcons = new Set();
+    const eventOrder = [
+        "333", "222", "444", "555", "666", "777", 
+        "333bf", "333fm", "333oh", 
+        "clock", "minx", "pyram", "skewb", "sq1", 
+        "444bf", "555bf", "333mbf", "magic", "mmagic", "333mbo"
+    ];
     for (let events of Object.values(data.results)) {
         for (let eventId of Object.keys(events)) {
             eventIcons.add(eventId);
         }
     }
-    eventIcons.forEach(event => {
+    // Assuming eventIcons is a Set, convert it to an array first
+    let eventIconsArray = Array.from(eventIcons);
+
+    // Reorder eventIcons based on eventOrder array
+    eventIconsArray.sort((a, b) => {
+        // Get the index of each event in eventOrder array
+        let indexA = eventOrder.indexOf(a);
+        let indexB = eventOrder.indexOf(b);
+
+        // If the event is not found in eventOrder, assign a high index to push it to the end
+        if (indexA === -1) indexA = eventOrder.length;
+        if (indexB === -1) indexB = eventOrder.length;
+
+        return indexA - indexB;
+    });
+    eventIconsArray.forEach(event => {
         eventPickerHTML += `<img class="eventIcon" src="icons/${event}.svg" data-event="${event}" title="${getEventName(event)}" />`;
     });
     eventPickerHTML += `</div>`;
@@ -941,4 +980,18 @@ function addCompetitionMarkers(map, competitionIds) {
             }
         });
     });
+}
+
+function setImageMaxHeight() {
+    // Get the heights of the specified elements
+    const profileCardHeight = $('#profileCard').height();
+    const achievementsHeight = $('#achievements').height();
+    const profileDetailsHeight = $('#profileDetails').height();
+    const profileNameHeight = $('#profileName').height();
+
+    // Calculate the max height (combined heights minus 60px)
+    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
+
+    // Apply the calculated max-height to the image
+    $('#profilePhoto').css('max-height', maxHeight + 'px');
 }
