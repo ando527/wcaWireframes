@@ -379,16 +379,19 @@ table{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 25px;
+    gap: 15px;
     padding-bottom: 50px;
     img{
         width: 25px;
-        max-width: 14%;
-        transition: filter 250ms;
+        max-width: 8%;
+        transition: background-color 250ms;
         cursor: pointer;
+        background-color: #EDEDED;
+        border-radius: 5px;
+        padding: 5px;
     }
-    img:hover{
-        /*filter: drop-shadow(0 0 0.75rem #0051BA);*/
+    .selectedIcon{
+        background-color: transparent;
     }
 }
 .shareLink{
@@ -405,4 +408,10 @@ table{
 }
 .tabContent{
     position: relative;
+}
+#searchBox{
+    padding: 10px 15px 10px 15px;
+    background-color: #FCFCFC;
+    border-radius: 10px;
+    border: 2px #B8B8B8 solid;
 }

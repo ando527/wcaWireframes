@@ -220,3 +220,25 @@ border-radius: 5px;
     border-radius: 5px;
     position: relative;
 }
+
+
+    table{
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td{
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-right: 0px;
+    }
+    tr{
+        padding-top: 5px;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #DCDCDC;
+        border-color: #DCDCDC;
+        td{
+            border-color: #DCDCDC;
+        }
+    }

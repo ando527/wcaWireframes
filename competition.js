@@ -1,4 +1,16 @@
+var hash;
+
 $( document ).ready(function() {
+
+    // Listen for the hash change event
+    window.addEventListener('hashchange', function() {
+        // Reload the page when the hash changes
+        location.reload();
+    });
+
+    if (window.location.hash) {
+        hash = window.location.hash.substring(1);
+    }
 
     const generalTab = document.querySelector('.generalTab');
     const competitorsTab = document.querySelector('.competitorsTab');
@@ -92,7 +104,7 @@ $( document ).ready(function() {
 
 
     $.ajax({
-        url: `https://www.worldcubeassociation.org/api/v0/competitions/BrisbaneMegaBlind2024`,
+        url: `https://www.worldcubeassociation.org/api/v0/competitions/${hash}`,
         dataType: "json", 
         cache: true,
         success: function(data) {
@@ -114,6 +126,10 @@ $( document ).ready(function() {
             // Set venue details
             document.querySelector(".compVenueDetails").textContent = data.venue_details;
             document.querySelector(".compVenueDetailsFull").textContent = data.venue_details;
+
+
+            //bookmarks
+            document.querySelector(".bookmarked").textContent = data.number_of_bookmarks + " Times";
 
             // Set registration fee
             const fee = data.base_entry_fee_lowest_denomination / 100;

@@ -122,6 +122,23 @@ $( document ).ready(function() {
         }
     }
 
+    const searchBox = document.getElementById('searchBox');
+
+    // Listen for the 'Enter' key press on the search box
+    searchBox.addEventListener('keypress', function(event) {
+        // Check if the 'Enter' key is pressed
+        if (event.key === 'Enter') {
+            // Prevent default behavior (form submission, if applicable)
+            event.preventDefault();
+
+            // Get the value from the search box
+            const searchValue = searchBox.value;
+
+            // Update the URL hash with the search value
+            window.location.hash = searchValue.toUpperCase();
+        }
+    });
+
     $.ajax({
         url: `https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/persons/${wcaId}.json`,
         dataType: "json", 
@@ -765,12 +782,18 @@ function showResultsWithEventPicker(data) {
 
     const defaultEvent = eventIcons.has('333') ? '333' : [...eventIcons][0];
     const defaultResults = allResults.filter(result => result.event === defaultEvent);
+    document.querySelector('.eventIcon').classList.add('selectedIcon');
     displayResults(defaultResults, defaultEvent);
 
     // Add event listener for event icons
     document.querySelectorAll('.eventIcon').forEach(icon => {
         icon.addEventListener('click', function () {
             const selectedEvent = this.getAttribute('data-event');
+
+            document.querySelectorAll('.eventIcon').forEach(icon => {
+                icon.classList.remove('selectedIcon');
+            });
+            this.classList.add('selectedIcon');
             const filteredResults = allResults.filter(result => result.event === selectedEvent);
 
             // Clear the event header before inserting a new one
