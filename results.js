@@ -11,6 +11,7 @@ var data2 = {
 
 $( document ).ready(function() {
 
+    
 
     const resultsTab = document.querySelector('.resultsTab');
     const competitionsTab = document.querySelector('.competitionsTab');
@@ -25,7 +26,6 @@ $( document ).ready(function() {
     const mapPane = document.querySelector('.mapPane');
 
     resultsTab.addEventListener('click', () => {
-        console.log('Results tab clicked');
 
         resultsTab.classList.add('selectedTab');
         competitionsTab.classList.remove('selectedTab');
@@ -41,7 +41,6 @@ $( document ).ready(function() {
     });
 
     competitionsTab.addEventListener('click', () => {
-        console.log('Competitions tab clicked');
 
         resultsTab.classList.remove('selectedTab');
         competitionsTab.classList.add('selectedTab');
@@ -58,7 +57,6 @@ $( document ).ready(function() {
     });
     
     recordsTab.addEventListener('click', () => {
-        console.log('Records tab clicked');
 
         resultsTab.classList.remove('selectedTab');
         competitionsTab.classList.remove('selectedTab');
@@ -74,7 +72,6 @@ $( document ).ready(function() {
     });
     
     champsTab.addEventListener('click', () => {
-        console.log('Championship Podiums tab clicked');
 
         resultsTab.classList.remove('selectedTab');
         competitionsTab.classList.remove('selectedTab');
@@ -90,7 +87,6 @@ $( document ).ready(function() {
     });
     
     mapTab.addEventListener('click', () => {
-        console.log('Map tab clicked');
 
         resultsTab.classList.remove('selectedTab');
         competitionsTab.classList.remove('selectedTab');
@@ -117,6 +113,17 @@ $( document ).ready(function() {
         dataType: "json", 
         cache: true,
         success: function(data) {
+
+            document.querySelector('.shareLink').addEventListener('click', function() {
+    
+                navigator.clipboard.writeText(`https://www.worldcubeassociation.org/persons/${data.id}`)
+                    .then(() => {
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+            });
 
             const eventOrder = [
                 "333", "222", "444", "555", "666", "777", 
@@ -183,6 +190,8 @@ $( document ).ready(function() {
             career(data);
             medals(data);
             showCompetitions(data);
+            showResultsWithEventPicker(data);
+            showChampionshipPodiums(data);
 
             const champWins = champs(data.results, data.championshipIds);
             console.log(champWins);
@@ -600,6 +609,199 @@ function showCompetitions(data){
     }
 }
 
+function showResultsWithEventPicker(data) {
+
+ // Create an event picker with icons at the top of the results pane
+ if (document.querySelector(".resultsPane").innerHTML == "") {
+    let eventPickerHTML = `<div class="eventPicker">`;
+    const eventIcons = new Set();
+    for (let events of Object.values(data.results)) {
+        for (let eventId of Object.keys(events)) {
+            eventIcons.add(eventId);
+        }
+    }
+    eventIcons.forEach(event => {
+        eventPickerHTML += `<img class="eventIcon" src="icons/${event}.svg" data-event="${event}" title="${getEventName(event)}" />`;
+    });
+    eventPickerHTML += `</div>`;
+
+    // Create the initial table structure
+    let tableHTML = `<table class="filteredResultsTable"><thead>
+        <!-- Event header row will be dynamically inserted here -->
+        <tr>
+            <td class="roundRow">Round</td>
+            <td class="placeRow">Place</td>
+            <td class="bestRow">Best</td>
+            <td class="averageRow">Average</td>
+            <td class="timeRow">1</td>
+            <td class="timeRow">2</td>
+            <td class="timeRow">3</td>
+            <td class="timeRow">4</td>
+            <td class="timeRow">5</td>
+        </tr></thead><tbody></tbody></table>`;
+
+    // Insert the event picker and table into the resultsPane
+    document.querySelector(".resultsPane").innerHTML = eventPickerHTML + tableHTML;
+
+    // Store all results in a map for easy filtering
+    let allResults = [];
+
+    for (let [competition, events] of Object.entries(data.results)) {
+        for (let [event, rounds] of Object.entries(events)) {
+            rounds.forEach(roundData => {
+                allResults.push({
+                    competition,
+                    event,
+                    roundData
+                });
+            });
+        }
+    }
+
+    // Function to display filtered results with single competition header
+    function displayResults(filteredResults, event) {
+        let filteredTableHTML = ``;
+        let lastCompetition = null;
+
+        // Insert event header row
+        let eventHeaderHTML = `
+            <tr class="event-header">
+                <td colspan="10">
+                    <img src="icons/${event}.svg" /> ${getEventName(event)}
+                </td>
+            </tr>
+        `;
+        document.querySelector(".filteredResultsTable thead").insertAdjacentHTML('afterbegin', eventHeaderHTML);
+
+        // Iterate through filtered results and generate rows
+        filteredResults.forEach(result => {
+            const { competition, roundData } = result;
+
+            // Add competition header only if it's different from the last one
+            if (competition !== lastCompetition) {
+                filteredTableHTML += `
+                    <tr class="competition-header">
+                        <td colspan="10" class="compTitle">${competition}</td>
+                    </tr>
+                `;
+                lastCompetition = competition;
+            }
+
+            filteredTableHTML += `
+                <tr>
+                    <td class="roundRow">${roundData.round}</td>
+                    <td class="placeRow">${roundData.position || ''}</td>
+                    <td class="bestRow">${formatTime(roundData.best)}</td>
+                    <td class="averageRow">${formatTime(roundData.average)}</td>
+                    <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                </tr>
+            `;
+        });
+
+        document.querySelector(".filteredResultsTable tbody").innerHTML = filteredTableHTML;
+    }
+
+    // Initially filter by the 3x3x3 Cube event (event ID "333")
+
+    const defaultEvent = eventIcons.has('333') ? '333' : [...eventIcons][0];
+    const defaultResults = allResults.filter(result => result.event === defaultEvent);
+    displayResults(defaultResults, defaultEvent);
+
+    // Add event listener for event icons
+    document.querySelectorAll('.eventIcon').forEach(icon => {
+        icon.addEventListener('click', function () {
+            const selectedEvent = this.getAttribute('data-event');
+            const filteredResults = allResults.filter(result => result.event === selectedEvent);
+
+            // Clear the event header before inserting a new one
+            document.querySelector(".filteredResultsTable thead").innerHTML = `
+                <tr>
+                    <td class="roundRow">Round</td>
+                    <td class="placeRow">Place</td>
+                    <td class="bestRow">Best</td>
+                    <td class="averageRow">Average</td>
+                    <td class="timeRow">1</td>
+                    <td class="timeRow">2</td>
+                    <td class="timeRow">3</td>
+                    <td class="timeRow">4</td>
+                    <td class="timeRow">5</td>
+                </tr>
+            `;
+
+            displayResults(filteredResults, selectedEvent);
+        });
+    });
+}
+}
+
+function showChampionshipPodiums(data) {
+    // Hide other panes and show the championshipsPane
+
+    // Check if the championshipsPane has been filled already
+   // Check if the championshipsPane has been filled already
+   if (document.querySelector(".championshipsPane").innerHTML == "") {
+    let tableHTML = `<table class="championshipPodiumsTable"><thead>
+        <tr>
+            <td class="eventNameRow"><img src="icons/event.svg" />Event</td>
+            <td class="roundRow">Round</td>
+            <td class="placeRow">Place</td>
+            <td class="bestRow">Best</td>
+            <td class="averageRow">Average</td>
+            <td class="timeRow">1</td>
+            <td class="timeRow">2</td>
+            <td class="timeRow">3</td>
+            <td class="timeRow">4</td>
+            <td class="timeRow">5</td>
+        </tr></thead><tbody>
+    `;
+
+    // Extract the list of championship IDs from the data object
+    const championshipIds = new Set(data.championshipIds);
+
+    // Filter results for final rounds and positions 1, 2, or 3 in championships only
+    for (let [competition, events] of Object.entries(data.results)) {
+        if (!championshipIds.has(competition)) continue; // Skip if not a championship
+
+        let competitionHasPodium = false;
+
+        for (let [event, rounds] of Object.entries(events)) {
+            rounds.forEach(roundData => {
+                if (roundData.round.toLowerCase() == "final" && roundData.position && roundData.position <= 3) {
+                    if (!competitionHasPodium) {
+                        // Add competition name as a table header row (only once per competition)
+                        tableHTML += `
+                            <tr class="competition-header">
+                                <td colspan="10" class="compTitle">${competition}</td>
+                            </tr>
+                        `;
+                        competitionHasPodium = true; // Ensure competition name appears only once
+                    }
+
+                    // Add podium finish data
+                    tableHTML += `
+                        <tr>
+                            <td class="eventNameRow"><img src="icons/${event}.svg" />${getEventName(event)}</td>
+                            <td class="roundRow">${roundData.round}</td>
+                            <td class="placeRow">${roundData.position || ''}</td>
+                            <td class="bestRow">${formatTime(roundData.best)}</td>
+                            <td class="averageRow">${formatTime(roundData.average)}</td>
+                            <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                        </tr>
+                    `;
+                }
+            });
+        }
+    }
+
+    // Close the table tags
+    tableHTML += `</tbody></table>`;
+
+    // Add the generated table into the championshipsPane
+    document.querySelector(".championshipsPane").innerHTML = tableHTML;
+}
+}
+
+
 function getEventName(eventCode) {
     const eventNames = {
         "222": "2x2x2 Cube",
@@ -619,7 +821,9 @@ function getEventName(eventCode) {
         "sq1": "Square-1",
         "444bf": "4x4x4 Blindfolded",
         "555bf": "5x5x5 Blindfolded",
-        "333mbf": "3x3x3 Multi-Blind"
+        "333mbf": "3x3x3 Multi-Blind",
+        "magic": "Magic",
+        "mmagic": "Master Magic"
     };
     return eventNames[eventCode] || eventCode;
 }

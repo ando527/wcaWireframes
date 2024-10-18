@@ -238,7 +238,7 @@ table{
     width: 100%;
 }
 
-.competitionsPane{
+.competitionsPane, .resultsPane, .championshipsPane{
     table{
         border-collapse: collapse;
         width: 100%;
@@ -260,6 +260,7 @@ table{
         }
     }
 }
+
 #results tr:nth-child(even) {
     background-color: #DCDCDC;
     border-color: #DCDCDC;
@@ -354,4 +355,25 @@ table{
 @keyframes rotateText {
     0% { transform:  rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.eventPicker{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+    padding-bottom: 50px;
+    img{
+        width: 25px;
+        max-width: 14%;
+        transition: filter 250ms;
+        cursor: pointer;
+    }
+    img:hover{
+        /*filter: drop-shadow(0 0 0.75rem #0051BA);*/
+    }
+}
+.shareLink{
+    cursor: pointer;
 }
