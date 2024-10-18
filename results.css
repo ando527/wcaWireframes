@@ -377,3 +377,15 @@ table{
 .shareLink{
     cursor: pointer;
 }
+
+.mapPane{
+    position: relative;
+    height: 600px;
+}
+#mapHolder{
+    height: 600px;
+    width: 1000px;    
+}
+.tabContent{
+    position: relative;
+}

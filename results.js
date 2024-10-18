@@ -9,6 +9,10 @@ var data2 = {
     resource_id: "wcaCompID",
 };
 
+let competitionMap = new Map();
+
+var map;
+
 $( document ).ready(function() {
 
     
@@ -99,6 +103,9 @@ $( document ).ready(function() {
         recordsPane.classList.add('hiddenPane');
         championshipsPane.classList.add('hiddenPane');
         mapPane.classList.remove('hiddenPane');
+
+    
+
     });
     
     if (window.location.hash) {
@@ -131,6 +138,22 @@ $( document ).ready(function() {
                 "clock", "minx", "pyram", "skewb", "sq1", 
                 "444bf", "555bf", "333mbf"
             ];
+
+            loadCompetitionMap(data.competitionIds, function() {
+                console.log('Competition map after loading:', competitionMap);
+        
+                // Now you can use getCompetitionName to retrieve names
+                showCompetitions(data);
+            showResultsWithEventPicker(data);
+            showChampionshipPodiums(data);
+            });
+
+            if (!document.querySelector("#mapHolder").hasChildNodes()) {
+                map = initLeafletMap();
+                addCompetitionMarkers(map, data.competitionIds); // Add markers based on competition IDs
+            }
+
+            mapPane.classList.add('hiddenPane');
             
             // Function to reorder an array based on the defined event order
             function reorderArray(array) {
@@ -149,24 +172,28 @@ $( document ).ready(function() {
             document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
             document.querySelector(".solves").innerHTML = countTotalValidSolves(data);
             for (let result of data.rank.singles){
-                document.querySelector("#results").innerHTML += `
-                <tr class="resultRow-${result.eventId}"> 
-                    <td class="icon"><img src="icons/${result.eventId}.svg"/></td>
-                    <td class="event left">${getEventName(result.eventId)}</td>
-                    <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
-                    <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
-                    <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
-                    <td class="single right">${parseResult(result.eventId, result.best, true)}</td>
-                </tr>
-                `;
+                if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
+                    document.querySelector("#results").innerHTML += `
+                    <tr class="resultRow-${result.eventId}"> 
+                        <td class="icon"><img src="icons/${result.eventId}.svg"/></td>
+                        <td class="event left">${getEventName(result.eventId)}</td>
+                        <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
+                        <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
+                        <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                        <td class="single right">${parseResult(result.eventId, result.best, true)}</td>
+                    </tr>
+                    `;
+                }
             }
             for (let result of data.rank.averages){
-                document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
-                    <td class="average left">${parseResult(result.eventId, result.best, true)}</td>
-                    <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
-                    <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
-                    <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
-                `;
+                if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
+                    document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
+                        <td class="average left">${parseResult(result.eventId, result.best, true)}</td>
+                        <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                        <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
+                        <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
+                    `;
+                }
             }
 
             if (data.medals.bronze == 0){
@@ -189,9 +216,7 @@ $( document ).ready(function() {
 
             career(data);
             medals(data);
-            showCompetitions(data);
-            showResultsWithEventPicker(data);
-            showChampionshipPodiums(data);
+            
 
             const champWins = champs(data.results, data.championshipIds);
             console.log(champWins);
@@ -518,11 +543,7 @@ function badges(data){
 
 
 function showCompetitions(data){
-    document.querySelector(".resultsPane").classList.add("hiddenPane");
-    document.querySelector(".competitionsPane").classList.remove("hiddenPane");
-    document.querySelector(".recordsPane").classList.add("hiddenPane");
-    document.querySelector(".championshipsPane").classList.add("hiddenPane");
-    document.querySelector(".mapPane").classList.add("hiddenPane");
+
 
 
 
@@ -547,7 +568,7 @@ function showCompetitions(data){
             // Insert competition name as a table header row
             tableHTML += `
                 <tr class="competition-header">
-                    <td colspan="10" class="compTitle">${competition}</td>
+                    <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
                 </tr>
             `;
 
@@ -681,7 +702,7 @@ function showResultsWithEventPicker(data) {
             if (competition !== lastCompetition) {
                 filteredTableHTML += `
                     <tr class="competition-header">
-                        <td colspan="10" class="compTitle">${competition}</td>
+                        <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
                     </tr>
                 `;
                 lastCompetition = competition;
@@ -771,7 +792,7 @@ function showChampionshipPodiums(data) {
                         // Add competition name as a table header row (only once per competition)
                         tableHTML += `
                             <tr class="competition-header">
-                                <td colspan="10" class="compTitle">${competition}</td>
+                                <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
                             </tr>
                         `;
                         competitionHasPodium = true; // Ensure competition name appears only once
@@ -842,4 +863,82 @@ function formatTime(time) {
         return `${minutes}:${seconds.toFixed(2).padStart(5, '0')}`; // Ensures two decimal places
     } 
     return (time / 100).toFixed(2); // Assuming time is in centiseconds, convert to seconds
+}
+
+function loadCompetitionMap(competitionIds, callback) {
+    const baseUrl = 'https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions/';
+    let requestsRemaining = competitionIds.length;
+
+    competitionIds.forEach(competitionId => {
+        const url = `${baseUrl}${competitionId}.json`;
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: "json", 
+            success: function(data) {
+                if (data.id && data.name) {
+                    // Store the competition ID and name in the map
+                    competitionMap.set(data.id, data.name);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(`Failed to fetch data from ${url}:`, error);
+            },
+            complete: function() {
+                requestsRemaining--;
+                if (requestsRemaining === 0) {
+                    callback(); // Call the callback when all requests are done
+                }
+            }
+        });
+    });
+}
+
+// Function to get competition name by ID from the map
+function getCompetitionName(competitionId) {
+    return competitionMap.get(competitionId) || competitionId; // Fallback to the ID if name not found
+}
+
+function initLeafletMap() {
+    // Create the Leaflet map and center it on a default location
+    const map = L.map('mapHolder').setView([20, 0], 2); // Center at lat 20, lon 0, zoom level 2
+
+    // Set the tile layer for the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    return map; // Return the map object to add markers later
+}
+
+// Function to add markers to the map
+function addCompetitionMarkers(map, competitionIds) {
+    const baseUrl = 'https://raw.githubusercontent.com/robiningelbrecht/wca-rest-api/master/api/competitions/';
+
+    competitionIds.forEach(competitionId => {
+        const url = `${baseUrl}${competitionId}.json`;
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json', // Expect JSON response
+            success: function(data) {
+                //console.log(data);
+                if (data &&  data.venue.coordinates) {
+                    const lat = data.venue.coordinates.latitude;
+                    const lon = data.venue.coordinates.longitude;
+
+                    // Create a marker for the competition location
+                    const marker = L.marker([lat, lon]).addTo(map);
+                    marker.bindPopup(`<strong>${data.name}</strong><br>${data.city}, ${data.country}`);
+                } else {
+                    console.error(`Missing coordinates or details for ${competitionId}`);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(`Failed to fetch data for ${competitionId}:`, error);
+            }
+        });
+    });
 }
