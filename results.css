@@ -8,35 +8,127 @@ html, body{
     margin: 0px;
     padding: 0px;
     font-family: 'Norms';
+    overflow: visible;
+    height: 100%;
     background-color: #EDEDED!important;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
 }
 
 #profileHolder{
     width: calc(100% - 60px);
     max-width: 1600px;
     margin: auto;
-    position: relative;
     display: flex;
     padding: 30px;
     min-height: 100%;
     background-color: #EDEDED;
 }
-#profileCard{
-    border-radius: 10px;
-    background-color: #FCFCFC;
-    padding: 30px;
-    position: sticky;
-    top: 30px;
-    bottom: 30px;
-    height: 100%;
-    width: 400px;
-    max-width: calc(100% - 1090px);
-    margin-right: 30px;
-    height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+
+
+@media only screen and (max-width: 600px) {
+    body{
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    table{
+        overflow-x: scroll;
+        width: 100%;
+        td{
+            padding-left: 15px!important;
+        }
+        .event{
+            min-width: 140px;
+        }
+    }
+    #profileHolder{
+        flex-direction: column;
+        gap: 90px;
+        width: 100%;
+        padding: 0px 15px 0px 15px;
+        margin: 0;
+        
+    }
+    #profileCard{
+        width: 100%;
+        position: relative;
+        z-index: 23;
+        height: auto;
+        background-color: #EDEDED;
+        padding: 30px 0px 30px 0px;
+        z-index: 10;
+    }
+    #resultsTableHolder{
+        max-width: 100%;
+        overflow-x: scroll;
+    }
+    #resultsPane{
+        overflow-x: scroll;
+        max-width: 100%;
+    }
+    #rightContent{
+        z-index: 20;
+    }
+    #header{
+        z-index: 22;
+        position: relative;
+    }
+    #profilePhoto{
+        max-width: 80%;
+        max-height: 50lvh;
+    }
+    #profileCollapsed{
+        padding: 15px;
+        background-color: #EDEDED;
+        width: 100%;
+        position: fixed;
+        top: 0px;
+        z-index: 21;
+        display: flex;
+        gap: 5px;
+        img{
+            width: 60px;
+            height: auto;
+            border-radius: 5px;
+        }
+        h3{
+            margin: 0px;
+        }
+        .collapsedInfo{
+            display: flex;
+            flex-direction: column;
+        }
+    }
 }
+
+@media only screen and (min-width: 601px) {
+    #profileCollapsed{
+        display: none;
+    }
+    #profileHolder{
+        flex-direction: row;
+    }
+    #profileCard{
+        border-radius: 10px;
+        background-color: #FCFCFC;
+        padding: 30px;
+        position: sticky;
+        top: 30px;
+        width: 400px;
+        bottom: 30px;
+        max-width: calc(100% - 1090px);
+        margin-right: 30px;
+        height: calc(100vh - 200px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 10;
+    }
+}
+
 #profilePhoto{
     width: fit-content;
     max-width: 100%;
@@ -82,6 +174,8 @@ html, body{
     background-color: #FCFCFC;
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
     align-items: center;
 }
 table{
@@ -137,6 +231,15 @@ table{
     align-content: flex-start;
     gap: 30px;
 }
+/* Target when there's only one child */
+#recordsAndMore:has(:only-child) {
+    justify-content: flex-end; /* Adjust this to flex-start, center, or flex-end */
+  }
+  
+  /* Alternative: using a more modern approach with :has() (currently supported in Chrome and Safari) */
+  #recordsAndMore:has(> :only-child) {
+    justify-content: space-between; /* You can change this to flex-start or flex-end */
+  }
 .allMedals, .allRecords{
     display: flex;
     gap: 30px;
@@ -147,6 +250,8 @@ table{
     padding: 30px;
     background-color: #FCFCFC;
     border-radius: 10px;
+    flex-grow: 1;
+    align-items: center;
     h3{
         margin-top: 0;
         margin-bottom: 10px;
@@ -258,11 +363,21 @@ table{
     tr{
         padding-top: 5px;
     }
+    tr td:last-child {
+        padding-right: 10px;
+    }
     tbody tr:nth-child(even) {
         background-color: #DCDCDC;
         border-color: #DCDCDC;
         td{
             border-color: #DCDCDC;
+        }
+    }
+    tbody tr:nth-child(odd) {
+        background-color: #FCFCFC;
+        border-color: #FCFCFC;
+        td{
+            border-color: #FCFCFC;
         }
     }
 }
@@ -277,7 +392,7 @@ table{
 .eventIcon{
     max-width: 20px;
 }
-.eventNameRow{
+.eventNameRow, .event, .event-header{
     width: 140px;
     img{
         height: 1.2em;
@@ -308,6 +423,7 @@ table{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 #profileName{
     width: 100%;
@@ -352,11 +468,33 @@ table{
     display: inline-block;
     width: 120px;
     height: 120px;
+    svg{
+        z-index: 4;
+    }
 }
   
 .emblem-base {
     width: 100%;
     height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.emblem-base-120{
+    width: 100%;
+    height: 100%;
+    animation: rotateText120 6s linear infinite;
+    position: absolute;
+    transform: rotate(120deg); 
+    z-index: 2;
+}
+.emblem-base-240{
+    width: 100%;
+    height: 100%;
+    animation: rotateText240 6s linear infinite;
+    position: absolute;
+
+    transform: rotate(240deg); 
+    z-index: 3;
 }
   
 .text-svg {
@@ -366,23 +504,89 @@ table{
     width: 100%;
     height: 100%;
     pointer-events: none;
-    animation: rotateText 20s linear infinite;
+    
+    pointer-events: none;
+}
+
+.method{
+    position: relative;
+
+}
+.founder{
+    background-color: #F6C5C5;
+}
+
+.method .tooltip{
+    visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 5px;
+  top: -1.5em;
+  position: absolute;
+  z-index: 100;
   pointer-events: none;
+  transition: all 250ms;
+  opacity: 0;
 }
-@keyframes rotateText {
-    0% { transform:  rotate(0deg); }
-    100% { transform: rotate(360deg); }
+
+.method:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+@keyframes rotateText120 {
+    0%{
+        opacity: 0;
+    }
+    30% { 
+        opacity: 0;
+    }
+    35% {
+        opacity: 1; /* Smooth fade-in for 120 degrees */
+    }
+    60% { 
+        opacity: 1;
+    }
+    65% { 
+        opacity: 0; /* Smooth fade-out */
+    }
+    100%{
+        opacity: 0;
+    }
 }
+
+@keyframes rotateText240 {
+    0%{
+        opacity: 0;
+    }
+    60% { 
+        opacity: 0;
+    }
+    65% { 
+        opacity: 1;
+    }
+    95% { 
+        opacity: 1;
+    }
+    100% {
+        opacity: 0; /* Smooth fade-out */
+    }
+}
+
 
 .eventPicker{
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     padding-bottom: 50px;
     img{
-        width: 25px;
+        width: 30px;
         max-width: 8%;
         transition: background-color 250ms;
         cursor: pointer;
@@ -394,6 +598,16 @@ table{
         background-color: transparent;
     }
 }
+
+.filteredResultsTable, .competitionsPane{
+    thead{
+        position: sticky;
+        top: 0px;
+        background-color: #FCFCFC;
+        z-index: 10;
+    }
+}
+
 .shareLink{
     cursor: pointer;
 }

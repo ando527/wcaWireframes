@@ -15,6 +15,29 @@ var map;
 
 var championships = 0;
 
+var methodArchitects = {
+    "2015CHER07": "7Simul (Clock)",
+    "2014PAUL05": "7Simul (Clock)",
+    "2003POCH01": "Old Pochmann (BLD)",
+    "2009YAUR01": "Yau Method (4x4x4-7x7x7)",
+    "1982FRID01": "CFOP (3x3x3)",
+    "2007STRO01": "Sarah's Skewb Method(s)",
+    "2003VAND01": "Vandenbergh SQ1 Method",
+    "2003ZBOR02": "ZZ Method (3x3x3)",
+    "2004ROUX01": "Roux Method (3x3x3)",
+    "2008LINT01": "Lin SQ-1 Method",
+    "2008BODO01": "Balint (Megaminx)",
+    "2008WEST02": "Westlund (Megaminx)",
+    "2008YUDA01": "Yu Da-hyun (Megaminx)",
+    "1982PETR01": "Petrus Method (3x3x3)",
+    "2008JONG03": "Hoya Method (4x4x4 & 5x5x5)",
+    "2003BRUC01": "ZB (3x3x3)"
+}
+
+var wcaFounders = {
+    "2003BRUC01": "Founder",
+    "2004MAOT02": "Founder"
+}
 
 $( document ).ready(function() {
 
@@ -170,6 +193,8 @@ $( document ).ready(function() {
                 showCompetitions(data);
                 showResultsWithEventPicker(data);
                 showChampionshipPodiums(data);
+
+                
             
 
                 if (!document.querySelector("#mapHolder").hasChildNodes()) {
@@ -192,6 +217,8 @@ $( document ).ready(function() {
 
                 console.log(data);
                 document.querySelector("#profileName").innerHTML = data.name;
+                document.querySelector("#collapsedName").innerHTML = data.name;
+                document.querySelector(".collapsedWcaId").innerHTML = data.id;
                 document.querySelector(".wcaId").innerHTML = data.id;
                 document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
                 document.querySelector(".solves").innerHTML = countTotalValidSolves(data);
@@ -220,6 +247,23 @@ $( document ).ready(function() {
                     }
                 }
 
+                const table = document.querySelector(".resultsTable");
+                const expectedColCount = table.querySelector("thead tr").children.length; // Number of columns in the header
+                console.log(expectedColCount);
+
+                table.querySelectorAll("#results tr").forEach(row => {
+                    const cellCount = row.children.length;
+                    console.log(row);
+                    if (cellCount < expectedColCount) {
+                        const colspan = expectedColCount - cellCount + 1; // Calculate colspan for the missing columns
+                        const emptyCell = document.createElement("td");
+                        emptyCell.setAttribute("colspan", colspan);
+                        emptyCell.innerHTML = ""; // Add blank content
+
+                        row.appendChild(emptyCell); // Append the colspan cell to make the row full-width
+                    }
+                });
+
                 if (data.medals.bronze == 0){
                     document.querySelector(".bronze").remove();
                 } else {
@@ -240,6 +284,8 @@ $( document ).ready(function() {
 
                 career(data);
                 medals(data);
+                methodArchitect(data);
+                wcaFounder(data);
                 
 
                 const champWins = champs(data.results, data.championshipIds);
@@ -261,9 +307,10 @@ $( document ).ready(function() {
                 method: "GET",
                 success: function(response) {
                   const avatarUrl = response.person.avatar.url;
+                  const thumbUrl = response.person.avatar.thumb_url;
                   console.log("Dataraw:", response);
 
-                document.querySelector(".region").innerHTML = response.person.country.name;
+                document.querySelector(".region").innerHTML = response.person.country.id;
                 parseGender(response.person.gender);
 
                 if (response.records.continental == 0){
@@ -293,6 +340,8 @@ $( document ).ready(function() {
                 badges(response);
 
                   $('#profilePhoto').attr("src",avatarUrl);
+                  $('#collapsedPhoto').attr("src",thumbUrl);
+                  
                 },
                 error: function(error) {
                   console.error("Error fetching data:", error);
@@ -300,7 +349,7 @@ $( document ).ready(function() {
               });
 
 
-              
+            
             
 
 
@@ -312,24 +361,45 @@ $( document ).ready(function() {
     const header = document.querySelector("#header");
 
     function adjustStickyHeight() {
-        const offset = 120; // Fixed offset from bottom
-        const viewportHeight = window.innerHeight;
-        const headerHeight = header.offsetHeight;
-        const scrollPos = window.scrollY;
+        if (document.body.offsetWidth > 600){
+            const offset = 120; // Fixed offset from bottom
+            const viewportHeight = window.innerHeight;
+            const headerHeight = header.offsetHeight;
+            const scrollPos = window.scrollY;
 
-        // Calculate capped header offset
-        const headerOffset = Math.max(0, headerHeight - scrollPos);
-        
-        // Set height dynamically
-        stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
-        setImageMaxHeight();
+            // Calculate capped header offset
+            const headerOffset = Math.max(0, headerHeight - scrollPos);
+            
+            // Set height dynamically
+            stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
+            setImageMaxHeight();
+        } else {
+            stickyElement.style.height = "auto";
+        }
     }
 
-    // Adjust height on scroll and on page load
-    window.addEventListener("scroll", adjustStickyHeight);
-    window.addEventListener("resize", adjustStickyHeight);
-    adjustStickyHeight(); // Initial call on page load
-    setImageMaxHeight();
+    function setImageMaxHeight() {
+        // Get the heights of the specified elements
+        const profileCardHeight = $('#profileCard').height();
+        const achievementsHeight = $('#achievements').height();
+        const profileDetailsHeight = $('#profileDetails').height();
+        const profileNameHeight = $('#profileName').height();
+    
+        // Calculate the max height (combined heights minus 60px)
+        const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
+    
+        // Apply the calculated max-height to the image
+        $('#profilePhoto').css('max-height', maxHeight + 'px');
+    }
+    console.log(document.body.offsetWidth);
+
+    if (document.body.offsetWidth > 600){
+        // Adjust height on scroll and on page load
+        window.addEventListener("scroll", adjustStickyHeight);
+        window.addEventListener("resize", adjustStickyHeight);
+        adjustStickyHeight(); // Initial call on page load
+        setImageMaxHeight();
+    }
 
 
 });
@@ -490,6 +560,27 @@ function records(data1, data){
     }
 }
 
+function methodArchitect(data){
+
+    if (Object.keys(methodArchitects).includes(data.id)){
+        document.querySelector(".method").innerHTML += `
+        <span class="tooltip">${methodArchitects[data.id]}</span>
+        `;
+    } else {
+        document.querySelector(".method").remove();
+    }
+}
+
+function wcaFounder(data){
+   
+    if (Object.keys(wcaFounders).includes(data.id)){
+        //do nothing
+    } else {
+        document.querySelector(".founder").remove();
+    }
+}
+
+
 function champs(results, championshipIds) {
     let wins = 0;
     let podiums = 0;
@@ -526,30 +617,37 @@ function badges(data){
 
     data.person.teams.forEach(team=> {
         let teamText = team.friendly_id.toUpperCase();
+        let teamRole = "";
         let baseUrl = "greenBase.svg";
         if (team.leader == true){
-            teamText += " LEADER";
+            teamRole = "LEADER";
             baseUrl = "blueBase.svg";
         } else {
             if (team.senior_member == true){
-                teamText += " SENIOR MEMBER";
+                teamRole = "SENIOR MEMBER";
                 baseUrl = "orangeBase.svg";
             } else {
-                teamText += " MEMBER";
+                teamRole = "MEMBER";
             }
         }
 
         document.querySelector(".leftTopContent").innerHTML = `
         <div class="emblem">
                         <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base">
+                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base-120">
+                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base-240">
                         <svg viewBox="0 0 120 120" class="text-svg">
                             <defs>
                                 <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
+                                <path id="reverseCirclePath" d="M 60, 60 m 46, 0 a 46,46 0 1,0 -92,0 a 46,46 0 1,0 92,0" />
                             </defs>
-                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.1">
-                              <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
-                                ${teamText}
-                              </textPath>
+                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.05">
+                                <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
+                                    ${teamText}
+                                </textPath>
+                                <textPath href="#reverseCirclePath" startOffset="75%" text-anchor="middle">
+                                    <tspan dy="6">${teamRole}</tspan>
+                                </textPath>
                             </text>
                           </svg>
                       </div>
@@ -557,18 +655,24 @@ function badges(data){
     });
 
     if (data.person.delegate_status != null){
-        let delegateText = data.person.delegate_status.toUpperCase().replace(/_/g, ' ');
+        let delegateText = data.person.delegate_status.toUpperCase().replace(/_/g, ' ').replace("DELEGATE", "");
         document.querySelector(".leftTopContent").innerHTML = `
         <div class="emblem">
                         <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base">
+                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base-120">
+                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base-240">
                         <svg viewBox="0 0 120 120" class="text-svg">
                             <defs>
                                 <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
+                                <path id="reverseCirclePath" d="M 60, 60 m 46, 0 a 46,46 0 1,0 -92,0 a 46,46 0 1,0 92,0" />
                             </defs>
                             <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.1">
-                              <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
+                              <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
                                 ${delegateText}
                               </textPath>
+                              <textPath href="#reverseCirclePath" startOffset="75%" text-anchor="middle">
+                                    <tspan dy="6">DELEGATE</tspan>
+                                </textPath>
                             </text>
                           </svg>
                       </div>
@@ -618,9 +722,9 @@ function showCompetitions(data){
                                 <td class="eventNameRow"><img src="icons/${event}.svg" />${getEventName(event)}</td>
                                 <td class="roundRow">${roundData.round}</td>
                                 <td class="placeRow">${roundData.position || ''}</td>
-                                <td class="bestRow">${formatTime(roundData.best)}</td>
+                                <td class="bestRow">${formatTime(roundData.best, (event === "333fm") ? 1 : 0)}</td>
                                 <td class="averageRow">${formatTime(roundData.average)}</td>
-                                <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                                <td class="timeRow">${roundData.solves.map(time => formatTime(time, (event === "333fm") ? 1 : 0)).join('</td><td class="timeRow">')}</td>
                             </tr>
                         `;
                         roundFirst = false;
@@ -630,9 +734,9 @@ function showCompetitions(data){
                                 <td class="eventNameRow"></td>
                                 <td class="roundRow">${roundData.round}</td>
                                 <td class="placeRow">${roundData.position || ''}</td>
-                                <td class="bestRow">${formatTime(roundData.best)}</td>
+                                <td class="bestRow">${formatTime(roundData.best, (event === "333fm") ? 1 : 0)}</td>
                                 <td class="averageRow">${formatTime(roundData.average)}</td>
-                                <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                                <td class="timeRow">${roundData.solves.map(time => formatTime(time, (event === "333fm") ? 1 : 0)).join('</td><td class="timeRow">')}</td>
                             </tr>
                         `;
                     }
@@ -647,22 +751,10 @@ function showCompetitions(data){
         document.querySelector(".competitionsPane").innerHTML = tableHTML;
 
 
-        const table = document.querySelector(".resultsTable");
-        const expectedColCount = table.querySelector("thead tr").children.length; // Number of columns in the header
-
-        table.querySelectorAll("tbody tr").forEach(row => {
-            const cellCount = row.children.length;
-
-            if (cellCount < expectedColCount) {
-                const colspan = expectedColCount - cellCount + 1; // Calculate colspan for the missing columns
-                const emptyCell = document.createElement("td");
-                emptyCell.setAttribute("colspan", colspan);
-                emptyCell.innerHTML = ""; // Add blank content
-
-                row.appendChild(emptyCell); // Append the colspan cell to make the row full-width
-            }
-        });
+        
     }
+
+    
 }
 
 function showResultsWithEventPicker(data) {
@@ -768,9 +860,9 @@ function showResultsWithEventPicker(data) {
                 <tr>
                     <td class="roundRow">${roundData.round}</td>
                     <td class="placeRow">${roundData.position || ''}</td>
-                    <td class="bestRow">${formatTime(roundData.best)}</td>
+                    <td class="bestRow">${formatTime(roundData.best, (event === "333fm") ? 1 : 0)}</td>
                     <td class="averageRow">${formatTime(roundData.average)}</td>
-                    <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                    <td class="timeRow">${roundData.solves.map(time => formatTime(time, (event === "333fm") ? 1 : 0)).join('</td><td class="timeRow">')}</td>
                 </tr>
             `;
         });
@@ -866,9 +958,9 @@ function showChampionshipPodiums(data) {
                             <td class="eventNameRow"><img src="icons/${event}.svg" />${getEventName(event)}</td>
                             <td class="roundRow">${roundData.round}</td>
                             <td class="placeRow">${roundData.position || ''}</td>
-                            <td class="bestRow">${formatTime(roundData.best)}</td>
-                            <td class="averageRow">${formatTime(roundData.average)}</td>
-                            <td class="timeRow">${roundData.solves.map(time => formatTime(time)).join('</td><td class="timeRow">')}</td>
+                            <td class="bestRow">${formatTime(roundData.best, (event === "333fm") ? 1 : 0)}</td>
+                            <td class="averageRow">${formatTime(roundData.average, (event === "333fm") ? 1 : 0)}</td>
+                            <td class="timeRow">${roundData.solves.map(time => formatTime(time, (event === "333fm") ? 1 : 0)).join('</td><td class="timeRow">')}</td>
                         </tr>
                     `;
                 }
@@ -911,10 +1003,14 @@ function getEventName(eventCode) {
     return eventNames[eventCode] || eventCode;
 }
 
-function formatTime(time) {
+function formatTime(time, fmc = 0) {
     if (time === -1) return "DNF";
     if (time === -2) return "DNS";
     if (time === 0) return "";
+
+    if (fmc == 1){
+        return time;
+    }
 
     if (time.toString().length >8 ){
         return parseResult( "333mbf", time,  true);
@@ -1005,16 +1101,3 @@ function addCompetitionMarkers(map, competitionIds) {
     });
 }
 
-function setImageMaxHeight() {
-    // Get the heights of the specified elements
-    const profileCardHeight = $('#profileCard').height();
-    const achievementsHeight = $('#achievements').height();
-    const profileDetailsHeight = $('#profileDetails').height();
-    const profileNameHeight = $('#profileName').height();
-
-    // Calculate the max height (combined heights minus 60px)
-    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
-
-    // Apply the calculated max-height to the image
-    $('#profilePhoto').css('max-height', maxHeight + 'px');
-}

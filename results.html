@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="leaflet.css" />
         <link rel="stylesheet" href="styles.css" />
         <link rel="icon" type="image/x-icon" href="s.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -29,14 +31,22 @@
                 <a href="#" class="noDrop">WCA Live</a>
             </div>
             <div class="searchProfile">
-                <input type="text" id="searchBox" maxlength="10" placeholder="Enter WCA ID" />
+                <input type="text" id="searchBox" maxlength="10" placeholder="Enter WCA ID"></input>
             </div>
         </div>
+        <!-- Collapsed state content -->
+        <div id="profileCollapsed" class="collapsed">
+            <img id="collapsedPhoto" src="images/loading.gif"></img>
+            <div class="collapsedInfo">
+                <h3 id="collapsedName">Mitchell Anderson</h3>
+                <span class="collapsedWcaId">2022ANDE01</span>
+            </div>
+        </div>
+        
         <div id="profileHolder">
             <div id="profileCard">
                 <div class="leftTopContent">
                     <img id="profilePhoto" src="images/loading.gif"></img>
-          
                     <span class="flag au"></span>
                     <h2 id="profileName">Mitchell Anderson</h2>
                     <div id="profileDetails">
@@ -67,8 +77,11 @@
                     <div class="career">9 Year Career</div>
                     <div class="medals">228 Gold Medals</div>
                     <div class="champs">2 World Championship Podiums</div>
+                    <div class="method">Method Architect<span class="tooltip">test</span></div>
+                    <div class="founder">WCA Co-Founder</div>
                 </div>
             </div>
+            
             <div id="rightContent">
                 <div id="resultsTableHolder">
                     <h3>
@@ -137,7 +150,7 @@
                                 <span>World Records</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/worldRecord.svg" />
+                                        <img src="icons/recordRibbonGold.svg" />
                                         <span class="worldRecords"></span>
                                     </div>
                                 </div>
@@ -146,7 +159,7 @@
                                 <span>Continental Records</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/continentalRecord.svg" />
+                                        <img src="icons/recordRibbonSilver.svg" />
                                         <span class="continentalRecords"></span>
                                     </div>
                                 </div>
@@ -155,7 +168,7 @@
                                 <span>National Records</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/nationalRecord.svg" />
+                                        <img src="icons/recordRibbonBronze.svg" />
                                         <span class="nationalRecords"></span>
                                     </div>
                                 </div>
