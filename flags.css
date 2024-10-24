@@ -1,4 +1,4 @@
-#infoPane, .compRow{
+#infoPane, .compRow, #profileName{
     .au {
         background-image: url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e6-1f1fa.svg") !important;
     }

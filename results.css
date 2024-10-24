@@ -10,7 +10,7 @@ html, body{
     font-family: 'Norms';
     overflow: visible;
     height: 100%;
-    background-color: #EDEDED!important;
+    /*background-color: #EDEDED!important;*/
 }
 * {
     margin: 0;
@@ -20,12 +20,12 @@ html, body{
 
 #profileHolder{
     width: calc(100% - 60px);
-    max-width: 1600px;
+    max-width: 1490px;
     margin: auto;
     display: flex;
     padding: 30px;
     min-height: 100%;
-    background-color: #EDEDED;
+    /*background-color: #EDEDED;*/
 }
 
 
@@ -50,7 +50,7 @@ html, body{
         width: 100%;
         padding: 0px 15px 0px 15px;
         margin: 0;
-        
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
     #profileCard{
         width: 100%;
@@ -68,6 +68,7 @@ html, body{
     #resultsPane{
         overflow-x: scroll;
         max-width: 100%;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
     #rightContent{
         z-index: 20;
@@ -126,6 +127,16 @@ html, body{
         flex-direction: column;
         justify-content: space-between;
         z-index: 10;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    }
+    .recordBox{
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    }
+    #allResults{
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    }
+    #resultsTableHolder{
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
 }
 
@@ -150,7 +161,7 @@ html, body{
 }
 .profileInfo{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: calc(50% - 16px);
 
 }
@@ -174,8 +185,8 @@ html, body{
     background-color: #FCFCFC;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-top: 10px;
+    gap: 30px;
+    padding-top: 30px;
     align-items: center;
 }
 table{
@@ -256,6 +267,11 @@ table{
         margin-top: 0;
         margin-bottom: 10px;
     }
+}
+.leftAlignIconAndTitle{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .medalsHolder{
     display: flex;
@@ -385,9 +401,37 @@ table{
 #results tr:nth-child(even) {
     background-color: #DCDCDC;
     border-color: #DCDCDC;
+    border-top: 2px solid #DCDCDC;
+    border-bottom: 2px solid #DCDCDC;
     td{
         border-color: #DCDCDC;
     }
+}
+
+#results tr:last-child {
+    border-bottom: none!important;
+}
+
+#results tr:nth-child(odd) {
+    background-color: #FCFCFC;
+    border-color: #FCFCFC;
+    border-top: 2px solid #FCFCFC;
+    border-bottom: 2px solid #FCFCFC;
+    td{
+        border-color: #FCFCFC;
+    }
+}
+
+#results img {
+    transform: translate(-0.15em, 0.15em);
+}
+
+#results tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+#results tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
 }
 .eventIcon{
     max-width: 20px;
@@ -428,6 +472,13 @@ table{
 #profileName{
     width: 100%;
     text-align: left;
+    display: flex;
+    gap: 5px;
+    .flag{
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+    }
 }
 #profileDetails{
     width: 100%;
@@ -590,12 +641,13 @@ table{
         max-width: 8%;
         transition: background-color 250ms;
         cursor: pointer;
-        background-color: #EDEDED;
+        /*background-color: #EDEDED;*/
+        opacity: 0.3;
         border-radius: 5px;
         padding: 5px;
     }
     .selectedIcon{
-        background-color: transparent;
+        opacity: 1;
     }
 }
 
@@ -603,8 +655,10 @@ table{
     thead{
         position: sticky;
         top: 0px;
-        background-color: #FCFCFC;
+        background-color: #DCDCDC;
         z-index: 10;
+        font-weight: 700;
+        box-shadow: 0 2px 0px 0px #FCFCFC;
     }
 }
 
@@ -622,6 +676,7 @@ table{
 }
 .tabContent{
     position: relative;
+    padding-bottom: 30px;
 }
 #searchBox{
     padding: 10px 15px 10px 15px;

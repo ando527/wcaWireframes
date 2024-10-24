@@ -10,11 +10,11 @@
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <!-- Leaflet CSS -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <link rel="stylesheet" href="leaflet.css" />
 
 
         <!-- Leaflet JavaScript -->
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="leaflet.js"></script>
 
         <title>Results Page</title>
     </head>
@@ -22,13 +22,13 @@
         <div id="header">
             <div class="linksHolder">
                 <a href="index.html"><img src="wca_logo.svg" width="60px" height="60px"/></a>
-                <a href="#" class="noDrop">About Us</a>
-                <a href="#" class="noDrop">FAQ's</a>
-                <a href="#" class="dropDownLink">Competitions</a>
-                <a href="#" class="dropDownLink">Results</a>
-                <a href="#" class="dropDownLink">Regulations</a>
-                <a href="#" class="dropDownLink">Information</a>
-                <a href="#" class="noDrop">WCA Live</a>
+                <a class="noDrop">About Us</a>
+                <a class="noDrop">FAQ's</a>
+                <a class="dropDownLink">Competitions</a>
+                <a class="dropDownLink">Results</a>
+                <a class="dropDownLink">Regulations</a>
+                <a class="dropDownLink">Information</a>
+                <a class="noDrop">WCA Live</a>
             </div>
             <div class="searchProfile">
                 <input type="text" id="searchBox" maxlength="10" placeholder="Enter WCA ID"></input>
@@ -47,8 +47,8 @@
             <div id="profileCard">
                 <div class="leftTopContent">
                     <img id="profilePhoto" src="images/loading.gif"></img>
-                    <span class="flag au"></span>
-                    <h2 id="profileName">Mitchell Anderson</h2>
+                    
+                    <h2 id="profileName"><span class="flag au"></span>Mitchell Anderson</h2>
                     <div id="profileDetails">
                         <div class="profileInfo">
                             <span class="profileInfoHeading">WCA ID</span>
@@ -178,8 +178,10 @@
 
                     <div class="recordBox shareLink">
                         <h3>Share</h3>
-                        <span>Copy Link</span>
-                        <img src="icons/link.svg" />
+                        <span class="leftAlignIconAndTitle">
+                            <span>Copy Link</span>
+                            <img src="icons/link.svg" />
+                        </span>
                     </div>
                     
                 </div>

@@ -15,6 +15,15 @@ var map;
 
 var championships = 0;
 
+const compIcon = L.icon({
+    iconUrl: 'images/comp-marker.svg',
+    shadowUrl: 'images/marker-shadow.png',
+    shadowAnchor: [13, 43],
+    iconSize: [26, 40],
+    iconAnchor: [13, 40],
+    popupAnchor: [0, -40]
+});
+
 var methodArchitects = {
     "2015CHER07": "7Simul (Clock)",
     "2014PAUL05": "7Simul (Clock)",
@@ -216,7 +225,7 @@ $( document ).ready(function() {
                 data.rank.singles = reorderArray(data.rank.singles);
 
                 console.log(data);
-                document.querySelector("#profileName").innerHTML = data.name;
+                document.querySelector("#profileName").innerHTML = `<span class="flag ${data.country.toLowerCase()}"></span>${data.name}`;
                 document.querySelector("#collapsedName").innerHTML = data.name;
                 document.querySelector(".collapsedWcaId").innerHTML = data.id;
                 document.querySelector(".wcaId").innerHTML = data.id;
@@ -239,7 +248,7 @@ $( document ).ready(function() {
                 for (let result of data.rank.averages){
                     if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
                         document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
-                            <td class="average left">${parseResult(result.eventId, result.best, true)}</td>
+                            <td class="average left">${parseResult(result.eventId, result.best, false)}</td>
                             <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
                             <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
                             <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
@@ -1088,7 +1097,8 @@ function addCompetitionMarkers(map, competitionIds) {
                     const lon = data.venue.coordinates.longitude;
 
                     // Create a marker for the competition location
-                    const marker = L.marker([lat, lon]).addTo(map);
+                    const marker = L.marker([lat, lon], {
+                        icon: compIcon}).addTo(map);
                     marker.bindPopup(`<strong>${data.name}</strong><br>${data.city}, ${data.country}`);
                 } else {
                     console.error(`Missing coordinates or details for ${competitionId}`);
