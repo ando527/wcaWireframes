@@ -179,7 +179,7 @@ $( document ).ready(function() {
 
             document.querySelector('.shareLink').addEventListener('click', function() {
     
-                navigator.clipboard.writeText(`https://www.worldcubeassociation.org/persons/${data.id}`)
+                navigator.clipboard.writeText(`https://ando527.github.io/wcaWireframes/results.html#${data.id}`)
                     .then(() => {
                         console.log('Text copied to clipboard');
                     })
@@ -227,6 +227,7 @@ $( document ).ready(function() {
                 console.log(data);
                 document.querySelector("#profileName").innerHTML = `<span class="flag ${data.country.toLowerCase()}"></span>${data.name}`;
                 document.querySelector("#collapsedName").innerHTML = data.name;
+                document.title = `${data.name} | WCA Prototype`;
                 document.querySelector(".collapsedWcaId").innerHTML = data.id;
                 document.querySelector(".wcaId").innerHTML = data.id;
                 document.querySelector(".comps").innerHTML = data.numberOfCompetitions;
@@ -239,7 +240,7 @@ $( document ).ready(function() {
                             <td class="event left">${getEventName(result.eventId)}</td>
                             <td class="nr right ${prettyRank(result.rank.country)}">${result.rank.country}</td>
                             <td class="cr right ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
-                            <td class="wr right ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                            <td class="wr right ${prettyRank(result.rank.world, 1)}">${result.rank.world}</td>
                             <td class="single right">${parseResult(result.eventId, result.best, true)}</td>
                         </tr>
                         `;
@@ -249,7 +250,7 @@ $( document ).ready(function() {
                     if (result.eventId != "magic" && result.eventId != "mmagic" && result.eventId != "333ft" && result.eventId != "333mbo"){
                         document.querySelector(`.resultRow-${result.eventId}`).innerHTML += `
                             <td class="average left">${parseResult(result.eventId, result.best, false)}</td>
-                            <td class="wr left ${prettyRank(result.rank.world)}">${result.rank.world}</td>
+                            <td class="wr left ${prettyRank(result.rank.world, 1)}">${result.rank.world}</td>
                             <td class="cr left ${prettyRank(result.rank.continent)}">${result.rank.continent}</td>
                             <td class="nr left ${prettyRank(result.rank.country)}">${result.rank.country}</td>
                         `;
@@ -370,7 +371,7 @@ $( document ).ready(function() {
     const header = document.querySelector("#header");
 
     function adjustStickyHeight() {
-        if (document.body.offsetWidth > 600){
+        if (document.body.offsetWidth > 1200){
             const offset = 120; // Fixed offset from bottom
             const viewportHeight = window.innerHeight;
             const headerHeight = header.offsetHeight;
@@ -402,7 +403,7 @@ $( document ).ready(function() {
     }
     console.log(document.body.offsetWidth);
 
-    if (document.body.offsetWidth > 600){
+    if (document.body.offsetWidth > 1200){
         // Adjust height on scroll and on page load
         window.addEventListener("scroll", adjustStickyHeight);
         window.addEventListener("resize", adjustStickyHeight);
@@ -447,12 +448,17 @@ function parseGender(genderChar){
 
 }
 
-function prettyRank(result){
+function prettyRank(result, world){
     if (parseInt(result) == 1){
         return "orange"
     } else if (parseInt(result) < 11){
         return "green"
     } else {
+        if (world == 1){
+            if (parseInt(result) < 26){
+                return "green"
+            }
+        }
         return "";
     }
 }
@@ -640,7 +646,7 @@ function badges(data){
             }
         }
 
-        document.querySelector(".leftTopContent").innerHTML = `
+        document.querySelector(".emblemPhotoHolder").innerHTML = `
         <div class="emblem">
                         <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base">
                         <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base-120">
@@ -660,12 +666,12 @@ function badges(data){
                             </text>
                           </svg>
                       </div>
-        ` + document.querySelector(".leftTopContent").innerHTML;
+        ` + document.querySelector(".emblemPhotoHolder").innerHTML;
     });
 
     if (data.person.delegate_status != null){
         let delegateText = data.person.delegate_status.toUpperCase().replace(/_/g, ' ').replace("DELEGATE", "");
-        document.querySelector(".leftTopContent").innerHTML = `
+        document.querySelector(".emblemPhotoHolder").innerHTML = `
         <div class="emblem">
                         <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base">
                         <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base-120">
@@ -685,7 +691,7 @@ function badges(data){
                             </text>
                           </svg>
                       </div>
-        ` + document.querySelector(".leftTopContent").innerHTML;
+        ` + document.querySelector(".emblemPhotoHolder").innerHTML;
     };
 }
 

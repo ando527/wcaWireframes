@@ -3,6 +3,8 @@
     src: url('TTNorms.ttf')  format('truetype'),
     url('TTNorms.woff') format('woff');
 }
+
+
 #header{
     height: 60px;
     padding: 10px;
@@ -453,7 +455,7 @@ html, body{
     line-height: 18px;
     font-family: 'Norms';
 }
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3{
     line-height: 1.1;
     font-stretch: condensed;
 }

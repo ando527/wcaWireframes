@@ -46,29 +46,31 @@
         <div id="profileHolder">
             <div id="profileCard">
                 <div class="leftTopContent">
-                    <img id="profilePhoto" src="images/loading.gif"></img>
+                    <div class="emblemPhotoHolder"><img id="profilePhoto" src="images/loading.gif"></img></div>
                     
-                    <h2 id="profileName"><span class="flag au"></span>Mitchell Anderson</h2>
-                    <div id="profileDetails">
-                        <div class="profileInfo">
-                            <span class="profileInfoHeading">WCA ID</span>
-                            <span class="profileInfoValue wcaId">2022ANDE01</span>
-                        </div>
-                        <div class="profileInfo ">
-                            <span class="profileInfoHeading">Region</span>
-                            <span class="profileInfoValue region">Australia</span>
-                        </div>
-                        <div class="profileInfo genderData">
-                            <span class="profileInfoHeading">Gender</span>
-                            <span class="profileInfoValue gender">Male</span>
-                        </div>
-                        <div class="profileInfo">
-                            <span class="profileInfoHeading">Competitions</span>
-                            <span class="profileInfoValue comps">48</span>
-                        </div>
-                        <div class="profileInfo">
-                            <span class="profileInfoHeading">Completed Solves</span>
-                            <span class="profileInfoValue solves">1659</span>
+                    <div class="leftmiddleContent">
+                        <h2 id="profileName"><span class="flag au"></span>Mitchell Anderson</h2>
+                        <div id="profileDetails">
+                            <div class="profileInfo">
+                                <span class="profileInfoHeading">WCA ID</span>
+                                <span class="profileInfoValue wcaId">2022ANDE01</span>
+                            </div>
+                            <div class="profileInfo ">
+                                <span class="profileInfoHeading">Region</span>
+                                <span class="profileInfoValue region">Australia</span>
+                            </div>
+                            <div class="profileInfo genderData">
+                                <span class="profileInfoHeading">Gender</span>
+                                <span class="profileInfoValue gender">Male</span>
+                            </div>
+                            <div class="profileInfo">
+                                <span class="profileInfoHeading">Competitions</span>
+                                <span class="profileInfoValue comps">48</span>
+                            </div>
+                            <div class="profileInfo">
+                                <span class="profileInfoHeading">Completed Solves</span>
+                                <span class="profileInfoValue solves">1659</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,13 +113,15 @@
                     
 
                     <div class="recordBox medalsHolder">
-                        <h3>Medal Collection</h3>
+                        <div class="recordBoxTitle">
+                            <h4>Medal Collection</h4>
+                            <img src="icons/goldMedal.svg" />
+                        </div>
                         <div class="allMedals">
                             <div class="recordIndiv gold">
                                 <span>Gold</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/goldMedal.svg" />
                                         <span class="goldMedals"></span>
                                     </div>
                                 </div>
@@ -126,7 +130,6 @@
                                 <span>Silver</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/silverMedal.svg" />
                                         <span class="silverMedals"></span>
                                     </div>
                                 </div>
@@ -135,7 +138,6 @@
                                 <span>Bronze</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/bronzeMedal.svg" />
                                         <span class="bronzeMedals"></span>
                                     </div>
                                 </div>
@@ -144,31 +146,31 @@
                     </div>
 
                     <div class="recordBox recordsHolder">
-                        <h3>Record Collection</h3>
+                        <div class="recordBoxTitle">
+                            <h4>Record Collection</h4>
+                            <img src="icons/recordRibbonGold.svg" />
+                        </div>
                         <div class="allRecords">
                             <div class="recordIndiv world">
-                                <span>World Records</span>
+                                <span>World</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/recordRibbonGold.svg" />
                                         <span class="worldRecords"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="recordIndiv continent">
-                                <span>Continental Records</span>
+                                <span>Continental</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/recordRibbonSilver.svg" />
                                         <span class="continentalRecords"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="recordIndiv national">
-                                <span>National Records</span>
+                                <span>National</span>
                                 <div class="medalsHolder">
                                     <div class="iconAndResult">
-                                        <img src="icons/recordRibbonBronze.svg" />
                                         <span class="nationalRecords"></span>
                                     </div>
                                 </div>
@@ -177,7 +179,7 @@
                     </div>
 
                     <div class="recordBox shareLink">
-                        <h3>Share</h3>
+                        <h4>Share</h4>
                         <span class="leftAlignIconAndTitle">
                             <span>Copy Link</span>
                             <img src="icons/link.svg" />
