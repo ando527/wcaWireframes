@@ -559,14 +559,14 @@ function medals(data){
 
 function records(data1, data){
     if (data1.rank.averages.some(event => event.rank && event.rank.world === 1) || data1.rank.singles.some(event => event.rank && event.rank.world === 1)){
-        document.querySelector(".records").innerHTML = "Current World Record Holder";
+        document.querySelector(".recordsText").innerHTML = "Current World Record Holder";
     } else {
         if (data.records.world > 0){
-            document.querySelector(".recordsText").innerHTML = data.records.world + " time World Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.world + " Time World Record Holder";
         } else if (data.records.continental > 0){
-            document.querySelector(".recordsText").innerHTML = data.records.continental + " time Continental Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.continental + " Time Continental Record Holder";
         } else if (data.records.national > 0){
-            document.querySelector(".recordsText").innerHTML = data.records.national + " time National Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.national + " Time National Record Holder";
         } else {
             document.querySelector(".recordsHolder").remove();
             document.querySelector(".records").remove();
