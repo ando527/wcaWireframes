@@ -424,6 +424,7 @@ input[type="date"] {
     }
 }
 
+
 .whenButton:hover .tooltip {
     visibility: visible;
   }

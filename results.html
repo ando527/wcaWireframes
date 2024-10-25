@@ -75,20 +75,24 @@
                     </div>
                 </div>
                 <div id="achievements">
-                    <div class="records">Current World Record Holder</div>
-                    <div class="career">9 Year Career</div>
-                    <div class="medals">228 Gold Medals</div>
-                    <div class="champs">2 World Championship Podiums</div>
-                    <div class="method">Method Architect<span class="tooltip">test</span></div>
-                    <div class="founder">WCA Co-Founder</div>
+                    <div class="records"><img src="icons/star.svg" class="acheievementIcon"/><span class="recordsText">Current World Record Holder</span></div>
+                    <div class="career"><img src="icons/record.svg" class="acheievementIcon"/><span class="careerText">9 Year Career</span></div>
+                    <div class="medals"><img src="icons/blackMedal.svg" class="acheievementIcon"/><span class="medalsText">228 Gold Medals</span></div>
+                    <div class="champs"><img src="icons/championship.svg" class="acheievementIcon"/><span class="champsText">2 World Championship Podiums</span></div>
+                    <div class="method"><img src="icons/architect.svg" class="acheievementIcon"/>Method Architect<span class="tooltip">method</span></div>
+                    <div class="founder"><img src="icons/crown.svg" class="acheievementIcon"/>WCA Co-Founder</div>
                 </div>
             </div>
             
             <div id="rightContent">
                 <div id="resultsTableHolder">
-                    <h3>
+                    <!--<h3>
                         Current Personal Records
-                    </h3>
+                    </h3>-->
+                    <div class="recordBoxTitle">
+                        <h4>Record Collection</h4>
+                        <img src="icons/share.svg" class="share"/>
+                    </div>
                     <table style="border-collapse: collapse;" class="resultsTable">
                         <thead>
                             <tr>
@@ -115,32 +119,20 @@
                     <div class="recordBox medalsHolder">
                         <div class="recordBoxTitle">
                             <h4>Medal Collection</h4>
-                            <img src="icons/goldMedal.svg" />
+                            <img src="icons/blackMedal.svg" />
                         </div>
                         <div class="allMedals">
                             <div class="recordIndiv gold">
                                 <span>Gold</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="goldMedals"></span>
-                                    </div>
-                                </div>
+                                <span class="goldMedals"></span>
                             </div>
                             <div class="recordIndiv silver">
                                 <span>Silver</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="silverMedals"></span>
-                                    </div>
-                                </div>
+                                <span class="silverMedals"></span>
                             </div>
                             <div class="recordIndiv bronze">
                                 <span>Bronze</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="bronzeMedals"></span>
-                                    </div>
-                                </div>
+                                <span class="bronzeMedals"></span>
                             </div>
                         </div>
                     </div>
@@ -148,43 +140,31 @@
                     <div class="recordBox recordsHolder">
                         <div class="recordBoxTitle">
                             <h4>Record Collection</h4>
-                            <img src="icons/recordRibbonGold.svg" />
+                            <img src="icons/blackRecord.svg" />
                         </div>
                         <div class="allRecords">
                             <div class="recordIndiv world">
                                 <span>World</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="worldRecords"></span>
-                                    </div>
-                                </div>
+                                <span class="worldRecords"></span>
                             </div>
                             <div class="recordIndiv continent">
                                 <span>Continental</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="continentalRecords"></span>
-                                    </div>
-                                </div>
+                                <span class="continentalRecords"></span>
                             </div>
                             <div class="recordIndiv national">
                                 <span>National</span>
-                                <div class="medalsHolder">
-                                    <div class="iconAndResult">
-                                        <span class="nationalRecords"></span>
-                                    </div>
-                                </div>
+                                <span class="nationalRecords"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="recordBox shareLink">
+                    <!--<div class="recordBox shareLink">
                         <h4>Share</h4>
                         <span class="leftAlignIconAndTitle">
                             <span>Copy Link</span>
                             <img src="icons/link.svg" />
                         </span>
-                    </div>
+                    </div>-->
                     
                 </div>
                 <div id="allResults">

@@ -26,7 +26,6 @@ const compIcon = L.icon({
 
 var methodArchitects = {
     "2015CHER07": "7Simul (Clock)",
-    "2014PAUL05": "7Simul (Clock)",
     "2003POCH01": "Old Pochmann (BLD)",
     "2009YAUR01": "Yau Method (4x4x4-7x7x7)",
     "1982FRID01": "CFOP (3x3x3)",
@@ -177,7 +176,7 @@ $( document ).ready(function() {
         cache: true,
         success: function(data) {
 
-            document.querySelector('.shareLink').addEventListener('click', function() {
+            document.querySelector('.share').addEventListener('click', function() {
     
                 navigator.clipboard.writeText(`https://ando527.github.io/wcaWireframes/results.html#${data.id}`)
                     .then(() => {
@@ -196,7 +195,7 @@ $( document ).ready(function() {
             ];
 
             loadCompetitionMap(data.competitionIds, function() {
-                console.log('Competition map after loading:', competitionMap);
+                //console.log('Competition map after loading:', competitionMap);
         
                 // Now you can use getCompetitionName to retrieve names
                 showCompetitions(data);
@@ -224,7 +223,7 @@ $( document ).ready(function() {
                 data.rank.averages = reorderArray(data.rank.averages);
                 data.rank.singles = reorderArray(data.rank.singles);
 
-                console.log(data);
+                //console.log(data);
                 document.querySelector("#profileName").innerHTML = `<span class="flag ${data.country.toLowerCase()}"></span>${data.name}`;
                 document.querySelector("#collapsedName").innerHTML = data.name;
                 document.title = `${data.name} | WCA Prototype`;
@@ -259,11 +258,11 @@ $( document ).ready(function() {
 
                 const table = document.querySelector(".resultsTable");
                 const expectedColCount = table.querySelector("thead tr").children.length; // Number of columns in the header
-                console.log(expectedColCount);
+                //console.log(expectedColCount);
 
                 table.querySelectorAll("#results tr").forEach(row => {
                     const cellCount = row.children.length;
-                    console.log(row);
+                    //console.log(row);
                     if (cellCount < expectedColCount) {
                         const colspan = expectedColCount - cellCount + 1; // Calculate colspan for the missing columns
                         const emptyCell = document.createElement("td");
@@ -301,9 +300,9 @@ $( document ).ready(function() {
                 const champWins = champs(data.results, data.championshipIds);
                 //console.log(champWins);
                 if (champWins.wins > 0){
-                    document.querySelector(".champs").innerHTML = champWins.wins + " Championship Titles";
+                    document.querySelector(".champsText").textContent = champWins.wins + " Championship Titles";
                 } else if (champWins.podiums > 0){
-                    document.querySelector(".champs").innerHTML = champWins.podiums + " Championship Podiums";
+                    document.querySelector(".champsText").textContent = champWins.podiums + " Championship Podiums";
                 } else {
                     document.querySelector(".champs").remove();
                     championshipsPane.remove();
@@ -539,19 +538,19 @@ function career(data){
 
     careerLength = latestYear - idYear;
     if (careerLength == 0){
-        document.querySelector(".career").innerHTML = "Newcomer";
+        document.querySelector(".careerText").innerHTML = "Newcomer";
     } else {
-        document.querySelector(".career").innerHTML = careerLength + " Year Career";
+        document.querySelector(".careerText").innerHTML = careerLength + " Year Career";
     }
 }
 
 function medals(data){
     if (data.medals.gold > 0){
-        document.querySelector(".medals").innerHTML = data.medals.gold + " Gold Medals";
+        document.querySelector(".medalsText").innerHTML = data.medals.gold + " Gold Medals";
     } else if (data.medals.silver > 0){
-        document.querySelector(".medals").innerHTML = data.medals.silver + " Silver Medals";
+        document.querySelector(".medalsText").innerHTML = data.medals.silver + " Silver Medals";
     } else if (data.medals.bronze > 0){
-        document.querySelector(".medals").innerHTML = data.medals.bronze + " Bronze Medals";
+        document.querySelector(".medalsText").innerHTML = data.medals.bronze + " Bronze Medals";
     } else {
         document.querySelector(".medalsHolder").remove();
         document.querySelector(".medals").remove();
@@ -563,11 +562,11 @@ function records(data1, data){
         document.querySelector(".records").innerHTML = "Current World Record Holder";
     } else {
         if (data.records.world > 0){
-            document.querySelector(".records").innerHTML = data.records.world + " time World Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.world + " time World Record Holder";
         } else if (data.records.continental > 0){
-            document.querySelector(".records").innerHTML = data.records.continental + " time Continental Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.continental + " time Continental Record Holder";
         } else if (data.records.national > 0){
-            document.querySelector(".records").innerHTML = data.records.national + " time National Record Holder";
+            document.querySelector(".recordsText").innerHTML = data.records.national + " time National Record Holder";
         } else {
             document.querySelector(".recordsHolder").remove();
             document.querySelector(".records").remove();
@@ -716,7 +715,7 @@ function showCompetitions(data){
                 <td class="timeRow">5</td>
             </tr></thead><tbody>
         `;
-        console.log(data.results);
+        //console.log(data.results);
         // Iterate over each competition in the results
         for (let [competition, events] of Object.entries(data.results)) {
             // Insert competition name as a table header row

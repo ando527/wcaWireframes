@@ -158,6 +158,10 @@ table{
     border-radius: 10px;
     flex-grow: 1;
     align-items: flex-start;
+    gap: 30px;
+    
+}
+.recordBox, #resultsTableHolder{
     h4{
         font-weight: 400;
         letter-spacing: 1px;
@@ -167,6 +171,16 @@ table{
         text-transform: uppercase;
     }
 }
+#resultsTableHolder {
+    h4{
+        padding-left: 30px;
+    }
+    .share{
+        margin-right: 30px;
+        cursor: pointer;
+    }
+}
+
 .leftAlignIconAndTitle{
     display: flex;
     flex-direction: column;
@@ -186,6 +200,12 @@ table{
         font-size: 36px;
     }
 }
+.goldMedals, .bronzeMedals, .silverMedals, .nationalRecords, .worldRecords, .continentalRecords{
+    font-weight: 800;
+    font-stretch: condensed;
+    font-size: 36px;
+    line-height: 0.85;
+}
 .recordBoxTitle{
     display: flex;
     justify-content: space-between;
@@ -197,8 +217,17 @@ table{
 }
 .recordIndiv {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row-reverse;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.acheievementIcon{
+    height: 1.2em;
+    width: 1.2em;
+    transform: translate(-0.15em, 0.15em);
+    object-fit: contain;
+    margin-right: 5px;
 }
 
 #achievements{
@@ -208,14 +237,13 @@ table{
     justify-content: flex-start;
     gap: 10px;
     div{
-        padding: 10px 20px 10px 20px;
+        padding: 5px 10px 5px 0px;
         border-radius: 10px;
         flex-shrink: 1;
-        border: 2px solid black;
         font-weight: 600;
         font-size: 16px
     }
-    .career{
+    /*.career{
         background-color: #99C7FF;
         border-color: #003366;
     }
@@ -231,6 +259,9 @@ table{
         background-color: #FFD5BD;
         border-color: #7A2B00;
     }
+    .founder{
+        background-color: #F6C5C5;
+    }*/
 }
 #profileDetails .profileInfo:nth-child(even) {
     text-align: right;
@@ -251,23 +282,26 @@ table{
     div{
         min-width: 12%;
         width: max-content;
-        background-color: #B8B8B8;
-        border: 2px solid #B8B8B8;
         text-align: center;
         padding: 10px 16px 10px 16px;
         border-radius: 10px;
+        border: 1.3px solid #6B6B6B;
         cursor: pointer;
         transition: all 250ms;
+        color: #6B6B6B;
+        font-weight: 500;
     }
     div:not(.selectedTab):hover{
-        border-color: #0051BA;
+        background: #D9D9D9;
     }
     .selectedTab{
-        background-color: #FCFCFC;
-        border-color: #FCFCFC;
-        font-weight: 700;
-        font-size: 1.2em;
+        background: #6B6B6B;
+
+        color: #FCFCFC;
     }
+}
+.recordsPane{
+    padding: 30px;
 }
 
 .hiddenPane{
@@ -381,6 +415,12 @@ table{
     align-items: center;
     gap: 10px;
 }
+.leftmiddleContent{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 #profileName{
     width: 100%;
     text-align: left;
@@ -397,32 +437,32 @@ table{
     width: 100%;
 }
 .leftTopContent .emblem:nth-child(1) {
-    right: -15px;
-    top: -15px;
+    right: -45px;
+    top: -45px;
   }
   
   .leftTopContent .emblem:nth-child(2) {
-    right: -15px;
+    right: -45px;
     top: 120px;
   }
   
   .leftTopContent .emblem:nth-child(6) {
-    right: -15px;
+    right: -45px;
     top: 255px;
   }
   
   .leftTopContent .emblem:nth-child(3) {
-    left: -15px;
-    top: -15px;
+    left: -45px;
+    top: -45px;
   }
 
   .leftTopContent .emblem:nth-child(5) {
-    left: -15px;
+    left: -45px;
     top: 120px;
   }
 
   .leftTopContent .emblem:nth-child(4) {
-    left: -15px;
+    left: -45px;
     top: 255px;
   }
 
@@ -476,9 +516,7 @@ table{
     position: relative;
 
 }
-.founder{
-    background-color: #F6C5C5;
-}
+
 
 .method .tooltip{
     visibility: hidden;
@@ -548,18 +586,22 @@ table{
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
     img{
         width: 30px;
         max-width: 8%;
-        transition: background-color 250ms;
+        transition: opacity 250ms;
         cursor: pointer;
         /*background-color: #EDEDED;*/
         opacity: 0.3;
         border-radius: 5px;
         padding: 5px;
+
     }
-    .selectedIcon{
+    img:hover{
+        opacity: 0.5;
+    }
+    .selectedIcon, .selectedIcon:hover{
         opacity: 1;
     }
 }
