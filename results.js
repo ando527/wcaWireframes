@@ -355,11 +355,14 @@ $( document ).ready(function() {
                 error: function(error) {
                   console.error("Error fetching data:", error);
                 }
-              });
+              }).done(function() {
+                document.querySelector("#profileHolder").style.opacity = '1';
+                document.querySelector("#pageLoading").style.opacity = '0';
+                });
 
 
-            
-            
+              
+              
 
 
         }
@@ -409,6 +412,8 @@ $( document ).ready(function() {
         adjustStickyHeight(); // Initial call on page load
         setImageMaxHeight();
     }
+
+    
 
 
 });

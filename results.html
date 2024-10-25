@@ -19,6 +19,7 @@
         <title>Results Page</title>
     </head>
     <body>
+        <img id="pageLoading" src="images/loading.gif"></img>
         <div id="header">
             <div class="linksHolder">
                 <a href="index.html"><img src="wca_logo.svg" width="60px" height="60px"/></a>
@@ -43,7 +44,7 @@
             </div>
         </div>
         
-        <div id="profileHolder">
+        <div id="profileHolder" style="opacity: 0;">
             <div id="profileCard">
                 <div class="leftTopContent">
                     <div class="emblemPhotoHolder"><img id="profilePhoto" src="images/loading.gif"></img></div>
@@ -90,8 +91,8 @@
                         Current Personal Records
                     </h3>-->
                     <div class="recordBoxTitle">
-                        <h4>Record Collection</h4>
-                        <img src="icons/share.svg" class="share"/>
+                        <h4>Current Personal Records</h4>
+                        <span class="shareHolder"><img src="icons/share.svg" class="share"/><span class="tooltip">Copy link</span></span>
                     </div>
                     <table style="border-collapse: collapse;" class="resultsTable">
                         <thead>
