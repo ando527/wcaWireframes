@@ -902,21 +902,32 @@ table{
         }
     }
     #profileHolder{
+        width: calc(100% - 30px);
         flex-direction: column;
         gap: 90px;
-        width: 100%;
+        max-width: 100% ;
         padding: 0px 15px 0px 15px;
         margin: 0;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
+    #achievements{
+        padding: 0px 15px 0px 15px;
+    }
     #profileCard{
+        margin-top: 30px;
         width: 100%;
         position: relative;
         z-index: 23;
         height: auto;
-        background-color: #EDEDED;
+        background-color: #FCFCFC;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        border-radius: 10px;
         padding: 30px 0px 30px 0px;
-        z-index: 10;
+        z-index: 21;
+    }
+    .leftmiddleContent{
+        width: calc(100% - 30px);
+        padding: 15px;
     }
     #resultsTableHolder{
         max-width: 100%;
@@ -924,7 +935,7 @@ table{
     }
     #resultsPane{
         overflow-x: scroll;
-        max-width: 100%;
+        max-width: calc(100% - 30px);
         box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
     #rightContent{
@@ -938,10 +949,16 @@ table{
         max-width: 80%;
         max-height: 50lvh;
     }
+    .noDrop, .dropDownLink{
+        display: none;
+    }
     #profileCollapsed{
         padding: 15px;
-        background-color: #EDEDED;
-        width: 100%;
+        background-color: #FCFCFC;
+        width: calc(100% - 60px);
+        box-shadow: rgba(17, 17, 26, 0.4) 0px 0px 16px;
+        border-radius: 0px 0px 10px 10px;
+        left: 15px;
         position: fixed;
         top: 0px;
         z-index: 21;
