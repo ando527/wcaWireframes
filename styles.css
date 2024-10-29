@@ -141,7 +141,8 @@
 #advancedFilters{
     max-width: 320px;
     width: 320px;
-    background-color: #ededed;
+    background-color: #fcfcfc;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     padding: 30px;
     height: fit-content;
     position: sticky;
@@ -249,7 +250,8 @@ input[type="date"] {
     overflow: hidden;
     padding: 0px;
     margin-bottom: 30px;
-    background-color: #E0DDD5;
+    background-color: #FCFCFC;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -283,7 +285,7 @@ input[type="date"] {
 #infoPane{
     max-width: 320px;
     width: 320px;
-    background-color: #ededed;
+    background-color: #fcfcfc;
     border-radius: 10px;
     padding: 30px;
     height: fit-content;
@@ -295,6 +297,7 @@ input[type="date"] {
     text-align: left;
     margin-right: 30px;
     gap: 10px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
     h2{
         line-height: 1.5em;
@@ -517,7 +520,7 @@ a{
     /*overflow: hidden;*/
 }
 .oddRow {
-    background-color: #ededed; 
+    background-color: #fcfcfc; 
 }
 .evenRow {
     background-color: #dcdcdc; 

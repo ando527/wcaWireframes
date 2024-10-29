@@ -67,6 +67,18 @@ $( document ).ready(function() {
     const championshipsPane = document.querySelector('.championshipsPane');
     const mapPane = document.querySelector('.mapPane');
 
+    document.querySelector('#explainer').addEventListener('click', () => {
+
+        document.querySelector('.badgesExplainer').style.display = "flex";
+
+    });
+
+    document.querySelector('#exitExplainer').addEventListener('click', () => {
+
+        document.querySelector('.badgesExplainer').style.display = "none";
+
+    });
+
     resultsTab.addEventListener('click', () => {
 
         resultsTab.classList.add('selectedTab');
