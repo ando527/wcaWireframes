@@ -929,14 +929,35 @@ table{
         width: calc(100% - 30px);
         padding: 15px;
     }
+    #recordsAndMore{
+        flex-direction: column;
+        background-color: #FCFCFC;
+        
+    }
+    .recordBox{
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        border-radius: 10px;
+    }
+    .tabHeaders{
+        gap: 15px;
+    }
     #resultsTableHolder{
         max-width: 100%;
+        table{
+            margin-left: 45px;
+        }
         overflow-x: scroll;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        border-radius: 10px;
     }
     #resultsPane{
         overflow-x: scroll;
         max-width: calc(100% - 30px);
         box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    }
+    .tabContent{
+        max-width: 100%;
+        overflow-x: scroll;
     }
     #rightContent{
         z-index: 20;
