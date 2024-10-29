@@ -444,12 +444,12 @@ table{
   
   .leftTopContent .emblem:nth-child(2) {
     right: -45px;
-    top: 120px;
+    top: 25%;
   }
   
   .leftTopContent .emblem:nth-child(6) {
     right: -45px;
-    top: 255px;
+    top: 70%;
   }
   
   .leftTopContent .emblem:nth-child(3) {
@@ -459,17 +459,17 @@ table{
 
   .leftTopContent .emblem:nth-child(5) {
     left: -45px;
-    top: 120px;
+    top: 25%;
   }
 
   .leftTopContent .emblem:nth-child(4) {
     left: -45px;
-    top: 255px;
+    top: 70%;
   }
 
 .emblem {
     position: absolute;
-    max-width: 35%;
+    max-width: max(35%, 6vw);
     display: inline-block;
     width: 120px;
     height: 120px;

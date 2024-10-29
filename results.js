@@ -358,6 +358,8 @@ $( document ).ready(function() {
               }).done(function() {
                 document.querySelector("#profileHolder").style.opacity = '1';
                 document.querySelector("#pageLoading").style.opacity = '0';
+                adjustStickyHeight(); // Initial call on page load
+        setImageMaxHeight();
                 });
 
 
@@ -369,41 +371,10 @@ $( document ).ready(function() {
     });
 
 
-    const stickyElement = document.querySelector("#profileCard");
-    const header = document.querySelector("#header");
+   
 
-    function adjustStickyHeight() {
-        if (document.body.offsetWidth > 1200){
-            const offset = 120; // Fixed offset from bottom
-            const viewportHeight = window.innerHeight;
-            const headerHeight = header.offsetHeight;
-            const scrollPos = window.scrollY;
-
-            // Calculate capped header offset
-            const headerOffset = Math.max(0, headerHeight - scrollPos);
-            
-            // Set height dynamically
-            stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
-            setImageMaxHeight();
-        } else {
-            stickyElement.style.height = "auto";
-        }
-    }
-
-    function setImageMaxHeight() {
-        // Get the heights of the specified elements
-        const profileCardHeight = $('#profileCard').height();
-        const achievementsHeight = $('#achievements').height();
-        const profileDetailsHeight = $('#profileDetails').height();
-        const profileNameHeight = $('#profileName').height();
     
-        // Calculate the max height (combined heights minus 60px)
-        const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
-    
-        // Apply the calculated max-height to the image
-        $('#profilePhoto').css('max-height', maxHeight + 'px');
-    }
-    console.log(document.body.offsetWidth);
+    //console.log(document.body.offsetWidth);
 
     if (document.body.offsetWidth > 1200){
         // Adjust height on scroll and on page load
@@ -417,6 +388,40 @@ $( document ).ready(function() {
 
 
 });
+
+function adjustStickyHeight() {
+    let stickyElement = document.querySelector("#profileCard");
+    let header = document.querySelector("#header");
+    if (document.body.offsetWidth > 1200){
+        const offset = 120; // Fixed offset from bottom
+        const viewportHeight = window.innerHeight;
+        const headerHeight = header.offsetHeight;
+        const scrollPos = window.scrollY;
+
+        // Calculate capped header offset
+        const headerOffset = Math.max(0, headerHeight - scrollPos);
+        
+        // Set height dynamically
+        stickyElement.style.height = `${viewportHeight - offset - headerOffset}px`;
+        setImageMaxHeight();
+    } else {
+        stickyElement.style.height = "auto";
+    }
+}
+
+function setImageMaxHeight() {
+    // Get the heights of the specified elements
+    const profileCardHeight = $('#profileCard').height();
+    const achievementsHeight = $('#achievements').height();
+    const profileDetailsHeight = $('#profileDetails').height();
+    const profileNameHeight = $('#profileName').height();
+
+    // Calculate the max height (combined heights minus 60px)
+    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
+
+    // Apply the calculated max-height to the image
+    $('#profilePhoto').css('max-height', maxHeight + 'px');
+}
 
 function countTotalValidSolves(data) {
     let totalSolveCount = 0;
