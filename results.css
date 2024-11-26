@@ -18,6 +18,10 @@ html, body{
     box-sizing: content-box;
 }
 
+:root {
+    --shadow: rgba(17, 17, 26, 0.3) 0px 0px 16px;
+}
+
 #profileHolder{
     width: calc(100% - 60px);
     max-width: 1490px;
@@ -41,14 +45,14 @@ html, body{
    justify-content: center;
    align-items: center;
     background-color: rgba(0,0,0,0.4);
-    /*box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;*/
+    /*box-shadow: var(--shadow);*/
     z-index: 1500;
     div{
         position: relative;
         
         background-color: #FCFCFC;
         border-radius: 10px;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
         z-index: 1501;
         padding: 30px;
         #exitExplainer {
@@ -80,7 +84,7 @@ html, body{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    gap: 15px;
+    gap: 10px;
     justify-content: space-between;
     
 }
@@ -163,6 +167,10 @@ table{
         font-weight: 600;
         color: #FF5800;
     }
+    .pr{
+        font-weight: 600;
+        color: #FF5800;
+    }
 }
 
 
@@ -190,16 +198,29 @@ table{
     display: flex;
     flex-direction: column;
     padding: 30px;
-    background-color: #FCFCFC;
+    /*background-color: #FCFCFC;*/
     border-radius: 10px;
     flex-grow: 1;
     align-items: flex-start;
-    gap: 30px;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
     
+}
+.recordsHolder{
+    background-color: #029347;
+    color: #FCFCFC
+}
+.medalsHolder{
+    background-color: #FFD313;
+    color: #1E1E1E;
+}
+#profileCard{
+    background-color: #EEEEEE;
 }
 .recordBox, #resultsTableHolder{
     h4{
-        font-weight: 400;
+        font-weight: 500;
         letter-spacing: 1px;
         margin-top: 0;
         margin-bottom: 10px;
@@ -248,8 +269,13 @@ table{
     width: 100%;
 }
 .recordBox img{
-    height: 1.5em;
-    width: 1.5em;
+    height: 14em;
+    width: auto;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 20%;
 }
 .recordIndiv {
     display: flex;
@@ -269,12 +295,12 @@ table{
 #achievements{
     width: 100%;
     display: flex;
-
+    padding-top: 5px;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 5px;
     div{
-        padding: 5px 10px 5px 0px;
+        padding: 0px 10px 0px 0px;
         border-radius: 10px;
         flex-shrink: 1;
         font-weight: 600;
@@ -310,31 +336,53 @@ table{
 
 }
 .tabHeaders{
-    width: calc(100% - 60px);
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 30px;
     border-radius: 10px;
+    div:last-child {
+        border-top-right-radius: 10px;
+    }
+    div:first-child {
+        border-top-left-radius: 10px;
+    }
     div{
         min-width: 12%;
         width: max-content;
+        flex-grow: 1;
         text-align: center;
-        padding: 10px 16px 10px 16px;
-        border-radius: 10px;
-        border: 1.3px solid #6B6B6B;
+        padding: 15px 16px 15px 16px;
         cursor: pointer;
         transition: all 250ms;
         color: #6B6B6B;
         font-weight: 500;
+        position: relative;
+    }
+    div:not(:first-child)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1.5em;
+        width: 1.5px;
+        background-color: #D9D9D9;
     }
     div:not(.selectedTab):hover{
         background: #D9D9D9;
     }
     .selectedTab{
-        background: #6B6B6B;
-
+        background: #0051BA;
         color: #FCFCFC;
+    }
+    div.selectedTab::before {
+        content: none;
+    }
+    
+    /* Remove the line for the item immediately following .selectedTab */
+    div.selectedTab + div::before {
+        content: none;
     }
 }
 .recordsPane{
@@ -546,6 +594,162 @@ table{
     pointer-events: none;
 }
 
+#staffRoles{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+    gap: 5px;
+}
+.role{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 0.9em;
+    span{
+        line-height: 2;
+        border-radius: 5px;
+        margin-left: -2em;
+        padding-left: 2.2em;
+        padding-right: 0.5em;
+        color: #FCFCFC;
+        font-weight: 600;
+    }
+    svg{
+        width: 2.75em;
+        height: 2.75em;
+        z-index: 2;
+    }
+    .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+}
+
+.yellow{
+    span {
+        background-color: #664d00;
+    }
+    
+    .cls-1 {
+        fill: #664d00;
+      }
+
+      .cls-2 {
+        fill: #ffd313;
+      }
+
+      .cls-3 {
+        fill: #ffde55;
+      }
+
+      .cls-4 {
+        fill: #cea705;
+      }
+}
+
+/* Blue */
+.blue {
+    span {
+        background-color: #003366;
+    }
+
+    .cls-1 {
+        fill: #003366; /* Background */
+    }
+    .cls-2 {
+        fill: #0051BA; /* Main blue */
+    }
+    .cls-3 {
+        fill: #03458C; /* Dark blue accent */
+    }
+    .cls-4 {
+        fill: #066AC4; /* Light blue accent */
+    }
+}
+
+/* Green */
+.green {
+    span {
+        background-color: #1B4D3E;
+    }
+
+    .cls-1 {
+        fill: #1B4D3E; /* Background */
+    }
+    .cls-2 {
+        fill: #049347; /* Main green */
+    }
+    .cls-3 {
+        fill: #04632D; /* Dark green accent */
+    }
+    .cls-4 {
+        fill: #1AB55C; /* Light green accent */
+    }
+}
+
+/* Black */
+.black {
+    span {
+        background-color: #1E1E1E;
+    }
+
+    .cls-1 {
+        fill: #1E1E1E; /* Background */
+    }
+    .cls-2 {
+        fill: #3B3B3B; /* Main black */
+    }
+    .cls-3 {
+        fill: #282828; /* Dark black accent */
+    }
+    .cls-4 {
+        fill: #6B6B6B; /* Gray accent */
+    }
+}
+
+/* Red */
+.red {
+    span {
+        background-color: #7A1220;
+    }
+
+    .cls-1 {
+        fill: #7A1220; /* Background */
+    }
+    .cls-2 {
+        fill: #CF1A1B; /* Main red */
+    }
+    .cls-3 {
+        fill: #A3131A; /* Dark red accent */
+    }
+    .cls-4 {
+        fill: #E53841; /* Light red accent */
+    }
+}
+
+/* Orange */
+.orange {
+    span {
+        background-color: #7A2B00;
+    }
+
+    .cls-1 {
+        fill: #7A2B00; /* Background */
+    }
+    .cls-2 {
+        fill: #FF5800; /* Main orange */
+    }
+    .cls-3 {
+        fill: #D34405; /* Dark orange accent */
+    }
+    .cls-4 {
+        fill: #F96E32; /* Light orange accent */
+    }
+}
+
+
+
 .method{
     position: relative;
 
@@ -659,7 +863,8 @@ table{
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
+    padding-top: 15px;
     img{
         width: 30px;
         max-width: 8%;
@@ -736,8 +941,8 @@ table{
     }
     #profileCard{
         border-radius: 10px;
-        background-color: #FCFCFC;
-        padding: 30px;
+        /*background-color: #FCFCFC;*/
+        padding: 15px;
         position: sticky;
         top: 30px;
         width: 400px;
@@ -749,16 +954,16 @@ table{
         flex-direction: column;
         justify-content: space-between;
         z-index: 10;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     .recordBox{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #allResults{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #resultsTableHolder{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
 }
 
@@ -767,7 +972,7 @@ table{
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 5px;
     }
     .emblemPhotoHolder{
         position: relative;
@@ -806,16 +1011,16 @@ table{
         flex-direction: column;
         justify-content: space-between;
         z-index: 10;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     .recordBox{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #allResults{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #resultsTableHolder{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
 }
 
@@ -837,7 +1042,7 @@ table{
     }
     #profileCard{
         border-radius: 10px;
-        background-color: #FCFCFC;
+        /*background-color: #FCFCFC;*/
         padding: 30px;
         width: calc(100% - 60px);
         display: flex;
@@ -845,16 +1050,16 @@ table{
         gap: 30px;
         justify-content: space-between;
         z-index: 10;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     .recordBox{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #allResults{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #resultsTableHolder{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     .leftTopContent{
         flex-direction: row!important;
@@ -908,7 +1113,7 @@ table{
         max-width: 100% ;
         padding: 0px 15px 0px 15px;
         margin: 0;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     #achievements{
         padding: 0px 15px 0px 15px;
@@ -920,7 +1125,7 @@ table{
         z-index: 23;
         height: auto;
         background-color: #FCFCFC;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
         border-radius: 10px;
         padding: 30px 0px 30px 0px;
         z-index: 21;
@@ -935,7 +1140,7 @@ table{
         
     }
     .recordBox{
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
         border-radius: 10px;
     }
     .tabHeaders{
@@ -947,13 +1152,13 @@ table{
             margin-left: 45px;
         }
         overflow-x: scroll;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
         border-radius: 10px;
     }
     #resultsPane{
         overflow-x: scroll;
         max-width: calc(100% - 30px);
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+        box-shadow: var(--shadow);
     }
     .tabContent{
         max-width: 100%;

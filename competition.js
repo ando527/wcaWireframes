@@ -118,14 +118,14 @@ $( document ).ready(function() {
             document.querySelector(".compDates").textContent = `${startDate} - ${endDate}`;
             
             // Set location
-            document.querySelector(".compLocation").innerHTML = `${data.venue_address}, <span class="bold">${countryCodeMapping[data.country_iso2] || data.country_iso2}</span>`;
+            document.querySelector(".compLocation").innerHTML = `${data.city}, <span class="bold">${countryCodeMapping[data.country_iso2] || data.country_iso2}</span>`;
             
             // Set competitor limit
             document.querySelector(".compCompetitorLimit").textContent = data.competitor_limit || "Unlimited";
             
             // Set venue details
-            document.querySelector(".compVenueDetails").textContent = data.venue_details;
-            document.querySelector(".compVenueDetailsFull").textContent = data.venue_details;
+            document.querySelector(".compVenueDetails").textContent = data.venue;
+            document.querySelector(".compVenueDetailsFull").textContent = data.venue_details + ", " + data.venue;
 
 
             //bookmarks
@@ -168,15 +168,24 @@ $( document ).ready(function() {
             const organizers = data.organizers.map(org => org.name).join(', ');
             document.querySelector(".compOrganisers").textContent = organizers;
 
-            const delegates = data.delegates.map(del => del.name).join(', ');
-            document.querySelector(".compDelegates").textContent = delegates;
+            let delegates = ''; // Initialize the variable outside
+            for (const delegate of data.delegates) {
+                if (delegate.wca_id != null) {
+                    delegates += `<a href="/results.html#${delegate.wca_id}">${delegate.name}</a>, `; // Append each name followed by a comma
+                } else {
+                    delegates += `${delegate.name}, `; // Append each name followed by a comma
+                }
+            }
+            delegates = delegates.slice(0, -2); // Remove the trailing comma and space
+
+            document.querySelector(".compDelegates").innerHTML = delegates;
 
             // Set venue contact and address details
             document.querySelector(".compVenueAddress").textContent = data.venue_address;
 
             // Set refund policy
-            document.querySelector(".compRefundPolicy").textContent = 
-                `If your registration is cancelled before ${closeDate} you will be refunded ${data.refund_policy_percent}% of your registration fee.`;
+            document.querySelector(".compRefundPolicy").innerHTML = 
+                `If your registration is cancelled before ${closeDate} you will be refunded <span class="bold">${data.refund_policy_percent}%</span> of your registration fee.`;
 
 
             document.querySelector(".compContact").innerHTML = marked.parse(data.contact);
@@ -206,6 +215,8 @@ $( document ).ready(function() {
                     success: function(dataWCIF) {
                         // Function to render the table
                         function renderTable(persons) {
+                            console.log();
+                            document.querySelector(".spotsLeft").innerHTML = `${data.competitor_limit - persons.length}/${data.competitor_limit}`;
                             let tableHTML = `
                                 <table>
                                     <thead>

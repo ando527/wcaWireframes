@@ -629,7 +629,7 @@ function addRows(drawTheseComps){
                     <img src="icons/${randomIcon()}.svg" width="18px" height="18px"/>
                 </td>
                 <td class="date"><span>${formatCompetitionDates(competition.date.from, competition.date.till)}</span></td>
-                <td class="name">${championship}<a href="#" class="arrowLink">${truncateString(competition.name)}</a></td>
+                <td class="name">${championship}<a href="/competition.html#${competition.id}" class="arrowLink">${truncateString(competition.name)}</a></td>
                 <td class="locationAndRegion">
                     <span class="location">${competition.city}</span>
                     <span class="region">${countryCodeMapping[competition.country] || competition.country}</span>
@@ -808,7 +808,7 @@ function updateInfoPane(competition){
             <br />
             <div id="infoPaneButtons">
                 <a class="button-secondary" href="#">Register Now</a>
-                <a class="button" href="#">View Competition</a>
+                <a class="button" href="/competition.html#${competition.id}">View Competition</a>
             </div>
         `;
 }

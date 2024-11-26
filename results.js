@@ -305,8 +305,8 @@ $( document ).ready(function() {
 
                 career(data);
                 medals(data);
-                methodArchitect(data);
-                wcaFounder(data);
+                //methodArchitect(data);
+                //wcaFounder(data);
                 
 
                 const champWins = champs(data.results, data.championshipIds);
@@ -405,7 +405,7 @@ function adjustStickyHeight() {
     let stickyElement = document.querySelector("#profileCard");
     let header = document.querySelector("#header");
     if (document.body.offsetWidth > 1200){
-        const offset = 120; // Fixed offset from bottom
+        const offset = 90; // Fixed offset from bottom
         const viewportHeight = window.innerHeight;
         const headerHeight = header.offsetHeight;
         const scrollPos = window.scrollY;
@@ -429,7 +429,7 @@ function setImageMaxHeight() {
     const profileNameHeight = $('#profileName').height();
 
     // Calculate the max height (combined heights minus 60px)
-    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 60;
+    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 120;
 
     // Apply the calculated max-height to the image
     $('#profilePhoto').css('max-height', maxHeight + 'px');
@@ -592,6 +592,9 @@ function records(data1, data){
         } else {
             document.querySelector(".recordsHolder").remove();
             document.querySelector(".records").remove();
+            if (document.querySelector("#recordsAndMore").innerHTML == ""){
+                document.querySelector("#recordsAndMore").remove();
+            }
         }
     }
 }
@@ -655,6 +658,42 @@ function badges(data){
         let teamText = team.friendly_id.toUpperCase();
         let teamRole = "";
         let baseUrl = "greenBase.svg";
+        let staffColour = "black";
+
+        switch (teamText) {
+            case "WEAT":
+            case "WFC":
+            case "WSOT":
+                staffColour = "blue";
+                break;
+            
+            case "WRT":
+            case "WQAC":
+            case "WCAT":
+                staffColour = "yellow";
+                break;
+            
+            case "WIC":
+            case "WAC":
+            case "WRC":
+                staffColour = "orange";
+                break;
+            
+            case "WST":
+            case "WAT":
+            case "WCT":
+            case "WMT":
+                staffColour = "green";
+                break;
+        
+            case "BOARD":
+                staffColour = "black";
+                break;
+        
+            default:
+                staffColour = "black"; // Fallback color class if none match
+        }
+
         if (team.leader == true){
             teamRole = "LEADER";
             baseUrl = "blueBase.svg";
@@ -666,53 +705,40 @@ function badges(data){
                 teamRole = "MEMBER";
             }
         }
+        document.querySelector('#staffRoles').innerHTML += `
 
-        document.querySelector(".emblemPhotoHolder").innerHTML = `
-        <div class="emblem">
-                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base">
-                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base-120">
-                        <img src="icons/${baseUrl}" alt="Emblem Base" class="emblem-base-240">
-                        <svg viewBox="0 0 120 120" class="text-svg">
-                            <defs>
-                                <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
-                                <path id="reverseCirclePath" d="M 60, 60 m 46, 0 a 46,46 0 1,0 -92,0 a 46,46 0 1,0 92,0" />
-                            </defs>
-                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.05">
-                                <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
-                                    ${teamText}
-                                </textPath>
-                                <textPath href="#reverseCirclePath" startOffset="75%" text-anchor="middle">
-                                    <tspan dy="6">${teamRole}</tspan>
-                                </textPath>
-                            </text>
-                          </svg>
-                      </div>
-        ` + document.querySelector(".emblemPhotoHolder").innerHTML;
+            <div class="role ${staffColour}">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88.44 89.99">
+                <g id="Layer_1-2" data-name="Layer 1">
+                    <path class="cls-1" d="m50.2.36L13.98,11.62c-2.73.85-4.8,3.09-5.43,5.88L.2,54.49c-.63,2.79.28,5.7,2.38,7.64l27.86,25.74c2.1,1.94,5.07,2.61,7.8,1.76l36.22-11.26c2.73-.85,4.8-3.09,5.43-5.88l8.36-37c.63-2.79-.28-5.7-2.38-7.64L58,2.12c-2.1-1.94-5.07-2.61-7.8-1.76Z"/>
+                    <path class="cls-2" d="m20.53,21.64l23.53,21.33c.51.46,1.22.62,1.88.42l30.3-9.15c1.47-.44,1.87-2.31.73-3.33l-24.14-21.5c-.51-.46-1.23-.61-1.89-.41l-29.68,9.33c-1.44.46-1.85,2.3-.73,3.32h0Z"/>
+                    <path class="cls-4" d="m40.58,79.9l30.52-9.44c.71-.22,1.25-.8,1.4-1.52l6.79-30.47c.34-1.54-1.1-2.88-2.61-2.42l-30.17,9.12c-.71.21-1.25.79-1.41,1.51l-7.13,30.8c-.36,1.55,1.1,2.91,2.61,2.44h0Z"/>
+                    <path class="cls-3" d="m9.64,56.79l23.75,21.95c.91.85,2.4.39,2.68-.82l7.36-31.8c.13-.57-.06-1.17-.49-1.57l-24.1-21.84c-.92-.84-2.4-.37-2.67.86l-7.01,31.69c-.12.56.06,1.15.48,1.54Z"/>
+                </g>
+            </svg>
+
+            <span>${teamText} ${teamRole}</span>
+            </div>
+        `;
     });
 
     if (data.person.delegate_status != null){
         let delegateText = data.person.delegate_status.toUpperCase().replace(/_/g, ' ').replace("DELEGATE", "");
-        document.querySelector(".emblemPhotoHolder").innerHTML = `
-        <div class="emblem">
-                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base">
-                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base-120">
-                        <img src="icons/redBase.svg" alt="Emblem Base" class="emblem-base-240">
-                        <svg viewBox="0 0 120 120" class="text-svg">
-                            <defs>
-                                <path id="circlePath" d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
-                                <path id="reverseCirclePath" d="M 60, 60 m 46, 0 a 46,46 0 1,0 -92,0 a 46,46 0 1,0 92,0" />
-                            </defs>
-                            <text font-size="12" font-weight="bold" fill="white" letter-spacing="1.1">
-                              <textPath href="#circlePath" startOffset="25%" text-anchor="middle">
-                                ${delegateText}
-                              </textPath>
-                              <textPath href="#reverseCirclePath" startOffset="75%" text-anchor="middle">
-                                    <tspan dy="6">DELEGATE</tspan>
-                                </textPath>
-                            </text>
-                          </svg>
-                      </div>
-        ` + document.querySelector(".emblemPhotoHolder").innerHTML;
+        document.querySelector('#staffRoles').innerHTML += `
+
+            <div class="role red">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88.44 89.99">
+                <g id="Layer_1-2" data-name="Layer 1">
+                    <path class="cls-1" d="m50.2.36L13.98,11.62c-2.73.85-4.8,3.09-5.43,5.88L.2,54.49c-.63,2.79.28,5.7,2.38,7.64l27.86,25.74c2.1,1.94,5.07,2.61,7.8,1.76l36.22-11.26c2.73-.85,4.8-3.09,5.43-5.88l8.36-37c.63-2.79-.28-5.7-2.38-7.64L58,2.12c-2.1-1.94-5.07-2.61-7.8-1.76Z"/>
+                    <path class="cls-2" d="m20.53,21.64l23.53,21.33c.51.46,1.22.62,1.88.42l30.3-9.15c1.47-.44,1.87-2.31.73-3.33l-24.14-21.5c-.51-.46-1.23-.61-1.89-.41l-29.68,9.33c-1.44.46-1.85,2.3-.73,3.32h0Z"/>
+                    <path class="cls-4" d="m40.58,79.9l30.52-9.44c.71-.22,1.25-.8,1.4-1.52l6.79-30.47c.34-1.54-1.1-2.88-2.61-2.42l-30.17,9.12c-.71.21-1.25.79-1.41,1.51l-7.13,30.8c-.36,1.55,1.1,2.91,2.61,2.44h0Z"/>
+                    <path class="cls-3" d="m9.64,56.79l23.75,21.95c.91.85,2.4.39,2.68-.82l7.36-31.8c.13-.57-.06-1.17-.49-1.57l-24.1-21.84c-.92-.84-2.4-.37-2.67.86l-7.01,31.69c-.12.56.06,1.15.48,1.54Z"/>
+                </g>
+            </svg>
+
+            <span>${delegateText} DELEGATE</span>
+            </div>
+        `;
     };
 }
 
@@ -904,6 +930,98 @@ function showResultsWithEventPicker(data) {
         });
 
         document.querySelector(".filteredResultsTable tbody").innerHTML = filteredTableHTML;
+
+                    // Get the table with class "filteredResultsTable"
+            const table = document.querySelector('table.filteredResultsTable');
+
+            if (table) {
+            // Get all <td> elements with the class "averageRow" within the table
+            const averageRows = Array.from(table.querySelectorAll('td.averageRow'));
+
+            // Start tracking the lowest time (initialize with a large value)
+            let lowestTime = Infinity;
+
+            // Iterate from the bottom up
+            for (let i = averageRows.length - 1; i >= 0; i--) {
+                // Parse the time value from the cell (convert to a number)
+                const currentTime = parseFloat(averageRows[i].textContent.trim());
+
+                // Check if the current time is the lowest seen so far
+                if (currentTime < lowestTime) {
+                // Update the lowest time
+                lowestTime = currentTime;
+
+                // Add the 'pr' class to the current element
+                averageRows[i].classList.add('pr');
+                }
+            }
+
+            // Get all <td> elements with the class "averageRow" within the table
+            const bestRows = Array.from(table.querySelectorAll('td.bestRow'));
+
+            // Start tracking the lowest time (initialize with a large value)
+            let lowestBestTime = Infinity;
+
+            // Iterate from the bottom up
+            for (let i = bestRows.length - 1; i >= 0; i--) {
+                // Parse the time value from the cell (convert to a number)
+                const currentTime = parseFloat(bestRows[i].textContent.trim());
+
+                // Check if the current time is the lowest seen so far
+                if (currentTime < lowestBestTime) {
+                // Update the lowest time
+                lowestBestTime = currentTime;
+
+                // Add the 'pr' class to the current element
+                bestRows[i].classList.add('pr');
+                }
+            }
+
+
+            // Get all <td> elements with the class "timeRow" within the table
+            const timeRows = Array.from(table.querySelectorAll('td.timeRow'));
+
+            // Start tracking the lowest time (initialize with a large value)
+            let lowestTimeTime = Infinity;
+
+            // Iterate from the bottom up
+            for (let i = timeRows.length - 1; i >= 0; i--) {
+                const cell = timeRows[i];
+
+                // Skip if the cell is inside a <th> (header row)
+                if (cell.closest('thead')) {
+                continue;
+                }
+
+                // Get the current row of the cell
+                const currentRow = cell.closest('tr');
+
+                // Parse the time value from the cell (convert to a number)
+                const currentTime = parseFloat(cell.textContent.trim());
+
+                // Check if this time is the lowest time seen so far
+                if (currentTime < lowestTimeTime) {
+                // Update the lowest time
+                lowestTimeTime = currentTime;
+
+                // Remove any existing 'pr' class in the same row (just in case)
+                Array.from(currentRow.querySelectorAll('.pr')).forEach(prCell => {
+                    if (prCell.closest('.timeRow')) { // Check if the element is within a .timeRow
+                        prCell.classList.remove('pr');
+                    }
+                });
+                
+
+                // Add the 'pr' class to the current cell
+                cell.classList.add('pr');
+                }
+            }
+
+            }
+
+
+
+
     }
 
     // Initially filter by the 3x3x3 Cube event (event ID "333")

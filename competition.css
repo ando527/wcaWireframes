@@ -8,11 +8,43 @@ html, body{
     margin: 0px;
     padding: 0px;
     font-family: 'Norms';
+    background-color: #FCFCFC;
+}
+
+:root {
+    --shadow: rgba(17, 17, 26, 0.3) 0px 0px 16px;
 }
 
 h4{
     font-size: 18px;
 }
+#title{
+    font-weight: 700!important;
+    padding-bottom: 0.5em;
+    img{
+        height: 0.7em;
+        margin-right: 0.2em;
+    }
+}
+
+.adminMenu{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 30px;
+    width: fit-content;
+    margin: auto;
+    box-shadow: var(--shadow);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #EDEDED;
+    z-index: -1;
+}
+.adminHeader{
+    font-weight: 600;
+}
+
 .bentoWrapper{
     display: flex;
     flex-direction: row;
@@ -27,12 +59,24 @@ h4{
     flex-direction: column;
     flex-wrap: wrap;
     gap: 30px;
-    width: calc(50% - 15px);
+    width: calc(55% - 15px);
 }
 
+
+
 .bento{
-    background-color: #EDEDED;
+    background-color: #FCFCFC;
     border-radius: 10px;
+    box-shadow: var(--shadow);
+    h4{
+        font-weight: 500;
+        letter-spacing: 1px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 16px;
+        text-transform: uppercase;
+        padding-bottom: 0.5em;
+    }
     
 }
 #competitionInfo{
@@ -46,12 +90,12 @@ h4{
     flex-grow: 1;
 }
 
-h1, h4{
+h1, h2, h4{
     margin-top: 0px;
     margin-bottom: 0px;
 }
 .snippetTitle{
-    font-size: 12px;
+    font-weight: 700;
     img{
         height: 1em;
         padding-right: 3px;
@@ -60,6 +104,10 @@ h1, h4{
 .infoSnippet{
     display: flex;
     flex-direction: column;
+    width: 50%;
+}
+.fullWidthSnippet{
+    width: 100%;
 }
 .snippetDetail{
     font-size: 14px;
@@ -72,6 +120,7 @@ h1, h4{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    row-gap: 10px;
 }
 .indivEventIcon{
     width: 30px;
@@ -81,15 +130,40 @@ border: 2px #99C7FF solid;
 border-radius: 5px;
 }
 
+.arrowBackLink{
+    margin-left: 30px;
+    position: relative;
+}
+
+.arrowBackLink::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 7px;  /* Width of your SVG */
+    height: 12px; /* Height of your SVG */
+    background: url('icons/linkArrow.svg') no-repeat;
+    background-size: contain;
+    transform: translateY(-65%) rotate(180deg);
+    transition: all 0.3s ease-in-out; /* Control the animation */
+    opacity: 0;
+}
+.arrowBackLink:hover::after{
+transform: translateY(-65%) translateX(-12px) rotate(180deg);
+opacity: 1;
+}
+
 #tabs{
     width: calc(100% - 120px);
     padding: 30px;
     margin: 0px 30px 30px 30px;
-    background-color: #EDEDED;
+    background-color: #FCFCFC;
+    box-shadow: var(--shadow);
     border-radius: 10px;
     display: flex;
     flex-direction: row;
     gap: 30px;
+    min-height: calc(100lvh - 260px);
     .tabIndiv{
         width: 150px;
         padding: 10px 20px 10px 20px;
@@ -179,19 +253,28 @@ border-radius: 5px;
 }
 
 /* Place the min-width rule first */
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 1201px) {
     .bento {
         padding: 30px;
+    }
+    .bentoCol:first-of-type{
+        width: calc(45% - 15px);
     }
 }
 
 /* Place the max-width rule afterward */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1200px) {
     .bento {
-        padding: 15px;
+        padding: 30px;
     }
     .bentoCol {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .bento {
+        padding: 15px;
     }
 }
 
@@ -199,6 +282,13 @@ border-radius: 5px;
     .icon{
         width: 20px;
     }
+}
+
+.scrollDown{
+    margin: auto;
+    width: fit-content;
+    margin-bottom: 30px;
+
 }
 
 .calendar-grid {
@@ -226,11 +316,12 @@ border-radius: 5px;
         border-collapse: collapse;
         width: 100%;
     }
-    td{
+    td, th{
         padding-left: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
         padding-right: 0px;
+        text-align: left;
     }
     tr{
         padding-top: 5px;

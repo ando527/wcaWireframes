@@ -8,7 +8,8 @@
 #header{
     height: 60px;
     padding: 10px;
-    background-color: #ededed;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaeaea;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -469,7 +470,7 @@ h1{
 }
 h2{
     font-size: 36px;
-    font-weight: 800;
+    font-weight: 700;
 }
 h3{
     font-size: 27px;
