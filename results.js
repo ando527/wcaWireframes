@@ -1257,8 +1257,8 @@ function initLeafletMap() {
     const map = L.map('mapHolder').setView([20, 0], 2); // Center at lat 20, lon 0, zoom level 2
 
     // Set the tile layer for the map
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy; Esri, HERE, Garmin, OpenStreetMap contributors'
     }).addTo(map);
 
     return map; // Return the map object to add markers later

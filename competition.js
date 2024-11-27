@@ -140,6 +140,8 @@ $( document ).ready(function() {
     });
 
 
+    
+
 
     $.ajax({
         url: `https://www.worldcubeassociation.org/api/v0/competitions/${hash}`,
@@ -148,7 +150,20 @@ $( document ).ready(function() {
         success: function(data) {
 
             //Set Name
-            document.querySelector("#title").innerHTML = `<img src="icons/bookmark.svg" />${data.name}`;
+            document.querySelector("#title").innerHTML = `<img src="icons/bookmark.svg"  class="bookmarkIcon"/>${data.name}`;
+
+            const bookmarkIcons = document.querySelectorAll(".bookmarkIcon");
+    
+            bookmarkIcons.forEach(icon => {
+                icon.addEventListener("click", () => {
+                    // Toggle the src attribute between the two images
+                    if (icon.src.endsWith("icons/bookmark.svg")) {
+                        icon.src = "icons/bookmarked.svg";
+                    } else {
+                        icon.src = "icons/bookmark.svg";
+                    }
+                });
+            });
 
             // Set dates
             const startDate = new Date(data.start_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -162,8 +177,12 @@ $( document ).ready(function() {
             document.querySelector(".compCompetitorLimit").textContent = data.competitor_limit || "Unlimited";
             
             // Set venue details
-            document.querySelector(".compVenueDetails").textContent = data.venue;
-            document.querySelector(".compVenueDetailsFull").textContent = data.venue_details + ", " + data.venue;
+            document.querySelector(".compVenueDetails").innerHTML = marked.parse(data.venue);
+            if (data.venue_details != ""){
+                document.querySelector(".compVenueDetailsFull").innerHTML = marked.parse(data.venue_details);
+            } else {
+                document.querySelector(".compVenueDetailsFull").parentElement.remove();
+            }
 
 
             //bookmarks
@@ -174,7 +193,8 @@ $( document ).ready(function() {
             document.querySelector(".compBaseRegistrationFee").textContent = `$${fee} ${data.currency_code}`;
 
             // Set spectator policy
-            document.querySelector(".compSpectators").textContent = data.guest_policy || "See details";
+            document.querySelector(".compSpectators").textContent = `$${data.guests_entry_fee_lowest_denomination/100} ${data.currency_code}` || "See details";
+
 
             // Link for comp details
             document.querySelector(".compDetails").href = `https://www.worldcubeassociation.org/competitions/${data.id}.pdf`;
@@ -235,7 +255,7 @@ $( document ).ready(function() {
             const markdownInformation = data.information;
 
             // Convert the Markdown to HTML
-            const htmlContent = marked.parse(markdownInformation) + marked.parse(markdownRegistrationRequirements);
+            const htmlContent = "<div class=\"markdownInfo\">" + marked.parse(markdownInformation) + "</div>" + marked.parse(markdownRegistrationRequirements);
 
             // Insert the HTML into the page
             document.querySelector(".generalInfo").innerHTML += `
@@ -243,6 +263,26 @@ $( document ).ready(function() {
                     ${htmlContent}
                 </div>
             `;
+
+            const generalInfo = document.querySelector('.generalInfo');
+            const bentoImg = document.querySelector('.bentoImg');
+            const bentoImgImage = document.querySelector('.bentoImgImage');
+
+            if (generalInfo) {
+                const imgTag = generalInfo.querySelector('img');
+                
+                if (imgTag) {
+                    // Duplicate the first image's src value into the .bentoImgImage tag
+                    if (bentoImgImage) {
+                        bentoImgImage.src = imgTag.src;
+                    }
+                } else {
+                    // Remove the .bentoImg div if no img tag is found
+                    if (bentoImg) {
+                        bentoImg.remove();
+                    }
+                }
+            }
 
 
             console.log(data);

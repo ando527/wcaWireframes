@@ -309,6 +309,7 @@ input[type="date"] {
 #competitionsHolder{
     width: 1100px;
     max-width: 1100px;
+    z-index: 2;
 }
 
 #infoPane{
@@ -319,6 +320,7 @@ input[type="date"] {
     padding: 30px;
     height: fit-content;
     position: sticky;
+    z-index: 3;
     top: 30px;
     display: flex;
     flex-direction: column;
@@ -340,10 +342,6 @@ input[type="date"] {
       max-width: 500px;
       width: 500px;
     }
-    #advancedFilters {
-        max-width: 500px;
-        width: 500px;
-      }
 
   }
 
@@ -554,7 +552,7 @@ a{
     background-color: #fcfcfc; 
 }
 .evenRow {
-    background-color: #dcdcdc; 
+    background-color: #EDEDED; 
 }
 .twinComp + .twinComp{
     /*box-shadow: inset 3px 0px 0 0 #6b6b6b;*/
@@ -585,10 +583,10 @@ a{
 }
 
 .compRow:hover{
-    background-color: #fdfdfd;
+    background-color: rgba(153, 199, 255, 0.5);
 }
 .compRow:hover + .eventRow {
-    background-color: #fdfdfd; 
+    background-color: rgba(153, 199, 255, 0.5); 
 }
 
 .championshipRow:hover{
@@ -604,24 +602,30 @@ a{
 }
 
 .highlightedRow{
-    /*background-color: #C1E6CD!important;*/
-    box-shadow: inset 0 0 0 1.5px #0051BA!important;
+    /*background-color: #C1E6CD!important;
+    box-shadow: inset 0 0 0 1.5px #0051BA!important;*/
+    background-color: rgba(153, 199, 255, 1); 
 
 }
 .highlightedRow + .eventRow {
-    box-shadow: inset 1px -1px 0 0 #0051BA, /* left side */
-            inset -1px -1px 0 0 #0051BA, /* right side */
-            inset 0 -1px 0 0 #0051BA;    /* bottom side */
+    /*
+    box-shadow: inset 1px -1px 0 0 #0051BA, 
+            inset -1px -1px 0 0 #0051BA, 
+            inset 0 -1px 0 0 #0051BA;    */
+            background-color: rgba(153, 199, 255, 1); 
 }
 
 /* Handle highlightedRow + adjacent twinComp scenario */
 .highlightedRow.twinComp + .twinComp {
-    box-shadow: inset 1px -1px 0 0 #0051BA, /* left side */
-    inset -1px -1px 0 0 #0051BA, /* right side */
-    inset 0 -1px 0 0 #0051BA, -3px 0px 0 0 #6b6b6b;
+    background-color: rgba(153, 199, 255, 1); 
+    /*
+    box-shadow: inset 1px -1px 0 0 #0051BA, 
+    inset -1px -1px 0 0 #0051BA, 
+    inset 0 -1px 0 0 #0051BA, -3px 0px 0 0 #6b6b6b;*/
 }
 .highlightedRow.twinComp {
-    box-shadow: inset 0 0 0 1.5px #0051BA, -3px 0px 0 0 #6b6b6b !important;
+    background-color: rgba(153, 199, 255, 1); /*
+    box-shadow: inset 0 0 0 1.5px #0051BA, -3px 0px 0 0 #6b6b6b !important;*/
 }
 
 .indivEventRow{

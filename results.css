@@ -218,7 +218,7 @@ table{
     color: #1E1E1E;
 }
 #profileCard{
-    background-color: #EEEEEE;
+    background-color: #F4F1ED;
 }
 .recordBox, #resultsTableHolder{
     h4{
@@ -416,10 +416,10 @@ table{
         padding-right: 10px;
     }
     tbody tr:nth-child(even) {
-        background-color: #DCDCDC;
-        border-color: #DCDCDC;
+        background-color: #EDEDED;
+        border-color: #EDEDED;
         td{
-            border-color: #DCDCDC;
+            border-color: #EDEDED;
         }
     }
     tbody tr:nth-child(odd) {
@@ -432,12 +432,12 @@ table{
 }
 
 #results tr:nth-child(even) {
-    background-color: #DCDCDC;
-    border-color: #DCDCDC;
-    border-top: 2px solid #DCDCDC;
-    border-bottom: 2px solid #DCDCDC;
+    background-color: #EDEDED;
+    border-color: #EDEDED;
+    border-top: 2px solid #EDEDED;
+    border-bottom: 2px solid #EDEDED;
     td{
-        border-color: #DCDCDC;
+        border-color: #EDEDED;
     }
 }
 
@@ -890,10 +890,10 @@ table{
     thead{
         position: sticky;
         top: 0px;
-        background-color: #DCDCDC;
+        background-color: #F4F1ED;
         z-index: 10;
         font-weight: 700;
-        box-shadow: 0 2px 3px 0px #FCFCFC;
+        box-shadow: 0 2px 3px 0px #DCDCDC;
     }
 }
 
@@ -904,6 +904,9 @@ table{
 .mapPane{
     position: relative;
     height: 600px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
 }
 #mapHolder{
     height: 600px;
@@ -912,7 +915,7 @@ table{
 
 .tabContent{
     position: relative;
-    padding-bottom: 30px;
+    /*padding-bottom: 30px;*/
 }
 #searchBox{
     padding: 10px 15px 10px 15px;
