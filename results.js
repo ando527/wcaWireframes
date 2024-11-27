@@ -396,7 +396,45 @@ $( document ).ready(function() {
         setImageMaxHeight();
     }
 
-    
+       // Manually preset an 18x8 array with probability values between 0 and 1
+       const array = [
+        [0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+        [0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1]
+    ];
+
+    // Color function based on the probability value
+    function getColor(probValue) {
+        if (probValue <= 1/6) return '#029347';      // 0.0 - 0.166
+        if (probValue <= 2/6) return '#ff5800';   // 0.167 - 0.333
+        if (probValue <= 3/6) return '#0051BA';   // 0.334 - 0.5
+        if (probValue <= 4/6) return '#FFD313';    // 0.501 - 0.666
+        if (probValue <= 5/6) return '#C62535';     // 0.667 - 0.833
+        return '#FFFFFF';                         // 0.834 - 1
+    }
+
+    // Get the parent div
+    const randomHolder = document.getElementById('randomHolder');
+
+    // Loop through the array and add divs with respective colors
+    array.forEach(row => {
+        row.forEach(probValue => {
+			let randomNumber = Math.random();
+            const div = document.createElement('div');
+            div.classList.add('random');
+			if (randomNumber < probValue){
+				div.style.backgroundColor = getColor(randomNumber/probValue);
+			} else {
+				div.style.backgroundColor = 'transparent';
+			}
+            randomHolder.appendChild(div);
+        });
+    });
 
 
 });
@@ -429,7 +467,7 @@ function setImageMaxHeight() {
     const profileNameHeight = $('#profileName').height();
 
     // Calculate the max height (combined heights minus 60px)
-    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 120;
+    const maxHeight = profileCardHeight - achievementsHeight - profileDetailsHeight - profileNameHeight - 30;
 
     // Apply the calculated max-height to the image
     $('#profilePhoto').css('max-height', maxHeight + 'px');
@@ -740,6 +778,8 @@ function badges(data){
             </div>
         `;
     };
+    document.getElementById('staffRoles')?.innerHTML.trim() === '' && document.getElementById('staffRoles').remove();
+
 }
 
 

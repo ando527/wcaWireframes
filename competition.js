@@ -99,7 +99,45 @@ $( document ).ready(function() {
     });
 
 
+    // Manually preset an 18x8 array with probability values between 0 and 1
+    const array = [
+        [0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+        [0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1],
+		[0.05, 0.1, 0.1, 0.15, 0.18, 0.2, 0.2, 0.25, 0.35, 0.35, 0.85, 0.9, 1, 1, 1, 1, 1, 1]
+    ];
 
+    // Color function based on the probability value
+    function getColor(probValue) {
+        if (probValue <= 1/6) return '#029347';      // 0.0 - 0.166
+        if (probValue <= 2/6) return '#ff5800';   // 0.167 - 0.333
+        if (probValue <= 3/6) return '#0051BA';   // 0.334 - 0.5
+        if (probValue <= 4/6) return '#FFD313';    // 0.501 - 0.666
+        if (probValue <= 5/6) return '#C62535';     // 0.667 - 0.833
+        return '#FFFFFF';                         // 0.834 - 1
+    }
+
+    // Get the parent div
+    const randomHolder = document.getElementById('randomHolder');
+
+    // Loop through the array and add divs with respective colors
+    array.forEach(row => {
+        row.forEach(probValue => {
+			let randomNumber = Math.random();
+            const div = document.createElement('div');
+            div.classList.add('random');
+			if (randomNumber < probValue){
+				div.style.backgroundColor = getColor(randomNumber/probValue);
+			} else {
+				div.style.backgroundColor = 'transparent';
+			}
+            randomHolder.appendChild(div);
+        });
+    });
 
 
 
@@ -137,6 +175,9 @@ $( document ).ready(function() {
 
             // Set spectator policy
             document.querySelector(".compSpectators").textContent = data.guest_policy || "See details";
+
+            // Link for comp details
+            document.querySelector(".compDetails").href = `https://www.worldcubeassociation.org/competitions/${data.id}.pdf`;
 
             // Set on the spot registration
             document.querySelector(".compOnTheSpot").textContent = data.on_the_spot_registration ? "Yes" : "No";

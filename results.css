@@ -30,6 +30,8 @@ html, body{
     padding: 30px;
     min-height: 100%;
     transition: opacity 500ms;
+    z-index: 2;
+    position: relative;
     /*background-color: #EDEDED;*/
 }
 
@@ -920,6 +922,7 @@ table{
 }
 
 
+
 @media only screen and (min-width: 1560px) {
     .leftmiddleContent{
         width: 100%;
@@ -998,8 +1001,8 @@ table{
 
     #profileCard{
         border-radius: 10px;
-        background-color: #FCFCFC;
-        padding: 30px;
+        /*background-color: #FCFCFC;*/
+        padding: 15px;
         position: sticky;
         top: 30px;
         width: 400px;

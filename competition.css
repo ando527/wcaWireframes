@@ -27,6 +27,7 @@ h4{
     }
 }
 
+
 .adminMenu{
     display: flex;
     flex-direction: row;
@@ -35,11 +36,22 @@ h4{
     padding: 10px 30px;
     width: fit-content;
     margin: auto;
-    box-shadow: var(--shadow);
+    /*box-shadow: var(--shadow);*/
+    box-shadow: rgba(17, 17, 26, 0.2) 0px 8px 16px;
+
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: #EDEDED;
-    z-index: -1;
+    background-color: #FCFCFC;
+    z-index: 5;
+    position: relative;
+    a{
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 250ms;
+    }
+    a:hover{
+        border-bottom: #0051BA 2px solid;
+    }
 }
 .adminHeader{
     font-weight: 600;
@@ -52,6 +64,8 @@ h4{
     padding: 30px;
     justify-content: space-between;
     gap: 30px;
+    max-width: 1900px;
+    margin: auto;
 }
 
 .bentoCol{
@@ -68,6 +82,7 @@ h4{
     background-color: #FCFCFC;
     border-radius: 10px;
     box-shadow: var(--shadow);
+    z-index: 2;
     h4{
         font-weight: 500;
         letter-spacing: 1px;
@@ -126,7 +141,8 @@ h1, h2, h4{
     width: 30px;
 }
 .mainEvent{
-border: 2px #99C7FF solid;
+/*border: 2px #99C7FF solid;*/
+filter: invert(18%) sepia(48%) saturate(5677%) hue-rotate(207deg) brightness(93%) contrast(101%);
 border-radius: 5px;
 }
 
@@ -155,7 +171,7 @@ opacity: 1;
 
 #tabs{
     width: calc(100% - 120px);
-    padding: 30px;
+    padding: 0px 30px 30px 30px 30px;
     margin: 0px 30px 30px 30px;
     background-color: #FCFCFC;
     box-shadow: var(--shadow);
@@ -163,6 +179,8 @@ opacity: 1;
     display: flex;
     flex-direction: row;
     gap: 30px;
+    z-index: 3;
+    position: relative;
     min-height: calc(100lvh - 260px);
     .tabIndiv{
         width: 150px;
@@ -178,7 +196,7 @@ opacity: 1;
     }
     
     #tabsHolder{
-        
+        padding: 30px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -190,8 +208,11 @@ opacity: 1;
         
     }
     #tabsContent{
+        > div:not(.adminMenu){
+            padding-top: 30px;
+        }
         background-color: #FDFDFD;
-        padding: 30px;
+        padding: 0px 30px 30px 30px;
         border-radius: 10px;
         width: 100%;
         .hidden{
@@ -288,7 +309,10 @@ opacity: 1;
     margin: auto;
     width: fit-content;
     margin-bottom: 30px;
-
+    img{
+        margin: 0px 5px 0px 5px;
+        transform: rotate(-90deg);
+    }
 }
 
 .calendar-grid {

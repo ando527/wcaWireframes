@@ -27,10 +27,11 @@
                 
             </div>
         </div>
-        
+       
         <br />
         <a href="/competitions.html" class="arrowBackLink">Back to All Competitions</a>
         <div class="bentoWrapper">
+            
             <div class="bentoCol">
                 <div id="mainInfo" class="bento">
                     <h2 id="title"><img src="icons/bookmark.svg" /><span id="compName">New Zealand Nationals 2024</span><img src="icons/championship.svg" /></h2>
@@ -59,7 +60,7 @@
                     <h4>Registration</h4>
                     <div class="infoGrid 2col">
                         <div class="infoSnippet">
-                            <span class="snippetTitle"><img src="icons/date.svg" />Base Registration Fee</span>
+                            <span class="snippetTitle"><img src="icons/fee.svg" />Base Registration Fee</span>
                             <span class="snippetDetail compBaseRegistrationFee">$43 NZD</span>
                         </div>
                         <div class="infoSnippet">
@@ -75,11 +76,11 @@
                             <span class="snippetDetail compOnTheSpot">No</span>
                         </div>
                         <div class="infoSnippet">
-                            <span class="snippetTitle"><img src="icons/bookmark.svg" />Registration Opens</span>
+                            <span class="snippetTitle"><img src="icons/regoOpenDate.svg" />Registration Opens</span>
                             <span class="snippetDetail compRegoOpens">Thursday, December 14, 2023 at 3:00 PM GMT+10</span>
                         </div>
                         <div class="infoSnippet">
-                            <span class="snippetTitle"><img src="icons/bookmark.svg" />Registration Closes</span>
+                            <span class="snippetTitle"><img src="icons/date.svg" />Registration Closes</span>
                             <span class="snippetDetail compRegoCloses">Sunday, December 1, 2024 at 8:59 PM GMT+10</span>
                         </div>
                         <div class="infoSnippet">
@@ -119,7 +120,7 @@
                     </div>
                     
                     
-                    <a class="button-secondary">Download Competition Details (PDF)<img src="icons/pdf.svg" /></a>
+                    <a class="button-secondary compDetails" target="_blank">Download Competition Details (PDF)<img src="icons/pdf.svg" /></a>
                 </div>
 
                 <div class="bento">
@@ -130,7 +131,7 @@
                             <span class="snippetDetail compVenueDetails"><span class="bold">Friday:</span> Multi Cultural Rec Centre <span class="bold">Sat/Sun:</span> Addington Raceway</span>
                         </div>
                         <div class="infoSnippet">
-                            <span class="snippetTitle"><img src="icons/locationIcon.svg" />Address</span>
+                            <span class="snippetTitle"><img src="icons/map.svg" />Address</span>
                             <span class="snippetDetail compVenueAddress">75 Jack Hinton Drive, Addington, Christchurch 8024 (Please see venue tab for Friday address)</span>
                         </div>
                         <div class="infoSnippet">
@@ -149,26 +150,9 @@
 
             </div>
         </div>
-        <div class="scrollDown button-secondary">Hide Competition Details</div>
-        <div class="adminMenu">
-            <div class="adminHeader">ADMIN MENU</div>
-            <div>
-                Edit
-            </div>
-            <div>
-                Registration
-            </div>
-            <div>
-                Delegate Report
-            </div>
-            <div>
-                Manage Tabs
-            </div>
-            <div>
-                Clone
-            </div>
-
-        </div>
+        
+        <div class="scrollDown button-secondary"><img src="icons/linkArrow.svg"/><img src="icons/linkArrow.svg"/>Hide Competition Details<img src="icons/linkArrow.svg"/><img src="icons/linkArrow.svg"/></div>
+        
         <div id="tabs">
             <div id="tabsHolder">
                 <div class="tabIndiv generalTab selected">General Info</div>
@@ -178,6 +162,25 @@
                 <div class="tabIndiv scheduleTab">Schedule</div>
             </div>
             <div id="tabsContent">
+                <div class="adminMenu">
+                    <div class="adminHeader">ADMIN MENU</div>
+                    <a>
+                        Edit
+                    </a>
+                    <a>
+                        Registration
+                    </a>
+                    <a>
+                        Delegate Report
+                    </a>
+                    <a>
+                        Manage Tabs
+                    </a>
+                    <a>
+                        Clone
+                    </a>
+        
+                </div>
                 <div class="generalInfo"></div>
                 <div class="registerInfo hidden"><p>Registration not available through this Prototype webpage</p></div>
                 <div class="psychSheet hidden"></div>
@@ -212,7 +215,7 @@
             </div>
         </footer>
 
-
+        <div id="randomHolder"></div>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="countries.js"></script>
         <script src="competition.js"></script>

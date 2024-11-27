@@ -11,9 +11,30 @@
     background-color: #ffffff;
     border-bottom: 1px solid #eaeaea;
     display: flex;
+    z-index: 500;
+    position: relative;
     justify-content: space-between;
     align-items: center;
 }
+
+#randomHolder{
+    width: 35%;
+    aspect-ratio: 2.25;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    flex-wrap: wrap;
+    z-index: 1;
+    pointer-events: none;
+}
+.random{
+    width: calc(100% / 18);
+    aspect-ratio: 1;
+    pointer-events: none;
+}
+
+
 .button{
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
@@ -126,7 +147,7 @@
 
 #pageContent{
     /*width: calc(100% - 20px);*/
-    padding: 30px 0px 20px 0px;
+    padding: 30px 0px 20px 30px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -140,23 +161,21 @@
     }
 }
 #advancedFilters{
-    max-width: 320px;
-    width: 320px;
-    background-color: #fcfcfc;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
-    padding: 30px;
+    width: 100%;
     height: fit-content;
-    position: sticky;
-    top: 30px;
+    
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     text-align: left;
     align-items: flex-start;
     /*gap: 10px;*/
-    margin-left: 30px;
+
     border-radius: 10px;
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
+    h4{
+        margin: 0px!important;
+    }
 }
 #filterArrow{
     width: 15px;
@@ -170,28 +189,36 @@
     overflow: hidden;
     position: relative; 
     transition: max-height 0.25s ease-in;
+ 
+
 
 }
 #advancedFiltersToggle{
     cursor: pointer;
     display: flex;
-    width: 100%;
+    /*width: 100%;
     justify-content: space-between;
     h3{
         margin: 0px;
-    }
+    }*/
 }
 #filterHolder{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.date-picker-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 #eventsToggle{
     display: flex;
     flex-direction: row;
     gap: 5px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .event-container {
@@ -243,6 +270,7 @@ input[type="date"] {
 }
 #showEventsHolder{
     display: flex;
+    align-items: center;
 }
 
 #newcomer{
@@ -443,9 +471,13 @@ input[type="date"] {
 }
 #quickAccessFilters{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     gap: 5px;
+}
+.topRowFilters{
+    display: flex;
+    justify-content: space-between;
 }
 #leftQuickAccessFilters{
     display: flex;
@@ -487,7 +519,7 @@ a{
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #displayingCount{
@@ -498,17 +530,15 @@ a{
     flex-direction: row;
     gap: 10px;
     img {
-        width: 1.8em;
-        height: 1.8em;
+        width: 1.2em;
+        height: 1.2em;
         margin-left: 0.4em;
     }
     .individualRegistrationKey{
-        padding: 5px;
-        border: 2px solid#dedede;
         display: flex;
         flex-direction: row;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-start;
         border-radius: 5px;
         gap: 5px
     }
