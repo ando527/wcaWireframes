@@ -152,6 +152,8 @@ $( document ).ready(function() {
             //Set Name
             document.querySelector("#title").innerHTML = `<img src="icons/bookmark.svg"  class="bookmarkIcon"/>${data.name}`;
 
+            document.title = `${data.name} | WCA Prototype`;
+
             const bookmarkIcons = document.querySelectorAll(".bookmarkIcon");
     
             bookmarkIcons.forEach(icon => {
@@ -193,7 +195,11 @@ $( document ).ready(function() {
             document.querySelector(".compBaseRegistrationFee").textContent = `$${fee} ${data.currency_code}`;
 
             // Set spectator policy
-            document.querySelector(".compSpectators").textContent = `$${data.guests_entry_fee_lowest_denomination/100} ${data.currency_code}` || "See details";
+            if (data.guests_entry_fee_lowest_denomination == 0){
+                document.querySelector(".compSpectators").textContent = "Free";
+            } else {
+                document.querySelector(".compSpectators").textContent = `$${data.guests_entry_fee_lowest_denomination/100} ${data.currency_code}` || "See details";
+            }
 
 
             // Link for comp details
@@ -232,7 +238,7 @@ $( document ).ready(function() {
             let delegates = ''; // Initialize the variable outside
             for (const delegate of data.delegates) {
                 if (delegate.wca_id != null) {
-                    delegates += `<a href="/results.html#${delegate.wca_id}">${delegate.name}</a>, `; // Append each name followed by a comma
+                    delegates += `<a href="results.html#${delegate.wca_id}">${delegate.name}</a>, `; // Append each name followed by a comma
                 } else {
                     delegates += `${delegate.name}, `; // Append each name followed by a comma
                 }

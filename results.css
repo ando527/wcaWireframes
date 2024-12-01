@@ -74,13 +74,17 @@ html, body{
     height: 1.3em;
 }
 
+.arrowLink{
+    padding: 0px!important;
+}
+
 #profilePhoto{
     width: fit-content;
     max-width: 100%;
     height: auto;
     object-fit: contain;
     flex-shrink: 2;
-    border-radius: 10px;
+    border-radius: 7px;
 }
 #profileDetails{
     display: flex;

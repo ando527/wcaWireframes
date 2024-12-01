@@ -16,7 +16,7 @@ var map;
 var championships = 0;
 
 const compIcon = L.icon({
-    iconUrl: 'images/comp-marker.svg',
+    iconUrl: 'images/new-marker.svg',
     shadowUrl: 'images/marker-shadow.png',
     shadowAnchor: [13, 43],
     iconSize: [26, 40],
@@ -809,7 +809,7 @@ function showCompetitions(data){
             // Insert competition name as a table header row
             tableHTML += `
                 <tr class="competition-header">
-                    <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
+                    <td colspan="10" class="compTitle"><a href="competition.html#${competition}" class="arrowLink">${getCompetitionName(competition)}</a></td>
                 </tr>
             `;
 
@@ -952,7 +952,7 @@ function showResultsWithEventPicker(data) {
             if (competition !== lastCompetition) {
                 filteredTableHTML += `
                     <tr class="competition-header">
-                        <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
+                        <td colspan="10" class="compTitle"><a href="competition.html#${competition}" class="arrowLink">${getCompetitionName(competition)}</a></td>
                     </tr>
                 `;
                 lastCompetition = competition;
@@ -1140,7 +1140,7 @@ function showChampionshipPodiums(data) {
                         // Add competition name as a table header row (only once per competition)
                         tableHTML += `
                             <tr class="competition-header">
-                                <td colspan="10" class="compTitle">${getCompetitionName(competition)}</td>
+                                <td colspan="10" class="compTitle"><a href="competition.html#${competition}" class="arrowLink">${getCompetitionName(competition)}</a></td>
                             </tr>
                         `;
                         competitionHasPodium = true; // Ensure competition name appears only once

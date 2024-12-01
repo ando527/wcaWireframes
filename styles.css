@@ -250,7 +250,7 @@ input[type="date"] {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ffffff;
+    background-color: #EDEDED;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -654,6 +654,28 @@ a{
         padding-left: 8px;;
     }
 }
+.arrowLink{
+    position: relative;
+    padding: 0px 0px 0px 6px;
+}
+.arrowLink::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 7px;  /* Width of your SVG */
+    height: 12px; /* Height of your SVG */
+    background: url('icons/linkArrow.svg') no-repeat;
+    background-size: contain;
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out; /* Control the animation */
+    opacity: 0;
+}
+.arrowLink:hover::after{
+transform: translateY(-50%) translateX(12px);
+opacity: 1;
+}
+
 .compRow{
     height: 30px;
     cursor: pointer;
@@ -684,30 +706,11 @@ a{
         width: calc(234px + 16px);
         padding-right:6px;
     }
-    .arrowLink{
-        position: relative;
-        padding: 0px 0px 0px 6px;
-    }
+    
     span{
         padding: 0px 6px 0px 6px;
     }
-    .arrowLink::after{
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 0;
-            width: 7px;  /* Width of your SVG */
-            height: 12px; /* Height of your SVG */
-            background: url('icons/linkArrow.svg') no-repeat;
-            background-size: contain;
-            transform: translateY(-50%);
-            transition: all 0.3s ease-in-out; /* Control the animation */
-            opacity: 0;
-        }
-    .arrowLink:hover::after{
-        transform: translateY(-50%) translateX(12px);
-        opacity: 1;
-    }
+    
     .locationAndRegion{
         width: 569px;
         max-width: 569px;

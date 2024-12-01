@@ -34,6 +34,11 @@ const countryCodeMapping = {
     "VN": "Vietnam",
     "AZ": "Azerbaijan",
     "MN": "Mongolia",
+    "NP": "Nepal",
+    "LK": "Sri Lanka",
+    "BT": "Bhutan",
+    "BD": "Bangladesh",
+    "KG": "Kyrgyzstan",
     
     // Europe
     "AT": "Austria",
@@ -68,6 +73,7 @@ const countryCodeMapping = {
     "GB": "United Kingdom",
     "GE": "Georgia",
     "HR": "Croatia",
+    "ME": "Montenegro",
     
     // North America
     "BS": "Bahamas",
@@ -101,7 +107,8 @@ const countryCodeMapping = {
     // Oceania
     "AU": "Australia",
     "FJ": "Fiji",
-    "NZ": "New Zealand"
+    "NZ": "New Zealand",
+    "XO": "Multiple Countries (Oceania)"
 };
 
 const countryCodeToContinent = {

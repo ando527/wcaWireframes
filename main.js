@@ -25,7 +25,7 @@ var displayingMap = false;
 var radioButtons;
 
 const champIcon = L.icon({
-    iconUrl: 'images/champ-marker.svg',
+    iconUrl: 'images/new-champ-marker.svg',
     shadowUrl: 'images/marker-shadow.png',
     shadowAnchor: [13, 43],
     iconSize: [26, 40],
@@ -34,7 +34,7 @@ const champIcon = L.icon({
 });
 
 const compIcon = L.icon({
-    iconUrl: 'images/comp-marker.svg',
+    iconUrl: 'images/new-marker.svg',
     shadowUrl: 'images/marker-shadow.png',
     shadowAnchor: [13, 43],
     iconSize: [26, 40],
