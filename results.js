@@ -695,51 +695,19 @@ function badges(data){
     data.person.teams.forEach(team=> {
         let teamText = team.friendly_id.toUpperCase();
         let teamRole = "";
-        let baseUrl = "greenBase.svg";
         let staffColour = "black";
 
-        switch (teamText) {
-            case "WEAT":
-            case "WFC":
-            case "WSOT":
-                staffColour = "blue";
-                break;
-            
-            case "WRT":
-            case "WQAC":
-            case "WCAT":
-                staffColour = "yellow";
-                break;
-            
-            case "WIC":
-            case "WAC":
-            case "WRC":
-                staffColour = "orange";
-                break;
-            
-            case "WST":
-            case "WAT":
-            case "WCT":
-            case "WMT":
-                staffColour = "green";
-                break;
-        
-            case "BOARD":
-                staffColour = "black";
-                break;
-        
-            default:
-                staffColour = "black"; // Fallback color class if none match
-        }
-
-        if (team.leader == true){
+        if (teamText == "BORAD"){
+            staffColour = "black";
+        } else if (team.leader == true){
             teamRole = "LEADER";
-            baseUrl = "blueBase.svg";
+            staffColour = "blue";
         } else {
             if (team.senior_member == true){
                 teamRole = "SENIOR MEMBER";
-                baseUrl = "orangeBase.svg";
+                staffColour = "yellow";
             } else {
+                staffColour = "green";
                 teamRole = "MEMBER";
             }
         }
