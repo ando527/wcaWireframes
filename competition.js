@@ -328,6 +328,7 @@ $( document ).ready(function() {
                                     </tbody>
                                 </table>
                             `;
+                            tableHTML += `<div class="notAvail">Psych Sheet not available in this prototype</div>`;
                             $('.psychSheet').html(tableHTML);
                         }
             
@@ -429,7 +430,7 @@ function populateSchedule(schedule) {
     `;
 
     // Insert the table into the scheduleInfo div
-    scheduleInfoDiv.innerHTML = tableHTML;
+    scheduleInfoDiv.innerHTML = tableHTML + `<div class="notAvail">Schedule not available in this prototype</div>`;
 
     // Now generate the calendar view
     generateCalendarView(allActivities);
@@ -518,7 +519,7 @@ function populateEventsInfo(events) {
     `;
 
     // Insert the table into the eventsInfo div
-    eventsInfoDiv.innerHTML = tableHTML;
+    eventsInfoDiv.innerHTML = tableHTML + `<div class="notAvail">Events Table not available in this prototype</div>`;
 }
 
 

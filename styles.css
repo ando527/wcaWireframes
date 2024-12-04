@@ -312,6 +312,13 @@ input[type="date"] {
     z-index: 2;
 }
 
+.compDetails{
+    white-space: nowrap;
+    img{
+        vertical-align: middle; /* Aligns image with text */
+    }
+}
+
 #infoPane{
     max-width: 320px;
     width: 320px;
@@ -369,6 +376,14 @@ input[type="date"] {
     margin-right: .3em;
     line-height: 1;
     transform: translateY(0.35em);
+}
+.champIcon{
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.1;
+    right: -10%;
+    top: -10%;
+    width: 60%;
 }
 .filtersIcon{
     width: 1em;
@@ -754,6 +769,7 @@ opacity: 1;
     
 }
 #infoPane{
+    overflow: hidden;
     .flag{
         width: 20px;
         height: 22px;

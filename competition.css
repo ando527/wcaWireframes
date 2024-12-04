@@ -27,7 +27,9 @@ h4{
     }
 }
 
-
+.bookmarkIcon{
+    cursor: pointer;
+}
 .adminMenu{
     display: flex;
     flex-direction: row;
@@ -218,7 +220,11 @@ opacity: 1;
         background-color: #FDFDFD;
         border-radius: 5px;
         cursor: pointer;
-        border: 1px solid transparent;
+        border: 1px solid #C5C5C5;
+    }
+    .customTab{
+        background-color: #ffffff;
+        border: 1px solid #4F4F4F;
     }
     .alt{
         background-color: #4F4F4F;
@@ -334,11 +340,37 @@ opacity: 1;
         padding: 15px;
     }
 }
-
+.registerInfo{
+    position: relative;
+    img{
+        filter: blur(4px);
+    }
+}
+.scheduleInfo, .eventsInfo{
+    position: relative;
+    table, .calendarView{
+    filter: blur(4px);
+    }
+}
 .psychSheet{
+    position: relative;
+    table{
+    filter: blur(4px);
+    }
     .icon{
         width: 20px;
     }
+
+}
+.notAvail{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #FCFCFC;
+    box-shadow: rgba(17, 17, 26, 0.2) 0px 8px 16px;
 }
 
 .scrollDown{
@@ -352,8 +384,10 @@ opacity: 1;
 }
 
 .calendar-grid {
-    display: flex;
-    flex-direction: column;
+    
+   /* display: flex;
+    flex-direction: column;*/
+    column-count: 2;
     border-left: 2px solid black;
     padding-left: 10px;
     position: relative;

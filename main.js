@@ -788,7 +788,7 @@ function updateInfoPane(competition){
     infoPane = document.querySelector("#infoPane");
     var championshipIconOrNot = "";
     if (competition.name.includes("Championship") || competition.name.includes("Nationals")){
-        championshipIconOrNot = "<img src=\"icons/championship.svg\" class=\"compIcon\" />";
+        championshipIconOrNot = "<img src=\"icons/championship.svg\" class=\"champIcon\" />";
     }
     infoPane.innerHTML = `
             <h2>${championshipIconOrNot} ${competition.name}</h2>
