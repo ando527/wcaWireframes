@@ -24,6 +24,14 @@ $( document ).ready(function() {
     const eventsInfo = document.querySelector('.eventsInfo');
     const scheduleInfo = document.querySelector('.scheduleInfo');
 
+    const scrollDownButton = document.querySelector('#scrollDown');
+
+    scrollDownButton.addEventListener('click', () => {
+        toggleScroll();
+    });
+
+    window.addEventListener('scroll', updateScrollText);
+
     generalTab.addEventListener('click', () => {
         generalTab.classList.add('selected');
         competitorsTab.classList.remove('selected');
@@ -573,4 +581,42 @@ function getEventName(eventCode) {
         "333mbf": "3x3x3 Multi-Blind"
     };
     return eventNames[eventCode] || eventCode;
+}
+
+function toggleScroll() {
+    const id = 'scrollDown'; // Hard-coded ID
+    const element = document.getElementById(id);
+    
+    if (!element) {
+        console.error(`Element with ID "${id}" not found.`);
+        return;
+    }
+
+    const elementPosition = element.offsetTop;
+    const currentScrollPosition = window.scrollY;
+
+    if (Math.abs(currentScrollPosition - elementPosition) < 100) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+    }
+}
+
+function updateScrollText(){
+    const id = 'scrollDown'; // Hard-coded ID
+    const element = document.getElementById(id);
+    
+    if (!element) {
+        console.error(`Element with ID "${id}" not found.`);
+        return;
+    }
+
+    const elementPosition = element.offsetTop;
+    const currentScrollPosition = window.scrollY;
+
+    if (Math.abs(currentScrollPosition - elementPosition) < 100) {
+        element.textContent = "▲ Show General Info ▲";
+    } else {
+        element.textContent = "▼ Hide General Info ▼";
+    }
 }

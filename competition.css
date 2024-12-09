@@ -64,6 +64,7 @@ h4{
     flex-direction: row;
     flex-wrap: wrap;
     padding: 30px;
+    padding-bottom: 15px;
     justify-content: space-between;
     gap: 30px;
     max-width: 1900px;
@@ -426,4 +427,16 @@ opacity: 1;
         td{
             border-color: #DCDCDC;
         }
+    }
+
+    .scrollDown{
+        padding-top: 15px;
+        color: #0051BA;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+        transition: border 250ms;
+    }
+    .scrollDown:hover{
+        border-bottom: 1px solid #0051BA;
     }
