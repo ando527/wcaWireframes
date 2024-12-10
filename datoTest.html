@@ -6,7 +6,21 @@
     <script src="datoAPI.js"></script>
 </head>
 <body>
-
+    <div id="header">
+        <div class="linksHolder">
+            <a href=""><img src="wca_logo.svg" width="60px" height="60px"/></a>
+            <a href="" class="noDrop">About Us</a>
+            <a href="" class="noDrop">FAQ's</a>
+            <a href="competitions.html" class="dropDownLink">Competitions</a>
+            <a href="" class="dropDownLink">Results</a>
+            <a href="" class="dropDownLink">Regulations</a>
+            <a href="" class="dropDownLink">Information</a>
+            <a href="" class="noDrop">WCA Live</a>
+        </div>
+        <div class="searchProfile">
+            
+        </div>
+    </div>
     <div class="bentoWrapper">
         <div class="block blockfull"></div>
         <div class="block block14"></div>
@@ -20,6 +34,32 @@
         <div class="block block23"></div>
         <div class="block block13"></div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Social Media Icons -->
+            <div class="social-media">
+                <a href="#" class="social-icon"><img src="icons/instagram.svg" alt="Instagram"></a>
+                <a href="#" class="social-icon"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="#" class="social-icon"><img src="icons/x.svg" alt="Cross Icon"></a>
+                <a href="#" class="social-icon"><img src="icons/twitch.svg" alt="Twitch"></a>
+                <a href="#" class="social-icon"><img src="icons/weibo.svg" alt="Weibo"></a>
+                <a href="#" class="social-icon"><img src="icons/youtube.svg" alt="YouTube"></a>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <img class="footer-logo" src="wca_logo.svg" alt="WCA Logo">
+                <a href="#">About Us</a>
+                <a href="#">FAQs</a>
+                <a href="#">Contact</a>
+                <a href="#"><img src="icons/github.png" alt="GitHub">GitHub</a>
+                <a href="#">Privacy</a>
+                <a href="#">Disclaimer</a>
+                <a href="#">Forum</a>
+            </div>
+        </div>
+    </footer>
 
     <style>
         :root{
@@ -44,14 +84,49 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            .button{
+                margin-top: auto;
+            }
+            
         }
         .blockfull{
             width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            
+            padding-right: 15%;
+            p{
+                z-index: 3;
+                color: #FCFCFC;
+                max-width:25%;
+                padding-right: 10%;
+            }
+            h1{
+                z-index: 3;
+                color: #FFD313;
+                max-width: 35%;
+            }
+            img{
+                z-index: 1;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                object-fit: cover;
+                pointer-events: none;
+            }
         }
         .blockfullHero{
             width: 100%;
             position: relative;
             overflow: hidden;
+            display: flex;
             flex-direction: column;
             align-items: flex-end;
             h1{
@@ -59,6 +134,7 @@
             }
             .button{
                 z-index: 3;
+                margin-top: auto;
             }
             p{
                 z-index: 3;
@@ -78,15 +154,8 @@
         }
         .block14{
             width: calc(25% - 1*(var(--padding-body)));
-            h2{
-                border-bottom: 1px solid #E0DDD5;
-                padding-bottom: 10px;
-                width: 100%;
-                margin: 0px;
-            }
-            .button{
-                margin-top: auto;
-            }
+            
+            
         }
         .block34{
             width: calc(75% - 0.5*(var(--padding-body)));
@@ -102,12 +171,19 @@
         }
         .white{
             background-color: #F4F1ED;
+            h2{
+                border-bottom: 1px solid #E0DDD5;
+                padding-bottom: 10px;
+                width: 100%;
+                margin: 0px;
+            }
         }
         .red{
            background-color: #C62535;
         }
         .green{
             background-color: #029347;
+            color: #FFFFFF;
         }
         .yellow{
             background-color: #FFD313;
@@ -116,7 +192,7 @@
             background-color: #FF5800;
         }
         .blue{
-            background-color: #0051BA;
+            background-color: #003366;
         }
     </style>
     <script>
@@ -139,6 +215,9 @@
         colour {
             hex
         }
+        body
+        linkForButton
+        textForButton
       }
       ... on BlockfullRecord {
         __typename
@@ -146,6 +225,10 @@
         title
         colour {
             hex
+        }
+        body
+        backgroundImage {
+          url
         }
       }
         ... on BlockfullHeroRecord {
@@ -177,6 +260,9 @@
         colour {
             hex
         }
+        body
+        linkForButton
+        textForButton
       }
       ... on Block14Record {
        __typename
@@ -196,9 +282,18 @@
         colour {
             hex
         }
+        body
+        linkForButton
+        textForButton
       }
     }
-        }}
+        }
+            allAnnouncements {
+    title
+    body(markdown: true)
+    _publishedAt
+  }
+        }
     `;
 
     const colourMap = {
@@ -231,7 +326,9 @@
                 if (block.__typename === "BlockfullRecord") {
                     bentoHolder.innerHTML += `
                         <div class="block blockfull ${colourMap[block.colour.hex]}">
+                            <img src="${block.backgroundImage.url}"/>
                             <h1>${block.title}</h1>    
+                            <p>${block.body}</p>
                         </div>
                     `;
                 } else if (block.__typename === "BlockfullHeroRecord") {
@@ -240,25 +337,39 @@
                             <img src="${block.backgroundImage.url}"/>
                             <h1>${block.title}</h1>    
                             <p>${block.body}</p>
-                            <a href="${block.linkForButton}" class="button">${block.textForButton}</a>
+                            ${block.textForButton && block.textForButton.trim() !== "" 
+                            ? `<a href="${block.linkForButton}" class="button">${block.textForButton}</a>` 
+                            : ""}
                         </div>
                     `;
                 }else if (block.__typename === "Block12Record") {
                     bentoHolder.innerHTML += `
                         <div class="block block12 ${colourMap[block.colour.hex]}">
-                            <h1>${block.title}</h1>    
+                            <h2>${block.title}</h2>
+                            <p>${block.body}</p>    
+                            ${block.textForButton && block.textForButton.trim() !== "" 
+                            ? `<a href="${block.linkForButton}" class="button">${block.textForButton}</a>` 
+                            : ""} 
                         </div>
                     `;
                 } else if (block.__typename === "Block13Record") {
                     bentoHolder.innerHTML += `
                         <div class="block block13 ${colourMap[block.colour.hex]}">
-                            <h1>${block.title}</h1>    
+                            <h2>${block.title}</h2>
+                            <p>${block.body}</p>
+                            ${block.textForButton && block.textForButton.trim() !== "" 
+                            ? `<a href="${block.linkForButton}" class="button">${block.textForButton}</a>` 
+                            : ""}
                         </div>
                     `;
                 } else if (block.__typename === "Block23Record") {
                     bentoHolder.innerHTML += `
                         <div class="block block23 ${colourMap[block.colour.hex]}">
-                            <h1>${block.title}</h1>    
+                            <h2>${block.title}</h2>
+                            <p>${block.body}</p>
+                            ${block.textForButton && block.textForButton.trim() !== "" 
+                            ? `<a href="${block.linkForButton}" class="button">${block.textForButton}</a>` 
+                            : ""}
                         </div>
                     `;
                 } else if (block.__typename === "Block14Record") {
@@ -266,7 +377,9 @@
                         <div class="block block14 ${colourMap[block.colour.hex]}">
                             <h2>${block.title}</h2>
                             <p>${block.body}</p>    
-                            <a href="${block.linkForButton}" class="button">${block.textForButton}</a>
+                            ${block.textForButton && block.textForButton.trim() !== "" 
+                            ? `<a href="${block.linkForButton}" class="button">${block.textForButton}</a>` 
+                            : ""}   
                         </div>
                     `;
                 } else if (block.__typename === "Block34Record") {
