@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>Dato Test</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="datoAPI.js"></script>
+</head>
+<body>
+
+    <div class="bentoWrapper">
+        <div class="block blockfull"></div>
+        <div class="block block14"></div>
+        <div class="block block14"></div>
+        <div class="block block14"></div>
+        <div class="block block14"></div>
+        <div class="block block14"></div>
+        <div class="block block34"></div>
+        <div class="block block13"></div>
+        <div class="block block23"></div>
+        <div class="block block23"></div>
+        <div class="block block13"></div>
+    </div>
+
+    <style>
+        :root{
+            --padding-body: 30px;
+        }
+        body{
+            background-color: #FCFCFC;
+        }
+        .bentoWrapper{
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: var(--padding-body);
+            padding: var(--padding-body);
+            justify-content: space-between;
+        }
+        .block{
+            height: 350px;
+            box-shadow: rgba(17, 17, 26, 0.2) 0px 8px 16px;
+            border-radius: 10px;
+            padding: var(--padding-body);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .blockfull{
+            width: 100%;
+        }
+        .blockfullHero{
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+            align-items: flex-end;
+            h1{
+                z-index: 3;
+            }
+            .button{
+                z-index: 3;
+            }
+            p{
+                z-index: 3;
+            }
+            img{
+                z-index: 1;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                object-fit: cover;
+                pointer-events: none;
+            }
+        }
+        .block14{
+            width: calc(25% - 1*(var(--padding-body)));
+            h2{
+                border-bottom: 1px solid #E0DDD5;
+                padding-bottom: 10px;
+                width: 100%;
+                margin: 0px;
+            }
+            .button{
+                margin-top: auto;
+            }
+        }
+        .block34{
+            width: calc(75% - 0.5*(var(--padding-body)));
+        }
+        .block12{
+            width: calc(50% - 0.5*(var(--padding-body)));
+        }
+        .block13{
+            width: calc(33% - 0.5*(var(--padding-body)));
+        }
+        .block23{
+            width: calc(67% - 0.5*(var(--padding-body)));
+        }
+        .white{
+            background-color: #F4F1ED;
+        }
+        .red{
+           background-color: #C62535;
+        }
+        .green{
+            background-color: #029347;
+        }
+        .yellow{
+            background-color: #FFD313;
+        }
+        .orange{
+            background-color: #FF5800;
+        }
+        .blue{
+            background-color: #0051BA;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+    // Define your API token and endpoint
+    
+    const endpoint = 'https://graphql.datocms.com/';
+
+    const bentoHolder = document.querySelector('.bentoWrapper');
+    var dataResponse;
+
+    // GraphQL query payload
+    const query = `
+        {homePage {
+    bentoBlocks {
+      ... on Block13Record {
+        __typename
+        id
+        title
+        colour {
+            hex
+        }
+      }
+      ... on BlockfullRecord {
+        __typename
+        id
+        title
+        colour {
+            hex
+        }
+      }
+        ... on BlockfullHeroRecord {
+        __typename
+        id
+        title
+        colour {
+            hex
+        }
+        body
+        linkForButton
+        textForButton
+        backgroundImage {
+          url
+        }
+      }
+      ... on Block34Record {
+        __typename
+        id
+        title
+        colour {
+            hex
+        }
+      }
+      ... on Block23Record {
+     __typename
+        id
+        title
+        colour {
+            hex
+        }
+      }
+      ... on Block14Record {
+       __typename
+        id
+        title
+        colour {
+            hex
+        }
+        body
+        linkForButton
+        textForButton
+      }
+      ... on Block12Record {
+       __typename
+        id
+        title
+        colour {
+            hex
+        }
+      }
+    }
+        }}
+    `;
+
+    const colourMap = {
+    "#029347": "green",
+    "#FFFFFF": "white",
+    "#C62535": "red",
+    "#FFD313": "yellow",
+    "#0051BA": "blue",
+    "#FF5800": "orange"
+    };
+
+    // Make AJAX call using jQuery
+    $.ajax({
+        url: endpoint,
+        type: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiToken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        data: JSON.stringify({
+            query: query
+        }),
+        success: function (response) {
+            console.log('Success:', response);
+            dataResponse = response;
+            bentoHolder.innerHTML = "";
+
+            dataResponse.data.homePage.bentoBlocks.forEach(block => {
+                if (block.__typename === "BlockfullRecord") {
+                    bentoHolder.innerHTML += `
+                        <div class="block blockfull ${colourMap[block.colour.hex]}">
+                            <h1>${block.title}</h1>    
+                        </div>
+                    `;
+                } else if (block.__typename === "BlockfullHeroRecord") {
+                    bentoHolder.innerHTML += `
+                        <div class="block blockfullHero ${colourMap[block.colour.hex]}">
+                            <img src="${block.backgroundImage.url}"/>
+                            <h1>${block.title}</h1>    
+                            <p>${block.body}</p>
+                            <a href="${block.linkForButton}" class="button">${block.textForButton}</a>
+                        </div>
+                    `;
+                }else if (block.__typename === "Block12Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block block12 ${colourMap[block.colour.hex]}">
+                            <h1>${block.title}</h1>    
+                        </div>
+                    `;
+                } else if (block.__typename === "Block13Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block block13 ${colourMap[block.colour.hex]}">
+                            <h1>${block.title}</h1>    
+                        </div>
+                    `;
+                } else if (block.__typename === "Block23Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block block23 ${colourMap[block.colour.hex]}">
+                            <h1>${block.title}</h1>    
+                        </div>
+                    `;
+                } else if (block.__typename === "Block14Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block block14 ${colourMap[block.colour.hex]}">
+                            <h2>${block.title}</h2>
+                            <p>${block.body}</p>    
+                            <a href="${block.linkForButton}" class="button">${block.textForButton}</a>
+                        </div>
+                    `;
+                } else if (block.__typename === "Block34Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block block34 ${colourMap[block.colour.hex]}">
+                            <h1>${block.title}</h1>    
+                        </div>
+                    `;
+                } else {
+                    console.log("wrong block type");
+                }
+            });
+
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+    </script>
+</body>
