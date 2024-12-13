@@ -169,6 +169,64 @@
         .block23{
             width: calc(67% - 0.5*(var(--padding-body)));
         }
+        .block22grid{ 
+            height: 730px;
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 30px;
+        }
+        .block14small {
+            width: calc(50% - 15px);
+            padding: 0px;
+            overflow: hidden;
+            cursor: pointer;
+            img{
+                width: 100%;
+            }
+            h3{
+                padding-left: 30px;
+
+            }
+        }
+        .testimonialBlock{
+            height: 350px;
+            width: calc(67% - 0.5*(var(--padding-body)));
+            border-radius: 10px;
+            overflow: hidden;
+
+        }
+        .testimonialIndiv {
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 100%
+        }
+        .testimonialRight{
+            padding: 30px;
+        }
+        .announcementsBlock{
+            height: 730px;
+            width: calc(50% - 60px);
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            row-gap: 30px;
+            padding: 0px 30px;
+        }
+        .mainAnnouncement{
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .oldAnnouncement{
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #99C7FF;
+            width: 100%;
+        }
         .white{
             background-color: #F4F1ED;
             h2{
@@ -180,6 +238,7 @@
         }
         .red{
            background-color: #C62535;
+           color: #FFFFFF;
         }
         .green{
             background-color: #029347;
@@ -187,12 +246,15 @@
         }
         .yellow{
             background-color: #FFD313;
+            color: #000000;
         }
         .orange{
             background-color: #FF5800;
+            color: #FFFFFF;
         }
         .blue{
             background-color: #003366;
+            color: #FFFFFF;
         }
     </style>
     <script>
@@ -286,12 +348,47 @@
         linkForButton
         textForButton
       }
+    ... on AnnoucementsBlockRecord {
+        __typename
+        colour {
+            hex
+          }
+      }
+    ... on TestimonialsBlockRecord {
+        __typename
+      }
+    ... on Blockgrid22Record {
+        __typename
+        blocks {
+          colour {
+            hex
+          }
+          link
+          title
+          image {
+            url
+          }
+        }
+      }
     }
         }
             allAnnouncements {
     title
     body(markdown: true)
     _publishedAt
+    authorWcaId
+  }
+    allTestimonials {
+    __typename
+    title
+    name
+    image {
+      url
+    }
+    colour {
+      hex
+    }
+    body(markdown: false)
   }
         }
     `;
@@ -388,6 +485,58 @@
                             <h1>${block.title}</h1>    
                         </div>
                     `;
+                } else if (block.__typename === "Blockgrid22Record") {
+                    bentoHolder.innerHTML += `
+                        <div class="block22grid">
+                            <a class="block block14small ${colourMap[block.blocks[0].colour.hex]}">
+                                <img src="${block.blocks[0].image.url}" />
+                                <h3>${block.blocks[0].title}</h3>
+                            </a>
+                            <a class="block block14small ${colourMap[block.blocks[1].colour.hex]}">
+                                <img src="${block.blocks[1].image.url}" />
+                                <h3>${block.blocks[1].title}</h3>
+                            </a>
+                            <a class="block block14small ${colourMap[block.blocks[2].colour.hex]}">
+                                <img src="${block.blocks[2].image.url}" />
+                                <h3>${block.blocks[2].title}</h3>
+                            </a>
+                            <a class="block block14small ${colourMap[block.blocks[3].colour.hex]}">
+                                <img src="${block.blocks[3].image.url}" />
+                                <h3>${block.blocks[3].title}</h3>
+                            </a>
+                        </div>
+                    `;
+                } else if (block.__typename === "AnnoucementsBlockRecord") {
+                    let bentoBuilder = `<div class="announcementsBlock">`
+                    bentoBuilder += `<div class="mainAnnouncement  ${colourMap[block.colour.hex]}">
+                        <h3>${dataResponse.data.allAnnouncements[0].title}</h3>
+                        <p>Announced by ${dataResponse.data.allAnnouncements[0].authorWcaId}</p>
+                        <p>${dataResponse.data.allAnnouncements[0]._publishedAt}</p>
+                        <div class="clipThis">${dataResponse.data.allAnnouncements[0].body}</div>
+                        </div>`;
+                    bentoBuilder += `<div class="oldAnnouncement">
+                        <p>${dataResponse.data.allAnnouncements[1].title}</p>
+                        </div>`;
+                    bentoBuilder += `<div class="oldAnnouncement">
+                        <p>${dataResponse.data.allAnnouncements[2].title}</p>
+                        </div>`;
+                    bentoBuilder += `<a class="oldAnnouncement">
+                        <p>See All Announcements</p>
+                        </a>`;
+                    bentoBuilder += "</div>";
+                    bentoHolder.innerHTML += bentoBuilder;
+                } else if (block.__typename === "TestimonialsBlockRecord") {
+                    let bentoBuilder = `<div class="testimonialBlock">`;
+                    bentoBuilder += `<div class="testimonialIndiv ${colourMap[dataResponse.data.allTestimonials[0].colour.hex]}">
+                        <img src="${dataResponse.data.allTestimonials[0].image.url}" />
+                        <div class="testimonialRight">
+                            <h3>"${dataResponse.data.allTestimonials[0].title}"</h3>    
+                            <p>${dataResponse.data.allTestimonials[0].body}</p>
+                            <p>${dataResponse.data.allTestimonials[0].name}</p>
+                        </div>
+                        </div>`;
+                    bentoBuilder += "</div>";
+                    bentoHolder.innerHTML += bentoBuilder;
                 } else {
                     console.log("wrong block type");
                 }
